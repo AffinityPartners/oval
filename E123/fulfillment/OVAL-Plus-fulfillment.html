@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OVAL Plus - Premium VIP Healthcare with Injectable GLP-1 Medications and Dedicated Concierge Support">
+    <meta name="keywords" content="OVAL Plus, VIP healthcare, GLP-1 injections, Wegovy, Ozempic, Mounjaro, concierge medicine, weight loss">
+    <meta name="author" content="American Online Benefits">
+    <meta name="copyright" content="© 2025 American Online Benefits">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#E77027">
+    <title>OVAL Plus - Welcome to Premium VIP Healthcare</title>
+    
+    <!-- Google Font for visual consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+/* ===============================================
+   OVAL PLUS FULFILLMENT PAGE
+   ===============================================
+   
+   PURPOSE: Customer-facing fulfillment guide for OVAL Plus premium members
+   BRAND: OVAL - Modern digital healthcare platform
+   TIER: Premium membership with GLP-1 injections and VIP concierge
+   
+   CONVERTED FROM: Example-Product-Fulfillment.html template
+   CUSTOMIZED FOR: OVAL Plus product specifications
+   TARGET AUDIENCE: Premium OVAL Plus members with VIP service expectations
+   
+   BRAND COLORS (from OVAL Brand Guidelines):
+   - Primary Orange: #E77027
+   - Dark Charcoal: #282828  
+   - Medium Gray: #555555
+   - Light Peach: #fff5ef
+   - Pure White: #ffffff
+   
+   KEY SECTIONS:
+   - Premium welcome & VIP benefits overview
+   - Injectable GLP-1 medication program
+   - Dedicated concierge service details
+   - Comprehensive weight management program
+   - Priority processing & white-glove service
+   - Complete specialty care access
+*/
+
+/* CSS VARIABLES - OVAL DESIGN TOKENS */
+:root {
+    /* OVAL Brand Colors */
+    --oval-orange: #E77027;
+    --oval-dark: #282828;
+    --oval-gray: #555555;
+    --oval-light-peach: #fff5ef;
+    --oval-white: #ffffff;
+    
+    /* Semantic colors */
+    --success-green: #059669;
+    --error-red: #dc2626;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    
+    /* Spacing system */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    
+    /* Border radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* RESET AND BASE STYLES */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--gray-700);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* [UTILITY CLASSES - SAME AS PREVIOUS PAGES] */
+
+/* Container */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-inline: 1.25rem;
+    width: 100%;
+}
+
+/* Section band styling */
+.section-band {
+    background-color: var(--oval-dark);
+    padding-block: 0.25rem;
+    color: white;
+    width: 100%;
+}
+
+/* Card component */
+.card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: clamp(1rem, 2vw, 2.5rem);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Special cards */
+.how-to-use-card {
+    border: 1px solid var(--success-green);
+    box-shadow: var(--shadow-xl);
+    border-radius: var(--radius-xl);
+    position: relative;
+    background: white;
+    max-width: 100%;
+}
+
+.disclosure-card {
+    border: 1px solid var(--error-red);
+    box-shadow: var(--shadow-xl);
+    border-radius: var(--radius-xl);
+    background: var(--gray-100);
+    position: relative;
+    margin-top: var(--space-3xl);
+    max-width: 100%;
+}
+
+/* VIP Premium card styling */
+.vip-card {
+    border: 2px solid var(--oval-orange);
+    box-shadow: 0 20px 40px rgba(231, 112, 39, 0.15), var(--shadow-xl);
+    border-radius: var(--radius-xl);
+    position: relative;
+    background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%);
+    max-width: 100%;
+}
+
+/* Icon badges for cards */
+.card-icon-badge {
+    position: absolute;
+    top: -1.5rem;
+    left: -1.5rem;
+    width: 3rem;
+    height: 3rem;
+    background: linear-gradient(135deg, var(--success-green), #047857);
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4), 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: 3px solid white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-icon-badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(5, 150, 105, 0.5), 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon-badge.error {
+    background: linear-gradient(135deg, var(--error-red), #b91c1c);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon-badge.error:hover {
+    box-shadow: 0 12px 35px rgba(220, 38, 38, 0.5), 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon-badge.vip {
+    background: linear-gradient(135deg, var(--oval-orange), #d4621f);
+    box-shadow: 0 8px 25px rgba(231, 112, 39, 0.4), 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon-badge.vip:hover {
+    box-shadow: 0 12px 35px rgba(231, 112, 39, 0.5), 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Typography */
+.text-sm {
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.text-base {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+    line-height: 1.4;
+}
+
+.text-3xl {
+    font-size: 1.875rem;
+    line-height: 1.3;
+}
+
+.text-4xl {
+    font-size: 2.25rem;
+    line-height: 1.2;
+}
+
+.text-5xl {
+    font-size: 3rem;
+    line-height: 1.1;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.text-white {
+    color: white;
+}
+
+.text-blue {
+    color: var(--oval-dark);
+}
+
+.text-green {
+    color: var(--success-green);
+}
+
+.text-red {
+    color: var(--error-red);
+}
+
+.text-gray {
+    color: var(--gray-700);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Custom bullet lists */
+.bullet-list {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.bullet-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: var(--space-sm);
+    line-height: 1.6;
+    font-size: 1.125rem;
+    color: var(--gray-700);
+}
+
+.bullet-list li::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    background: var(--oval-orange);
+    border-radius: 50%;
+}
+
+/* Numbered lists */
+.numbered-list {
+    list-style: none;
+    counter-reset: list-counter;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.numbered-list li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+    font-size: 1.125rem;
+    color: var(--gray-700);
+    counter-increment: list-counter;
+}
+
+.numbered-list li::before {
+    content: counter(list-counter) ".";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 600;
+    color: var(--oval-orange);
+}
+
+/* Navigation styles */
+.main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--oval-dark);
+    box-shadow: var(--shadow-md);
+    padding-block: 1rem;
+}
+
+.nav-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.nav-logo-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    z-index: 40;
+}
+
+.nav-logo-bar .phone-link {
+    position: absolute;
+    left: var(--space-md);
+}
+
+.nav-logo-bar .mobile-menu-button {
+    position: absolute;
+    right: var(--space-md);
+}
+
+.phone-link {
+    color: var(--oval-orange);
+    display: block;
+}
+
+.phone-link svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Button styles */
+.btn-primary {
+    background: linear-gradient(135deg, var(--oval-orange), #d4621f);
+    color: white;
+    padding: 0.875rem 1.5rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    font-size: clamp(0.875rem, 2.5vw, 0.95rem);
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(231, 112, 39, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 180px;
+    min-height: 44px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #d4621f, #b8551a);
+    box-shadow: 0 6px 16px rgba(231, 112, 39, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Menu button styles */
+.menu-button {
+    background: none;
+    border: none;
+    color: var(--oval-orange);
+    cursor: pointer;
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+}
+
+.menu-button:hover {
+    background-color: var(--gray-100);
+}
+
+.menu-button svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Desktop menu button */
+.desktop-menu-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.desktop-menu-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Menu dropdown */
+.menu-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: var(--space-sm);
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-sm) 0;
+    width: 14rem;
+    z-index: 50;
+}
+
+.menu-dropdown[hidden] {
+    display: none;
+}
+
+.menu-link {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    color: var(--oval-dark);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    border-radius: var(--radius-sm);
+    margin-inline: var(--space-xs);
+}
+
+.menu-link:hover {
+    background-color: var(--oval-orange);
+    color: white;
+}
+
+/* Desktop menu container */
+.desktop-menu {
+    display: none;
+    justify-content: flex-end;
+    position: relative;
+    margin-left: auto;
+}
+
+/* Responsive behavior */
+@media (min-width: 640px) {
+    .container {
+        padding-inline: 3.5rem;
+    }
+    
+    .nav-container {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .nav-logo-bar {
+        justify-content: center;
+    }
+    
+    .phone-link {
+        display: none;
+    }
+    
+    .mobile-menu-button {
+        display: none;
+    }
+    
+    .desktop-menu {
+        display: flex !important;
+    }
+    
+    .text-5xl {
+        font-size: 3rem;
+        line-height: 1.1;
+    }
+    
+    .section-band {
+        padding-block: 0.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .text-5xl {
+        font-size: 3.75rem;
+        line-height: 1.1;
+    }
+}
+
+@media (min-width: 1024px) {
+    .text-5xl {
+        font-size: 4.5rem;
+        line-height: 1.1;
+    }
+    
+    .section-band {
+        padding-block: 0.25rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .card-icon-badge {
+        top: -1.25rem;
+        left: -1.25rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 2px solid white;
+    }
+    
+    .btn-primary {
+        min-width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .text-5xl {
+        font-size: 2.25rem;
+        line-height: 1.1;
+    }
+    
+    .text-3xl {
+        font-size: 1.5rem;
+        line-height: 1.2;
+    }
+    
+    .text-2xl {
+        font-size: 1.25rem;
+        line-height: 1.3;
+    }
+}
+
+/* Spacing utilities */
+.py-1 { padding-block: var(--space-xs); }
+.py-2 { padding-block: 0.75rem; }
+.py-4 { padding-block: var(--space-md); }
+.py-8 { padding-block: var(--space-xl); }
+.py-16 { padding-block: 4rem; }
+
+.mt-2 { margin-top: var(--space-sm); }
+.mt-4 { margin-top: var(--space-md); }
+.mt-8 { margin-top: 1.5rem; }
+.mt-16 { margin-top: 4rem; }
+
+.mb-2 { margin-bottom: var(--space-sm); }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: var(--space-md); }
+.mb-5 { margin-bottom: 1.25rem; }
+.mb-8 { margin-bottom: 1.5rem; }
+.mb-16 { margin-bottom: 4rem; }
+
+.space-y-4 > * + * { margin-top: var(--space-md); }
+.space-y-8 > * + * { margin-top: var(--space-xl); }
+
+.flex { display: flex; }
+.gap-4 { gap: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+
+/* Mobile touch improvements */
+@media (max-width: 768px) {
+    .menu-button, .desktop-menu-button {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.75rem;
+    }
+    
+    .menu-link {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+        padding: 1.5rem !important;
+    }
+    
+    .how-to-use-card [style*="padding: 1.5rem 1.5rem 1.5rem 3.5rem"],
+    .disclosure-card [style*="padding: 1.5rem 1.5rem 1.5rem 3.5rem"],
+    .vip-card [style*="padding: 1.5rem 1.5rem 1.5rem 3.5rem"] {
+        padding: 1rem 1rem 1rem 1rem !important;
+    }
+    
+    .how-to-use-card .card-icon-badge,
+    .disclosure-card .card-icon-badge,
+    .vip-card .card-icon-badge {
+        top: -1rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .how-to-use-card,
+    .disclosure-card,
+    .vip-card {
+        padding: 0 !important;
+        margin-top: 3rem !important;
+    }
+    
+    .how-to-use-card h3,
+    .disclosure-card h3,
+    .vip-card h3 {
+        text-align: center !important;
+        margin-top: 1rem !important;
+    }
+    
+    .container {
+        padding-inline: 1rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    body, html {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+    
+    .py-2 {
+        padding-block: 1.5rem !important;
+    }
+    
+    .text-xl {
+        font-size: 1.125rem !important;
+        line-height: 1.4;
+    }
+    
+    .text-lg {
+        font-size: 1rem !important;
+        line-height: 1.6;
+    }
+    
+    .bullet-list,
+    ul[style*="list-style-type: disc"],
+    ul[style*="margin-left"] {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .bullet-list li {
+        font-size: 1rem !important;
+        margin-bottom: 0.5rem !important;
+        line-height: 1.6;
+        padding-left: 1.25rem !important;
+        margin-left: 0 !important;
+    }
+    
+    .bullet-list li::before {
+        left: 0.25rem !important;
+    }
+    
+    .numbered-list {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .numbered-list li {
+        font-size: 1rem !important;
+        margin-bottom: 0.75rem !important;
+        line-height: 1.6;
+        padding-left: 1.75rem !important;
+        margin-left: 0 !important;
+    }
+    
+    .numbered-list li::before {
+        left: 0 !important;
+        top: 0 !important;
+    }
+}
+
+/* Extra small mobile optimization */
+@media (max-width: 480px) {
+    .container {
+        padding-inline: 0.75rem !important;
+    }
+    
+    .card {
+        padding: 1rem !important;
+    }
+    
+    .text-2xl {
+        font-size: 1.125rem !important;
+        line-height: 1.3;
+    }
+    
+    .text-xl {
+        font-size: 1rem !important;
+    }
+}
+
+/* Responsive pricing comparison grid */
+@media (max-width: 768px) {
+    [style*="display: grid"][style*="grid-template-columns: 1fr auto 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    [style*="display: grid"][style*="grid-template-columns: 1fr auto 1fr"] > div:nth-child(2) svg {
+        transform: rotate(90deg);
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+}
+
+/* Logo styling */
+.logo-base {
+    height: auto;
+    display: block;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.logo-nav {
+    width: clamp(8rem, 12vw, 10rem);
+    max-height: 3rem;
+    object-position: center center;
+}
+
+.logo-content {
+    width: clamp(10rem, 15vw, 12rem);
+    max-height: 4rem;
+    margin-bottom: 1rem;
+}
+
+.logo-container {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.logo-container-center {
+    justify-content: center;
+}
+
+.logo-container-left {
+    justify-content: flex-start;
+}
+
+@media (max-width: 640px) {
+    .logo-content {
+        width: clamp(8rem, 20vw, 10rem);
+        max-height: 3.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .logo-nav {
+        width: clamp(7rem, 15vw, 8.5rem);
+        max-height: 2.5rem;
+        object-position: center center;
+    }
+    
+    .logo-container {
+        margin-bottom: 0.25rem;
+    }
+}
+
+/* Link styling */
+.link-blue {
+    color: var(--oval-orange);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.link-blue:hover {
+    color: #d4621f;
+    text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--oval-dark);
+    color: white;
+    padding: var(--space-md);
+    text-align: center;
+    font-size: 0.75rem;
+}
+
+/* Icon styling */
+.icon-sm {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.icon-md {
+    width: 2rem;
+    height: 2rem;
+}
+
+.icon-lg {
+    width: 1.5rem;
+    height: 1.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Focus states for accessibility */
+.menu-button:focus,
+.desktop-menu-button:focus,
+.menu-link:focus,
+.back-to-top:focus,
+.link-blue:focus {
+    outline: 2px solid var(--oval-orange);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .main-nav,
+    .menu-dropdown {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+    <main id="mainTop">
+        <!-- Main Navigation Bar -->
+        <nav role="navigation" aria-label="Main navigation" class="main-nav">
+            <div class="container nav-container">
+                <div class="nav-logo-bar">
+                    <a href="tel:13059390168" class="phone-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                    </a>
+
+                    <img alt="American Online Benefits Group" class="logo-base logo-nav" src="https://americanonlinebenefits.com/fulfillment/images/aobg-fulfillment-logo.png" />
+
+                    <!-- Mobile Menu Button -->
+                    <button class="menu-button mobile-menu-button" id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+
+                    <!-- Mobile Menu Dropdown -->
+                    <div class="menu-dropdown" id="mobile-menu" hidden role="menu">
+                        <a class="menu-link" href="#OvalPlus" role="menuitem">OVAL Plus</a>
+                        <a class="menu-link" href="#GLP1" role="menuitem">GLP-1 Program</a>
+                        <a class="menu-link" href="#Concierge" role="menuitem">VIP Concierge</a>
+                        <a class="menu-link" href="#WeightLoss" role="menuitem">Weight Management</a>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu">
+                    <button class="desktop-menu-button" id="desktop-menu-button" aria-expanded="false" aria-controls="desktop-menu">
+                        <span>Menu</span>
+                        <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="icon-sm">
+                            <path clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" fill-rule="evenodd"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Desktop Menu Dropdown -->
+                    <div class="menu-dropdown" id="desktop-menu" hidden role="menu">
+                        <a class="menu-link" href="#OvalPlus" role="menuitem">OVAL Plus</a>
+                        <a class="menu-link" href="#GLP1" role="menuitem">GLP-1 Program</a>
+                        <a class="menu-link" href="#Concierge" role="menuitem">VIP Concierge</a>
+                        <a class="menu-link" href="#WeightLoss" role="menuitem">Weight Management</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- OVAL Plus Premium Welcome Section -->
+        <section id="OvalPlus" aria-label="OVAL Plus">
+            <div class="container py-2">
+                <div class="card">
+                    <div class="logo-container logo-container-left" style="margin-bottom: 1.5rem;">
+                        <img class="logo-base logo-content" alt="OVAL Plus Logo - Premium VIP Healthcare" src="https://enrollment123.com/media/1341/Logos/OVAL-Plus-Logo.png" style="width: clamp(14rem, 20vw, 18rem); max-height: 6rem;" />
+                    </div>
+                    
+                    
+                    
+                    <h3 class="mb-6 text-2xl font-bold text-blue">Welcome to OVAL Plus - The Pinnacle of Modern Healthcare!</h3>
+                    
+                    <p class="text-gray text-lg mb-4">Congratulations on choosing OVAL Plus—our flagship premium membership tier. You now have access to the absolute best in modern healthcare: cutting-edge injectable GLP-1 weight loss medications with <strong>up to 50% discount on GLP-1 injectables</strong> and <strong>up to 80% discount on standard therapy medications</strong>, dedicated white-glove concierge service, and comprehensive specialty care across all categories.</p>
+                    
+                    <p class="text-gray text-lg mb-6">OVAL Plus represents healthcare reimagined for those who demand excellence. This isn't just healthcare—it's a personalized health optimization partnership with a dedicated team ensuring your success at every step.</p>
+                    
+                    <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 2rem; border-radius: var(--radius-xl); margin-bottom: 2rem; border: 2px solid var(--oval-orange); box-shadow: 0 20px 40px rgba(231, 112, 39, 0.15);">
+                        <h4 class="mb-4 text-xl font-bold text-blue">Your OVAL Plus Premium Membership Includes:</h4>
+                        
+                        <div style="background: white; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem; border-left: 3px solid var(--oval-orange);">
+                            <p class="text-base font-bold mb-2" style="color: var(--oval-orange);">✓ Everything from OVAL Access & OVAL One</p>
+                            <p class="text-sm text-gray mb-0">Complete platform access, AI personalization, 24/7 support, free shipping, ALL specialty medications with exclusive pricing</p>
+                        </div>
+                        
+                        <h5 class="text-lg font-bold mb-3 mt-4" style="color: var(--oval-orange);">PLUS Exclusive OVAL Plus Premium Benefits:</h5>
+                        
+                        <ul class="bullet-list">
+                            <li><strong>Up to 80% Discount on Medications for Standard Therapies</strong></li>
+                            <li><strong>Up to 50% Discount on GLP-1 Injectable Medications</strong></li>
+                            <li><strong>Injectable GLP-1 Medications:</strong> Exclusive access and pricing for FDA-approved medications (Wegovy, Ozempic, Mounjaro, Tirzepatide) and custom-blended formulations</li>
+                            <li><strong>Custom-Blended GLP-1 Formulations:</strong> More affordable alternatives available with same active pharmaceutical ingredients</li>
+                            <li><strong>Patient Assistance Program (PAP):</strong> Medication at no cost for those who qualify for select Oval medications</li>
+                            <li><strong>Dedicated Concierge:</strong> Personal health coordinator with direct phone/text access</li>
+                            <li><strong>Priority Processing:</strong> Expedited prescription review and same-day responses</li>
+                            <li><strong>White-Glove Service:</strong> Premium support, flexible scheduling, proactive care management</li>
+                            <li><strong>Comprehensive Weight Program:</strong> Coaching, nutrition guidance, regular monitoring, long-term success planning</li>
+                            <li><strong>VIP Treatment Access:</strong> Early access to new treatments and exclusive wellness programs</li>
+                            <li><strong>Complete Care Coordination:</strong> Multi-provider integration and treatment optimization</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-gray text-lg mb-4" style="font-style: italic; color: #E77027; font-weight: 600;">
+                        "Premium healthcare reimagined — VIP access to advanced treatments with dedicated concierge support."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Injectable GLP-1 Program Section -->
+        <section id="GLP1" aria-label="GLP-1 Program">
+            <div class="section-band">
+                <div class="container">
+                    <h2 class="text-4xl font-bold text-white">Injectable GLP-1 Weight Loss Program</h2>
+                </div>
+            </div>
+            <div class="container py-2">
+                <div class="card">
+                    <h3 class="mb-6 text-2xl font-bold text-blue">The Gold Standard for Significant Weight Loss</h3>
+                    
+                    <p class="text-gray text-lg mb-6">As an OVAL Plus member, you have exclusive access to FDA-approved injectable GLP-1 medications with <strong>up to 50% discount</strong>—the most effective weight management medications available today. Additionally, custom-blended GLP-1 formulations provide more affordable alternatives containing the same active pharmaceutical ingredients for cost-conscious members.</p>
+                    
+                    <!-- Custom-Blended GLP-1 Formulations - More Affordable Options -->
+                    <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffedd5 100%); border: 2px solid var(--oval-orange); border-radius: var(--radius-xl); padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(231, 112, 39, 0.15);">
+                        <div style="text-align: center; margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--oval-orange); margin-bottom: 0.75rem; font-size: 1.5rem; font-weight: 700;">
+                                Custom-Blended GLP-1 Formulations
+                            </h4>
+                            <p style="color: var(--oval-dark); font-size: 1.125rem; line-height: 1.6; margin-bottom: 0; font-weight: 600;">
+                                More Affordable Alternative Options Available
+                            </p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--oval-orange); margin-bottom: 1.5rem;">
+                            <p style="color: var(--gray-700); font-size: 1rem; line-height: 1.6; margin: 0;">
+                                <strong style="color: var(--oval-orange);">FDA-Approved Medications:</strong> OVAL Plus provides exclusive access and pricing for FDA-approved injectable GLP-1 medications including Wegovy, Ozempic, Mounjaro, and Tirzepatide.
+                            </p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--success-green);">
+                            <p style="color: var(--gray-700); font-size: 1rem; line-height: 1.6; margin: 0 0 0.75rem 0;">
+                                <strong style="color: var(--success-green);">Custom-Blended Formulations:</strong> For members seeking more affordable options, custom-blended GLP-1 formulations are available. These formulations contain the same active pharmaceutical ingredients (semaglutide or tirzepatide) at significantly reduced cost compared to branded medications.
+                            </p>
+                            <p style="color: var(--gray-700); font-size: 0.875rem; line-height: 1.6; margin: 0; font-style: italic;">
+                                Your provider will discuss all available options, including both FDA-approved medications and custom-blended alternatives, to determine the most appropriate treatment for your individual needs and budget.
+                            </p>
+                        </div>
+                        
+                        <div style="background: rgba(231, 112, 39, 0.08); padding: 1.25rem; border-radius: var(--radius-md); margin-top: 1.5rem;">
+                            <p style="color: var(--oval-dark); font-size: 0.875rem; margin: 0; text-align: center;">
+                                <strong>Personalized Treatment Planning:</strong> Our physicians work with you to select the most appropriate GLP-1 medication based on your medical history, treatment goals, and financial considerations.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #fff5ef; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; border: 1px solid var(--oval-orange);">
+                        <p class="text-gray text-base mb-0"><strong>Important State Restrictions:</strong> Custom-blended formulations are NOT available in AL, AR, LA, MS, NC, NE, ND, VA and Puerto Rico. FDA-approved medications remain available in all service areas.</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 2rem; border-radius: var(--radius-lg); margin-bottom: 2rem; border: 1px solid var(--oval-gray);">
+                        <h4 class="mb-4 text-xl font-bold text-blue">Available Injectable GLP-1 Medications:</h4>
+                        
+                        <div class="space-y-4">
+                            <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                                <h5 class="text-lg font-bold mb-2" style="color: var(--oval-orange);">Wegovy (Semaglutide)</h5>
+                                <p class="text-gray text-base mb-0"><strong>FDA-approved for chronic weight management.</strong> Clinically proven to help patients lose 15-20% of their body weight when combined with lifestyle modifications. Once-weekly injection with proven long-term safety profile.</p>
+                            </div>
+                            
+                            <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                                <h5 class="text-lg font-bold mb-2" style="color: var(--oval-orange);">Ozempic (Semaglutide)</h5>
+                                <p class="text-gray text-base mb-0"><strong>GLP-1 agonist for type 2 diabetes and weight management.</strong> Same active ingredient as Wegovy with proven efficacy for weight loss and improved metabolic health. Reduces appetite and slows gastric emptying.</p>
+                            </div>
+                            
+                            <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                                <h5 class="text-lg font-bold mb-2" style="color: var(--oval-orange);">Mounjaro (Tirzepatide)</h5>
+                                <p class="text-gray text-base mb-0"><strong>Brand-name dual GIP/GLP-1 agonist for enhanced results.</strong> Newer medication showing even greater weight loss potential (up to 22% body weight reduction). Targets multiple pathways for appetite control and metabolic optimization.</p>
+                            </div>
+                            
+                            <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                                <h5 class="text-lg font-bold mb-2" style="color: var(--oval-orange);">Tirzepatide (Generic)</h5>
+                                <p class="text-gray text-base mb-0"><strong>Dual GIP/GLP-1 agonist for diabetes and obesity.</strong> Same mechanism as Mounjaro with significant weight loss and metabolic benefits. Weekly injection targets both GIP and GLP-1 receptors.</p>
+                            </div>
+                            
+                            <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border-left: 3px solid var(--success-green);">
+                                <h5 class="text-lg font-bold mb-2" style="color: var(--success-green);">Custom-Blended GLP-1 Formulations</h5>
+                                <p class="text-gray text-base mb-2"><strong>More affordable alternatives containing the same active pharmaceutical ingredients (semaglutide or tirzepatide).</strong> These custom-blended formulations offer a cost-effective option for members. Your provider will discuss all available medication options to determine the most appropriate treatment for your individual needs and budget.</p>
+                                <p class="text-gray text-sm mb-0" style="font-style: italic;"><strong>Important:</strong> Custom-blended formulations are NOT available in AL, AR, LA, MS, NC, NE, ND, VA and Puerto Rico. FDA-approved medications remain available in all service areas.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="mb-4 text-xl font-bold text-blue">How Injectable GLP-1 Medications Work:</h4>
+                    <ul class="bullet-list mb-6">
+                        <li><strong>Appetite Suppression:</strong> Reduces hunger signals and cravings significantly</li>
+                        <li><strong>Slower Gastric Emptying:</strong> Keeps you feeling full longer after meals</li>
+                        <li><strong>Improved Glucose Control:</strong> Helps regulate blood sugar and insulin sensitivity</li>
+                        <li><strong>Enhanced Metabolic Health:</strong> Improves cardiovascular markers and overall metabolic function</li>
+                        <li><strong>Sustainable Weight Loss:</strong> Helps maintain weight loss long-term when combined with lifestyle changes</li>
+                    </ul>
+                    
+                    <div style="background: #fff5ef; padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid var(--success-green);">
+                        <p class="text-gray text-base mb-0"><strong>Clinical Results:</strong> In clinical trials, patients lost an average of 15-22% of their body weight over 68 weeks. Individual results vary based on dosing, adherence, lifestyle factors, and starting weight. Your provider creates a personalized protocol to maximize your results.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comprehensive Weight Management Program -->
+        <section id="WeightLoss" aria-label="Weight Management Program">
+            <div class="section-band">
+                <div class="container">
+                    <h2 class="text-4xl font-bold text-white">Comprehensive Weight Management Support</h2>
+                </div>
+            </div>
+            <div class="container py-2">
+                <div class="card">
+                    <h3 class="mb-6 text-2xl font-bold text-blue">More Than Just Medication—A Complete Success Program</h3>
+                    
+                    <p class="text-gray text-lg mb-6">Your OVAL Plus GLP-1 program includes comprehensive support to ensure your weight loss success. This isn't just about prescribing medication—it's about creating sustainable lifestyle changes supported by a dedicated team.</p>
+                    
+                    <div class="space-y-8">
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--oval-gray);">
+                            <h4 class="mb-4 text-xl font-bold" style="color: var(--oval-orange);">1. Initial Medical Assessment & Goal Setting</h4>
+                            <p class="text-gray text-base mb-4">Your weight loss journey begins with a comprehensive medical evaluation. Our providers assess your current health, weight history, previous weight loss attempts, medical conditions, and personal goals.</p>
+                            <ul class="bullet-list mb-0">
+                                <li>Complete health and weight history review</li>
+                                <li>Assessment of contraindications and safety screening</li>
+                                <li>Realistic goal setting based on your starting point</li>
+                                <li>Discussion of timeline and expected results</li>
+                                <li>Selection of optimal GLP-1 medication for your needs</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--oval-gray);">
+                            <h4 class="mb-4 text-xl font-bold" style="color: var(--oval-orange);">2. Personalized Dosing Protocol</h4>
+                            <p class="text-gray text-base mb-4">GLP-1 medications require careful dose titration to maximize effectiveness while minimizing side effects. Your provider creates a customized dosing schedule based on your tolerance and results.</p>
+                            <ul class="bullet-list mb-0">
+                                <li>Start with lowest effective dose to assess tolerance</li>
+                                <li>Gradual dose escalation every 4 weeks as tolerated</li>
+                                <li>Adjustment based on weight loss progress and side effects</li>
+                                <li>Maintenance dosing once optimal results achieved</li>
+                                <li>Injectable supplies and instructions provided with each shipment</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--oval-gray);">
+                            <h4 class="mb-4 text-xl font-bold" style="color: var(--oval-orange);">3. Nutrition & Lifestyle Coaching</h4>
+                            <p class="text-gray text-base mb-4">GLP-1 medications are most effective when combined with healthy lifestyle changes. Your program includes personalized guidance on nutrition, exercise, and habit formation.</p>
+                            <ul class="bullet-list mb-0">
+                                <li>Personalized nutrition recommendations and meal planning</li>
+                                <li>Exercise guidance appropriate for your fitness level</li>
+                                <li>Strategies for managing reduced appetite healthily</li>
+                                <li>Hydration and supplement recommendations</li>
+                                <li>Behavioral coaching for sustainable habit changes</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--oval-gray);">
+                            <h4 class="mb-4 text-xl font-bold" style="color: var(--oval-orange);">4. Regular Monitoring & Check-Ins</h4>
+                            <p class="text-gray text-base mb-4">Your provider actively monitors your progress with regular check-ins to track results, manage side effects, and optimize your protocol.</p>
+                            <ul class="bullet-list mb-0">
+                                <li>Monthly weight and progress tracking</li>
+                                <li>Side effect assessment and management</li>
+                                <li>Dose adjustments based on results and tolerance</li>
+                                <li>Metabolic health marker monitoring (if applicable)</li>
+                                <li>Ongoing motivation and support</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--oval-gray);">
+                            <h4 class="mb-4 text-xl font-bold" style="color: var(--oval-orange);">5. Side Effect Management</h4>
+                            <p class="text-gray text-base mb-4">GLP-1 medications can cause side effects, especially during dose increases. Your care team provides strategies to minimize discomfort and optimize your experience.</p>
+                            <ul class="bullet-list mb-0">
+                                <li>Proactive guidance on managing common GI side effects</li>
+                                <li>Anti-nausea medication prescribed if needed</li>
+                                <li>Dietary modifications to reduce side effects</li>
+                                <li>Dose adjustment if side effects are significant</li>
+                                <li>24/7 access to provider via secure messaging for concerns</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--oval-gray);">
+                            <h4 class="mb-4 text-xl font-bold" style="color: var(--oval-orange);">6. Long-Term Maintenance Planning</h4>
+                            <p class="text-gray text-base mb-4">Achieving weight loss is one thing—maintaining it is another. Your program includes strategies for long-term success and weight maintenance.</p>
+                            <ul class="bullet-list mb-0">
+                                <li>Transition planning as you approach goal weight</li>
+                                <li>Maintenance dose protocols to prevent weight regain</li>
+                                <li>Sustainable lifestyle habit reinforcement</li>
+                                <li>Ongoing support even after reaching goals</li>
+                                <li>Long-term metabolic health optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP Concierge Service Section -->
+        <section id="Concierge" aria-label="VIP Concierge Service">
+            <div class="section-band">
+                <div class="container">
+                    <h2 class="text-4xl font-bold text-white">Your Dedicated VIP Concierge Service</h2>
+                </div>
+            </div>
+            <div class="container py-2">
+                <div class="card">
+                    <h3 class="mb-6 text-2xl font-bold text-blue">White-Glove Healthcare Support</h3>
+                    
+                    <p class="text-gray text-lg mb-6">What truly sets OVAL Plus apart is your dedicated health coordinator—a personal concierge who manages all aspects of your healthcare experience. This isn't a call center; this is your personal health advocate.</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 2px solid var(--oval-orange);">
+                            <h4 class="text-lg font-bold mb-3" style="color: var(--oval-dark);"><i class="fa-solid fa-user-nurse" style="color: #282828; margin-right: 8px;"></i>Personal Health Coordinator</h4>
+                            <p class="text-gray text-base mb-0">A dedicated coordinator is assigned to your account from day one. They learn your health history, preferences, and goals to provide truly personalized support.</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 2px solid var(--oval-orange);">
+                            <h4 class="text-lg font-bold mb-3" style="color: var(--oval-dark);"><i class="fa-solid fa-phone" style="color: #282828; margin-right: 8px;"></i>Direct Phone & Text Access</h4>
+                            <p class="text-gray text-base mb-0">Skip the ticket systems and automated responses. Call or text your coordinator directly for real-time support and answers.</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 2px solid var(--oval-orange);">
+                            <h4 class="text-lg font-bold mb-3" style="color: var(--oval-dark);"><i class="fa-solid fa-reply" style="color: #282828; margin-right: 8px;"></i>Same-Day Response Guarantee</h4>
+                            <p class="text-gray text-base mb-0">Questions answered within hours, not days. Your coordinator prioritizes your needs and ensures prompt responses to all inquiries.</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 2px solid var(--oval-orange);">
+                            <h4 class="text-lg font-bold mb-3" style="color: var(--oval-dark);"><i class="fa-solid fa-calendar-check" style="color: #282828; margin-right: 8px;"></i>Priority Scheduling</h4>
+                            <p class="text-gray text-base mb-0">Need a provider consultation? Your coordinator arranges it quickly. Flexible scheduling that works around YOUR calendar.</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 2px solid var(--oval-orange);">
+                            <h4 class="text-lg font-bold mb-3" style="color: var(--oval-dark);"><i class="fa-solid fa-bolt" style="color: #282828; margin-right: 8px;"></i>Expedited Processing</h4>
+                            <p class="text-gray text-base mb-0">Priority prescription review and approval. Your medications are processed first, ensuring the fastest possible turnaround.</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 2px solid var(--oval-orange);">
+                            <h4 class="text-lg font-bold mb-3" style="color: var(--oval-dark);"><i class="fa-solid fa-rotate" style="color: #282828; margin-right: 8px;"></i>Proactive Refill Management</h4>
+                            <p class="text-gray text-base mb-0">Your coordinator tracks your medication supply and proactively processes refills before you run out. Never miss a dose.</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 2px solid var(--oval-orange);">
+                            <h4 class="text-lg font-bold mb-3" style="color: var(--oval-dark);"><i class="fa-solid fa-users-medical" style="color: #282828; margin-right: 8px;"></i>Multi-Provider Coordination</h4>
+                            <p class="text-gray text-base mb-0">Using multiple specialty categories? Your coordinator ensures all your providers are aligned and your care is seamlessly integrated.</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fff5ef 0%, #ffffff 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 2px solid var(--oval-orange);">
+                            <h4 class="text-lg font-bold mb-3" style="color: var(--oval-dark);"><i class="fa-solid fa-chart-line" style="color: #282828; margin-right: 8px;"></i>Treatment Optimization</h4>
+                            <p class="text-gray text-base mb-0">Your coordinator works with providers to optimize your treatment plan based on your progress, preferences, and feedback.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #fff5ef; padding: 2rem; border-radius: var(--radius-xl); border: 2px solid var(--oval-orange);">
+                        <h4 class="text-xl font-bold mb-4" style="color: var(--oval-dark);">What Your Concierge Handles For You:</h4>
+                        <ul class="bullet-list mb-0">
+                            <li>Answering all questions about your treatments, medications, and care</li>
+                            <li>Coordinating provider consultations and follow-up appointments</li>
+                            <li>Managing prescription refills and ensuring timely delivery</li>
+                            <li>Troubleshooting any issues with orders, shipments, or portal access</li>
+                            <li>Facilitating communication between you and your providers</li>
+                            <li>Tracking your progress and celebrating your milestones</li>
+                            <li>Providing ongoing encouragement and support</li>
+                            <li>Ensuring you're getting maximum value from your membership</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP How to Use Section -->
+        <div class="container mb-16">
+            <div class="vip-card">
+                <div class="card-icon-badge vip">
+                    <svg class="icon-lg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <div style="padding: 1.5rem 1.5rem 1.5rem 3.5rem;">
+                    <h3 class="mb-5 text-xl font-bold" style="color: var(--oval-orange);">Your VIP Onboarding Experience</h3>
+                    
+                    <p class="text-gray text-lg mb-4">Getting started with OVAL Plus is a premium experience from day one:</p>
+                    
+                    <ol class="numbered-list mt-4">
+                        <li><strong>Welcome Call from Your Concierge:</strong> Within 24 hours of enrollment, your dedicated health coordinator will call to introduce themselves and answer any questions.</li>
+                        <li><strong>Personalized Portal Setup:</strong> Your coordinator helps you navigate the platform and complete your profile to get started quickly.</li>
+                        <li><strong>GLP-1 Program Enrollment:</strong> Select your weight loss goals and complete the comprehensive medical assessment for injectable GLP-1 medications.</li>
+                        <li><strong>Priority Physician Review:</strong> Expedited review by weight loss specialist (typically within 4 hours for VIP members).</li>
+                        <li><strong>Medication Selection & Training:</strong> Your coordinator discusses medication options and provides injection training resources.</li>
+                        <li><strong>First Shipment Tracking:</strong> Your coordinator monitors your first delivery and ensures smooth receipt of your medication.</li>
+                        <li><strong>Follow-Up Schedule:</strong> Regular check-ins are scheduled proactively to monitor progress and optimize results.</li>
+                        <li><strong>Ongoing White-Glove Support:</strong> Your coordinator remains your primary point of contact for all healthcare needs.</li>
+                    </ol>
+                    
+                    <div style="background: #fff5ef; padding: 1.5rem; border-radius: var(--radius-lg); margin-top: 2rem; border: 2px solid var(--oval-orange);">
+                        <h4 class="mb-3 text-lg font-bold" style="color: var(--oval-orange);">Your Concierge Contact Information:</h4>
+                        <p class="text-gray text-lg mb-2"><strong>Website:</strong> <a href="https://ovalcare.com/login" class="link-blue" target="_blank" rel="noopener noreferrer">https://ovalcare.com/login</a></p>
+                        <p class="text-gray text-lg mb-2"><strong>Priority Phone Line:</strong> <a href="tel:13059390168" class="link-blue">1-305-939-0168</a></p>
+                        <p class="text-gray text-lg mb-0"><strong>Direct Text/Messaging:</strong> Available via your patient portal for same-day responses</p>
+                        <p class="text-gray text-base mt-3" style="font-style: italic;">Your coordinator will provide their direct contact details during your welcome call.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end w-full"><a class="mt-8 text-lg link-blue" href="#mainTop">Back to Top</a></div>
+        </div>
+
+        <!-- Complete Specialty Care Access -->
+        <div class="container py-2">
+            <div class="card">
+                <h3 class="mb-6 text-2xl font-bold text-blue">Complete Access to All Specialty Categories</h3>
+                
+                <p class="text-gray text-lg mb-6">Remember—OVAL Plus includes everything from OVAL One PLUS your premium GLP-1 and concierge benefits. You have complete access to all specialty medications with exclusive member pricing:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                    <div style="background: #fff5ef; padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                        <h5 class="text-base font-bold mb-2" style="color: var(--oval-orange);"><i class="fa-solid fa-venus-mars" style="margin-right: 8px; color: #282828;"></i>Sexual Health</h5>
+                        <p class="text-sm text-gray mb-0">All ED medications, performance solutions, intimacy enhancement</p>
+                    </div>
+                    
+                    <div style="background: #fff5ef; padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                        <h5 class="text-base font-bold mb-2" style="color: var(--oval-orange);"><i class="fa-solid fa-spa" style="margin-right: 8px; color: #282828;"></i>Hair & Dermatology</h5>
+                        <p class="text-sm text-gray mb-0">Complete hair loss treatment, anti-aging, custom formulations</p>
+                    </div>
+                    
+                    <div style="background: #fff5ef; padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                        <h5 class="text-base font-bold mb-2" style="color: var(--oval-orange);"><i class="fa-solid fa-brain" style="margin-right: 8px; color: #282828;"></i>Mental Health</h5>
+                        <p class="text-sm text-gray mb-0">Full psychiatric medication access, anxiety/depression care</p>
+                    </div>
+                    
+                    <div style="background: #fff5ef; padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                        <h5 class="text-base font-bold mb-2" style="color: var(--oval-orange);"><i class="fa-solid fa-pills" style="margin-right: 8px; color: #282828;"></i>Weight Management (Oral)</h5>
+                        <p class="text-sm text-gray mb-0">Metformin, Bupropion, Topiramate, B12, oral weight loss kits</p>
+                    </div>
+                    
+                    <div style="background: #fff5ef; padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                        <h5 class="text-base font-bold mb-2" style="color: var(--oval-orange);"><i class="fa-solid fa-person-dress" style="margin-right: 8px; color: #282828;"></i>Women's Health</h5>
+                        <p class="text-sm text-gray mb-0">Contraception, emergency contraception, PCOS, reproductive health</p>
+                    </div>
+                    
+                    <div style="background: #fff5ef; padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--oval-orange);">
+                        <h5 class="text-base font-bold mb-2" style="color: var(--oval-orange);"><i class="fa-solid fa-dumbbell" style="margin-right: 8px; color: #282828;"></i>Performance & Longevity</h5>
+                        <p class="text-sm text-gray mb-0">Anti-aging protocols, cognitive enhancement, optimization</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray text-base" style="font-style: italic;">Your concierge coordinates care across all categories, ensuring seamless integration of all your treatments and optimal health outcomes.</p>
+            </div>
+        </div>
+
+        <!-- Important Disclosure Section -->
+        <div class="container mb-16">
+            <div class="disclosure-card">
+                <div class="card-icon-badge error">
+                    <svg class="icon-lg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                    </svg>
+                </div>
+                <div style="padding: 1.5rem 1.5rem 1.5rem 3.5rem;">
+                    <h3 class="mb-4 text-xl font-bold text-red">Important GLP-1 Program Information</h3>
+                    
+                    <h4 class="mb-3 text-base font-bold" style="color: var(--gray-900);">Eligibility & Approval</h4>
+                    <p class="text-gray text-base mb-4">
+                        Injectable GLP-1 medications require specialist approval and are not appropriate for everyone. Eligibility is based on BMI, medical history, current health conditions, contraindications, and clinical protocols. Common reasons for denial include pregnancy/nursing, history of thyroid cancer, severe gastrointestinal disease, or certain other medical conditions. Your specialist will discuss alternative options if GLP-1s are not appropriate for you.
+                    </p>
+                    
+                    <h4 class="mb-3 text-base font-bold" style="color: var(--gray-900);">Common Side Effects</h4>
+                    <p class="text-gray text-base mb-4">
+                        GLP-1 medications commonly cause gastrointestinal side effects, especially during dose increases. These may include nausea, vomiting, diarrhea, constipation, abdominal pain, and decreased appetite. Most side effects are mild to moderate and improve with time. Serious side effects are rare but can include pancreatitis, gallbladder disease, kidney problems, and severe allergic reactions. Report all side effects to your provider immediately.
+                    </p>
+                    
+                    <h4 class="mb-3 text-base font-bold" style="color: var(--gray-900);">Treatment Duration & Cost</h4>
+                    <p class="text-gray text-base mb-4">
+                        GLP-1 treatment is typically long-term (12+ months) for optimal results and weight maintenance. Member-exclusive pricing is applied to all prescriptions, but medication costs are separate from your membership fee. Your concierge will discuss pricing options during onboarding. Most patients require ongoing treatment to maintain weight loss; discontinuation often leads to weight regain.
+                    </p>
+                    
+                    <h4 class="mb-3 text-base font-bold" style="color: var(--gray-900);">Injection Administration</h4>
+                    <p class="text-gray text-base mb-4">
+                        GLP-1 medications are self-administered via subcutaneous injection (typically in the abdomen, thigh, or upper arm) once weekly. Training resources and injection supplies are provided. Most patients find injections easy and painless after the first few doses. Your concierge is available to answer any questions about injection technique.
+                    </p>
+                    
+                    <h4 class="mb-3 text-base font-bold" style="color: var(--gray-900);">Lifestyle Requirements</h4>
+                    <p class="text-gray text-base mb-4">
+                        GLP-1 medications are NOT a substitute for healthy lifestyle habits. Maximum results require commitment to improved nutrition, regular physical activity, adequate hydration, and behavioral changes. Your program includes coaching and support, but your effort and adherence determine your success.
+                    </p>
+                    
+                    <h4 class="mb-3 text-base font-bold" style="color: var(--gray-900);">Not for Cosmetic Weight Loss</h4>
+                    <p class="text-gray text-base mb-0">
+                        GLP-1 medications are approved for patients with obesity (BMI ≥30) or overweight (BMI ≥27) with weight-related health conditions. These are not appropriate for cosmetic weight loss in individuals at healthy weights. Your specialist will determine if you meet clinical criteria based on your assessment.
+                    </p>
+                </div>
+            </div>
+            <div class="flex justify-end w-full"><a class="mt-8 text-lg link-blue" href="#mainTop">Back to Top</a></div>
+        </div>
+
+        <!-- Footer Section -->
+        <footer class="footer">
+            <p>Copyright © 2025 American Online Benefits | OVAL Plus Premium VIP Healthcare Platform</p>
+        </footer>
+    </main>
+
+<script>
+/**
+ * Vanilla JavaScript Menu Toggle Functionality
+ * 
+ * Provides interactive menu controls for mobile and desktop navigation.
+ * Manages dropdown menu visibility and ARIA attributes for accessibility compliance.
+ * Enables seamless navigation experience across all device types.
+ * 
+ * @function toggleMenu - Toggles visibility state of navigation dropdown menus
+ * @param {HTMLElement} menu - The dropdown menu element to show/hide
+ * @param {HTMLElement} button - The button that controls the menu state
+ */
+
+// Get menu elements
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+const desktopMenuButton = document.getElementById('desktop-menu-button');
+const desktopMenu = document.getElementById('desktop-menu');
+
+/**
+ * Toggles the visibility of a menu and updates ARIA attributes for accessibility.
+ * When hidden, removes the hidden attribute and sets aria-expanded to true.
+ * When visible, adds the hidden attribute and sets aria-expanded to false.
+ * This ensures screen readers properly announce the menu state to users.
+ */
+function toggleMenu(menu, button) {
+    const isHidden = menu.hasAttribute('hidden');
+    
+    if (isHidden) {
+        menu.removeAttribute('hidden');
+        button.setAttribute('aria-expanded', 'true');
+    } else {
+        menu.setAttribute('hidden', '');
+        button.setAttribute('aria-expanded', 'false');
+    }
+}
+
+// Mobile menu toggle event listener
+if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+        toggleMenu(mobileMenu, mobileMenuButton);
+    });
+}
+
+// Desktop menu toggle event listener
+if (desktopMenuButton && desktopMenu) {
+    desktopMenuButton.addEventListener('click', () => {
+        toggleMenu(desktopMenu, desktopMenuButton);
+    });
+}
+</script>
+
+</body>
+</html>
+
