@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Project assets (not tracked in git)
+/E123/
+
 # dependencies
 /node_modules
 /.pnp
