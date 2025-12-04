@@ -243,8 +243,8 @@ function PrescriptionCareSection() {
               </p>
             </motion.div>
 
-            {/* Category Buttons - Responsive grid with touch targets */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+            {/* Category Buttons - 2x3 grid on all screen sizes for compact layout */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
               {categories.map((category, index) => (
                 <motion.div
                   key={category.name}
@@ -255,10 +255,10 @@ function PrescriptionCareSection() {
                 >
                   <Link
                     href={category.href}
-                    className="flex items-center justify-between px-4 md:px-6 py-3.5 md:py-5 bg-gray-100 rounded-full text-gray-900 font-medium text-sm md:text-base hover:bg-gray-200 transition-colors group touch-target"
+                    className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-3.5 md:py-5 bg-gray-100 rounded-full text-gray-900 font-medium text-xs sm:text-sm md:text-base hover:bg-gray-200 transition-colors group touch-target"
                   >
-                    <span>{category.name}</span>
-                    <ChevronDown className="w-4 h-4 md:w-5 md:h-5 text-gray-400 -rotate-90 group-hover:text-gray-600 transition-colors" />
+                    <span className="truncate">{category.name}</span>
+                    <ChevronDown className="w-4 h-4 md:w-5 md:h-5 text-gray-400 -rotate-90 group-hover:text-gray-600 transition-colors flex-shrink-0 ml-1" />
                   </Link>
                 </motion.div>
               ))}
