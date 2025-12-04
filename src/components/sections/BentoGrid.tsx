@@ -86,9 +86,9 @@ export function BentoGrid() {
         {/* Bento Grid */}
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
-            {/* Large Feature Card - AI Personalization */}
+            {/* Feature Card - AI Personalization (reduced height) */}
             <AnimatedSection 
-              className="md:col-span-2 md:row-span-2"
+              className="md:col-span-2"
               delay={0}
             >
               <GlassCard 
@@ -176,33 +176,45 @@ export function BentoGrid() {
               </GlassCard>
             </AnimatedSection>
 
-            {/* Small Card - FDA Regulated */}
-            <AnimatedSection delay={0.25}>
-              <GlassCard className="h-full flex flex-col" padding="md">
-                <GlassCardIcon className="mb-3">
-                  <Shield className="w-6 h-6" />
+            {/* Tall Card - FDA Regulated */}
+            <AnimatedSection delay={0.25} className="row-span-2">
+              <GlassCard className="h-full flex flex-col" padding="lg">
+                <GlassCardIcon className="mb-4 bg-blue-100 text-blue-600 w-14 h-14">
+                  <Shield className="w-7 h-7" />
                 </GlassCardIcon>
-                <h3 className="text-base font-bold text-oval-charcoal mb-1">
+                <h3 className="text-xl font-bold text-oval-charcoal mb-2">
                   {bentoItems[4].title}
                 </h3>
-                <p className="text-xs text-oval-gray leading-relaxed">
+                <p className="text-sm text-oval-gray leading-relaxed mb-4">
                   {bentoItems[4].description}
                 </p>
+                <div className="mt-auto flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 text-[11px] bg-blue-100 text-blue-700 rounded-full">Quality Assured</span>
+                  <span className="px-2.5 py-1 text-[11px] bg-blue-100 text-blue-700 rounded-full">Lab Tested</span>
+                  <span className="px-2.5 py-1 text-[11px] bg-blue-100 text-blue-700 rounded-full">US Pharmacies</span>
+                  <span className="px-2.5 py-1 text-[11px] bg-blue-100 text-blue-700 rounded-full">Authentic Meds</span>
+                </div>
               </GlassCard>
             </AnimatedSection>
 
-            {/* Small Card - HIPAA Compliant */}
-            <AnimatedSection delay={0.3}>
-              <GlassCard className="h-full flex flex-col" padding="md">
-                <GlassCardIcon className="mb-3">
-                  <Lock className="w-6 h-6" />
+            {/* Tall Card - HIPAA Compliant */}
+            <AnimatedSection delay={0.3} className="row-span-2">
+              <GlassCard className="h-full flex flex-col" padding="lg">
+                <GlassCardIcon className="mb-4 bg-violet-100 text-violet-600 w-14 h-14">
+                  <Lock className="w-7 h-7" />
                 </GlassCardIcon>
-                <h3 className="text-base font-bold text-oval-charcoal mb-1">
+                <h3 className="text-xl font-bold text-oval-charcoal mb-2">
                   {bentoItems[5].title}
                 </h3>
-                <p className="text-xs text-oval-gray leading-relaxed">
+                <p className="text-sm text-oval-gray leading-relaxed mb-4">
                   {bentoItems[5].description}
                 </p>
+                <div className="mt-auto flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 text-[11px] bg-violet-100 text-violet-700 rounded-full">Encrypted</span>
+                  <span className="px-2.5 py-1 text-[11px] bg-violet-100 text-violet-700 rounded-full">Secure Data</span>
+                  <span className="px-2.5 py-1 text-[11px] bg-violet-100 text-violet-700 rounded-full">Private</span>
+                  <span className="px-2.5 py-1 text-[11px] bg-violet-100 text-violet-700 rounded-full">Compliant</span>
+                </div>
               </GlassCard>
             </AnimatedSection>
 
