@@ -1447,7 +1447,7 @@ const HealthcareTrustSection = memo(function HealthcareTrustSection() {
   ], []);
 
   return (
-    <section className="py-12 md:py-24 bg-gray-50">
+    <section className="py-12 md:py-24 bg-white md:bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 2-Column Layout: Image Left, Content Right - Stacks on mobile */}
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
@@ -1472,29 +1472,24 @@ const HealthcareTrustSection = memo(function HealthcareTrustSection() {
 
           {/* Right Column - Content */}
           <div>
-            {/* Title with relative z-index to ensure it sits above the white radial 
-                gradient effect below, which expands beyond its container with scale(1.5) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="mb-6 md:mb-12 relative z-10"
+              className="mb-6 md:mb-12"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
                 Healthcare you can trust
               </h2>
             </motion.div>
 
-            {/* Trust Badges - 2x2 Grid with responsive gaps and sizing
-                Wrapped in relative container for radial gradient background effect
-                overflow-hidden clips the scaled gradient to prevent it bleeding into title above */}
+            {/* Trust Badges - 2x2 Grid with responsive gaps and sizing */}
             <div className="relative overflow-hidden">
-              {/* White radial gradient expanding from center behind the 4 icons
-                  Creates a soft glowing effect that draws attention to trust badges
-                  overflow-hidden on parent clips the scale(1.5) to prevent bleeding into title */}
+              {/* White radial gradient for desktop only (bg-gray-50)
+                  On mobile the section is white so this gradient is invisible but harmless */}
               <div 
-                className="absolute inset-0 pointer-events-none"
+                className="hidden md:block absolute inset-0 pointer-events-none"
                 style={{
                   background: "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 25%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.3) 75%, rgba(255,255,255,0) 100%)",
                   transform: "scale(1.5)",
@@ -1511,20 +1506,8 @@ const HealthcareTrustSection = memo(function HealthcareTrustSection() {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 text-center sm:text-left"
                 >
-                  {/* Icon container with radial white blur on mobile for visual prominence
-                      The blur creates a soft glow effect behind icons on gray backgrounds */}
+                  {/* Icon container - no glow needed on mobile since bg is white */}
                   <div className="flex-shrink-0 w-10 h-10 md:w-14 md:h-14 relative">
-                    {/* Mobile: Radial white blur glow behind icon
-                        Creates a soft, diffused highlight that helps icons pop against gray bg
-                        Using larger inset (-20px) for more prominent glow on mobile screens */}
-                    <div 
-                      className="md:hidden absolute inset-[-20px] rounded-full"
-                      style={{
-                        background: "radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 35%, rgba(255,255,255,0) 65%)",
-                        filter: "blur(8px)",
-                      }}
-                      aria-hidden="true"
-                    />
                     <Image
                       src={badge.icon}
                       alt={badge.title}
