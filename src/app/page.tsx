@@ -452,7 +452,7 @@ function MembershipJourneySection() {
  * Solution Card Component with advanced scroll animations
  * Individual card for Doctor-trusted Solutions with stagger effects
  * 
- * Mobile: Label in top-left corner with gradient from top
+ * Mobile: Label position varies (left, right, or center) based on grid position
  * Desktop: Label at bottom with gradient from bottom
  */
 interface SolutionCardProps {
@@ -460,11 +460,26 @@ interface SolutionCardProps {
   image: string;
   index: number;
   isFloating?: boolean; // For the center floating card on mobile
+  mobileLabelPosition?: "left" | "right" | "center"; // Label alignment on mobile
 }
 
-function SolutionCard({ name, image, index, isFloating = false }: SolutionCardProps) {
+function SolutionCard({ name, image, index, isFloating = false, mobileLabelPosition = "left" }: SolutionCardProps) {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: false, amount: 0.3 });
+  
+  /**
+   * Get text alignment class based on mobile label position
+   * - left: text-left (Hair, Weight)
+   * - right: text-right (Skin, Sexual Health)
+   * - center: text-center (Hormone floating card)
+   */
+  const getMobileLabelAlignment = () => {
+    switch (mobileLabelPosition) {
+      case "right": return "text-right";
+      case "center": return "text-center";
+      default: return "text-left";
+    }
+  };
 
   return (
     <motion.div
@@ -504,7 +519,7 @@ function SolutionCard({ name, image, index, isFloating = false }: SolutionCardPr
           />
         </motion.div>
         
-        {/* Mobile: Top-left gradient overlay */}
+        {/* Mobile: Top gradient overlay */}
         <div className="md:hidden absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
         
         {/* Desktop: Bottom gradient overlay */}
@@ -514,12 +529,12 @@ function SolutionCard({ name, image, index, isFloating = false }: SolutionCardPr
           className="hidden md:block absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
         />
         
-        {/* Mobile: Title in top-left corner */}
+        {/* Mobile: Title at top with variable alignment (left/right/center) */}
         <motion.div
           initial={{ y: -10, opacity: 0 }}
           animate={isInView ? { y: 0, opacity: 1 } : { y: -10, opacity: 0 }}
           transition={{ delay: index * 0.1 + 0.3, duration: 0.4 }}
-          className="md:hidden absolute top-0 left-0 right-0 p-3"
+          className={`md:hidden absolute top-0 left-0 right-0 p-3 ${getMobileLabelAlignment()}`}
         >
           <h3 className="text-white font-semibold text-sm group-hover:text-orange-300 transition-colors">
             {name}
@@ -623,21 +638,26 @@ function DoctorTrustedSolutionsSection() {
           ))}
         </div>
         
-        {/* Mobile: 2x2 grid with 5th card floating centered above */}
+        {/* Mobile: 2x2 grid with 5th card floating centered above
+            Label positions: Hair(left), Skin(right), Weight(left), Sexual(right), Hormone(center) */}
         <div className="md:hidden relative">
-          {/* 2x2 Grid for first 4 cards */}
+          {/* 2x2 Grid for first 4 cards with alternating label positions */}
           <div className="grid grid-cols-2 gap-3">
-            {solutions.slice(0, 4).map((solution, index) => (
-              <SolutionCard key={solution.name} {...solution} index={index} />
-            ))}
+            {/* Row 1: Hair (left), Skin (right) */}
+            <SolutionCard {...solutions[0]} index={0} mobileLabelPosition="left" />
+            <SolutionCard {...solutions[1]} index={1} mobileLabelPosition="right" />
+            {/* Row 2: Weight (left), Sexual Health (right) */}
+            <SolutionCard {...solutions[2]} index={2} mobileLabelPosition="left" />
+            <SolutionCard {...solutions[3]} index={3} mobileLabelPosition="right" />
           </div>
           
-          {/* 5th card (Hormone) floating centered above the grid */}
+          {/* 5th card (Hormone) floating centered above the grid with centered label */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] z-10">
             <SolutionCard 
               {...solutions[4]} 
               index={4} 
               isFloating={true}
+              mobileLabelPosition="center"
             />
           </div>
         </div>
