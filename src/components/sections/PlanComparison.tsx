@@ -129,8 +129,8 @@ export function PlanComparison() {
                 }`}
                 padding="lg"
                 hover={true}
-                tilt={true}
-                glowBorder={plan.premium}
+                tilt={false}
+                glowBorder={false}
               >
                 {/* Premium Badge - positioned above card */}
                 {plan.premium && (
