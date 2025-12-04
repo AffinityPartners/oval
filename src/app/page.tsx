@@ -8,7 +8,6 @@ import {
   AnimatePresence,
   useScroll,
   useTransform,
-  useMotionTemplate,
   useInView,
 } from "framer-motion";
 import { ChevronDown, ArrowRight } from "lucide-react";
@@ -33,7 +32,34 @@ import { ChevronDown, ArrowRight } from "lucide-react";
  * - Trust icons: /images/oval/icons/
  * - People gallery: /images/oval/people/
  * - Section images: /images/oval/trx/
+ * 
+ * Mobile UX Notes:
+ * - CTA buttons do NOT animate position on mobile (prevents CLS and misclicks)
+ * - Only opacity animations for CTAs on mobile devices
+ * - Safari-specific fixes for sticky positioning and scroll-snap
  */
+
+/**
+ * Custom hook to detect if viewport is mobile size.
+ * Used to disable position animations on mobile to prevent:
+ * - Cumulative Layout Shift (CLS) issues
+ * - User misclicks during animation
+ * - Safari animation bugs
+ * 
+ * Returns false during SSR and initial render to prevent hydration mismatch.
+ */
+function useIsMobile(): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+}
 
 /* ============================================================================
    NAVBAR COMPONENT
@@ -100,6 +126,8 @@ function Navbar() {
  * - Touch-friendly CTA button with proper hit targets
  */
 function HeroSection() {
+  const isMobile = useIsMobile();
+  
   const categories = [
     { name: "Rx Skincare", href: "#skincare" },
     { name: "Rx Hair Loss", href: "#hair" },
@@ -174,9 +202,11 @@ function HeroSection() {
             ))}
           </motion.div>
 
-          {/* CTA Button - Touch-friendly with min 44px height */}
+          {/* CTA Button - Touch-friendly with min 44px height
+              Mobile: Only opacity animation (no y movement to prevent CLS/misclicks)
+              Desktop: Full opacity + y animation for polish */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-6 sm:mt-10 text-left"
@@ -234,8 +264,8 @@ function PrescriptionCareSection() {
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-4 leading-tight">
                 Prescription care,
-                <br />
-                built around you
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>built around you
               </h2>
               <p className="text-gray-500 mb-6 md:mb-12 max-w-xl text-sm md:text-lg">
                 From hair health to hormone balance, our doctors create a plan
@@ -317,8 +347,8 @@ function WhyChooseOvalSection() {
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-8 leading-tight">
               Why Choose
-              <br />
-              Oval?
+              <br className="hidden sm:block" />
+              <span className="sm:hidden"> </span>Oval?
             </h2>
             <p className="text-gray-500 mb-4 md:mb-6 leading-relaxed text-sm md:text-lg">
               Most pharmacies profit big from your prescriptions. We don&apos;t
@@ -333,19 +363,12 @@ function WhyChooseOvalSection() {
               Our main revenue comes from your membership, not inflated
               prescription prices.
             </p>
-            <p className="text-gray-500 mb-6 md:mb-10 leading-relaxed text-sm md:text-lg">
+            <p className="text-gray-500 leading-relaxed text-sm md:text-lg">
               That means no outrageous markups, no hidden fees, and real savings
               on the meds you actually need. With Oval, you&apos;re getting
               access, transparency, and a pricing model that actually respects
               you.
             </p>
-            <Link
-              href="#"
-              className="inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-colors shadow-sm text-sm md:text-base touch-target"
-            >
-              Get Started
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </motion.div>
 
           {/* Right Image - Lifestyle photo from /trx/why.png */}
@@ -414,11 +437,9 @@ function MembershipJourneySection() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-8 leading-tight">
-              Your health
-              <br />
-              journey starts with
-              <br />
-              membership
+              Your health journey starts with
+              <br className="hidden sm:block" />
+              <span className="sm:hidden"> </span>membership
             </h2>
             <p className="text-gray-500 mb-6 md:mb-10 max-w-xl text-sm md:text-lg">
               Before you can access our prescription treatments, you&apos;ll
@@ -504,7 +525,7 @@ function SolutionCard({ name, image, index, isFloating = false, mobileLabelPosit
     >
       <Link
         href="#"
-        className={`group block relative aspect-[3/4] rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 ${
+        className={`group block relative aspect-square md:aspect-[3/4] rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 ${
           isFloating ? "ring-4 ring-white shadow-xl" : ""
         }`}
       >
@@ -623,19 +644,6 @@ function DoctorTrustedSolutionsSection() {
               Browse by category to find your perfect treatment.
             </motion.p>
           </div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Link
-              href="#"
-              className="inline-flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 text-xs md:text-sm font-semibold text-gray-900 border-2 border-gray-900 rounded-full hover:bg-gray-900 hover:text-white transition-colors touch-target"
-            >
-              View All
-            </Link>
-          </motion.div>
         </motion.div>
 
         {/* Desktop: Standard 5-column grid */}
@@ -686,7 +694,8 @@ function DoctorTrustedSolutionsSection() {
  * Individual card for the Personalized Treatments scrollytelling section
  * 
  * Responsive Features:
- * - Fluid width on mobile (full card in view), fixed on larger screens
+ * - Grid mode: Cards fill container width (for mobile 2-col grid showing all 6)
+ * - Carousel mode: Fixed widths for horizontal scrolling (tablet+)
  * - Touch-optimized with no hover-dependent interactions on mobile
  * - Smaller padding on mobile for better space usage
  */
@@ -696,12 +705,78 @@ interface TreatmentCardProps {
   description: string;
   image: string;
   index: number;
+  /** When true, card uses w-full for grid layout. When false, uses fixed widths for carousel. */
+  isGridMode?: boolean;
 }
 
-function TreatmentCard({ name, category, description, image, index }: TreatmentCardProps) {
+function TreatmentCard({ name, category, description, image, index, isGridMode = false }: TreatmentCardProps) {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: false, amount: 0.3 });
 
+  /**
+   * Grid mode (mobile) uses a horizontal layout with image on left (35% smaller) and text on right.
+   * Carousel mode (tablet+) uses vertical stacked layout with image above text.
+   */
+  if (isGridMode) {
+    return (
+      <motion.article
+        ref={cardRef}
+        initial={{ opacity: 0, x: -20 }}
+        animate={
+          isInView
+            ? { opacity: 1, x: 0 }
+            : { opacity: 0.3, x: -10 }
+        }
+        transition={{
+          duration: 0.4,
+          delay: index * 0.06,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="w-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group flex flex-row items-center"
+        role="group"
+        aria-label={name}
+      >
+        {/* Product Image - 35% smaller (65% of original size), positioned on left */}
+        <div className="relative w-[72px] h-[72px] flex-shrink-0 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden rounded-lg m-2">
+          <Image
+            src={image}
+            alt={name}
+            fill
+            className="object-contain p-1.5"
+          />
+        </div>
+        {/* Card Content - positioned on right side of image */}
+        <div className="flex-1 py-2 pr-3">
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+            transition={{ delay: index * 0.06 + 0.15 }}
+            className="inline-block px-2 py-0.5 text-[9px] font-semibold text-orange-600 bg-orange-50 rounded-full mb-1.5"
+          >
+            {category}
+          </motion.span>
+          <motion.h3
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: index * 0.06 + 0.2 }}
+            className="text-xs leading-tight font-bold text-gray-900"
+          >
+            {name}
+          </motion.h3>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: index * 0.06 + 0.25 }}
+            className="text-[10px] mt-0.5 line-clamp-2 text-gray-500 leading-snug"
+          >
+            {description}
+          </motion.p>
+        </div>
+      </motion.article>
+    );
+  }
+
+  // Carousel mode (tablet+): vertical stacked layout
   return (
     <motion.article
       ref={cardRef}
@@ -721,7 +796,7 @@ function TreatmentCard({ name, category, description, image, index }: TreatmentC
       role="group"
       aria-label={name}
     >
-      {/* Product Image with hover zoom - smaller aspect ratio on mobile */}
+      {/* Product Image with hover zoom */}
       <div className="relative aspect-[4/3] sm:aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
         <motion.div
           className="absolute inset-0"
@@ -738,7 +813,7 @@ function TreatmentCard({ name, category, description, image, index }: TreatmentC
         {/* Shine effect on hover - desktop only */}
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform -translate-x-full group-hover:translate-x-full hidden md:block" />
       </div>
-      {/* Card Content - Responsive padding */}
+      {/* Card Content */}
       <div className="p-3 sm:p-4 md:p-5">
         <motion.span
           initial={{ opacity: 0, x: -10 }}
@@ -752,7 +827,7 @@ function TreatmentCard({ name, category, description, image, index }: TreatmentC
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: index * 0.08 + 0.3 }}
-          className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mt-2 sm:mt-3"
+          className="text-sm sm:text-base md:text-lg mt-2 sm:mt-3 font-bold text-gray-900"
         >
           {name}
         </motion.h3>
@@ -760,7 +835,7 @@ function TreatmentCard({ name, category, description, image, index }: TreatmentC
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: index * 0.08 + 0.4 }}
-          className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2 line-clamp-2"
+          className="text-xs sm:text-sm mt-1 sm:mt-2 line-clamp-2 text-gray-500"
         >
           {description}
         </motion.p>
@@ -774,10 +849,10 @@ function TreatmentCard({ name, category, description, image, index }: TreatmentC
  * Scrollytelling carousel with scroll-triggered animations
  * 
  * Responsive Features:
- * - Mobile: Native horizontal scroll with snap points (no JS carousel)
- * - Tablet+: Button-controlled carousel with animation
+ * - Mobile: 2-column grid showing all 6 products at once (no scrolling needed)
+ * - Tablet+: Button-controlled horizontal carousel with animation
  * - Touch-friendly navigation buttons (44px minimum tap target)
- * - Responsive card sizing and gap spacing
+ * - Responsive card sizing: compact grid cards on mobile, larger carousel cards on tablet+
  */
 function PersonalizedTreatmentsSection() {
   const sectionRef = useRef(null);
@@ -899,8 +974,8 @@ function PersonalizedTreatmentsSection() {
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 md:mb-4 leading-tight"
             >
               Personalized Treatments,
-              <br />
-              Backed by Experts
+              <br className="hidden sm:block" />
+              <span className="sm:hidden"> </span>Backed by Experts
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -943,20 +1018,21 @@ function PersonalizedTreatmentsSection() {
           </motion.div>
         </motion.div>
 
-        {/* Mobile: Native scroll with snap points */}
+        {/* Mobile: 1-column list showing all 6 products at once
+            Using vertical list layout with image on left and text on right
+            35% smaller images for compact display */}
         <div 
           ref={scrollContainerRef}
-          className="md:hidden overflow-x-auto snap-scroll-x scrollbar-hide -mx-4 px-4 pb-4"
+          className="md:hidden flex flex-col gap-2"
         >
-          <div className="flex gap-4">
-            {treatments.map((treatment, index) => (
-              <TreatmentCard
-                key={`${treatment.name}-${index}`}
-                {...treatment}
-                index={index}
-              />
-            ))}
-          </div>
+          {treatments.map((treatment, index) => (
+            <TreatmentCard
+              key={`${treatment.name}-${index}`}
+              {...treatment}
+              index={index}
+              isGridMode={true}
+            />
+          ))}
         </div>
 
         {/* Tablet+: Animated carousel with button controls */}
@@ -982,22 +1058,25 @@ function PersonalizedTreatmentsSection() {
 
 /* ============================================================================
    HOW IT WORKS SECTION
-   True stacked cards with sticky scroll effect
+   Compact 3-row stack on mobile, 3-column grid on desktop
 ============================================================================ */
 
 /**
- * How It Works Section - Stacked Cards on Scroll
+ * How It Works Section - Compact Mobile Card Stack
  * 
- * Creates a scrollytelling experience where:
- * - Section height is extended to allow scrolling
- * - Cards stack on top of each other in a sticky container
- * - As user scrolls, each card slides up and scales down to reveal the next
- * - Progress indicators show current step
- */
-/**
- * How It Works Section
- * Three-column card layout matching the OvalCare design
- * Card 1: Black background, Card 2: Orange background, Card 3: Light gray background
+ * Responsive Design:
+ * - Mobile: 3 vertically stacked compact cards that fit in viewport
+ * - Desktop: Three-column card layout matching the OvalCare design
+ * 
+ * Card styling:
+ * - Card 1: Black background
+ * - Card 2: Orange background  
+ * - Card 3: Light gray background
+ * 
+ * Mobile Optimization:
+ * - Horizontal card layout (image left, content right) for compact height
+ * - All 3 cards visible at once within the stacked section viewport
+ * - Each card ~150px tall to fit comfortably with header
  */
 function HowItWorksSection() {
   const steps = [
@@ -1017,7 +1096,7 @@ function HowItWorksSection() {
     {
       step: 2,
       title: "Complete Your Health Quiz",
-      description: "Answer a few simple, clinically guided questions to help us understand your needs.",
+      description: "Answer a few simple questions to help us understand your needs.",
       image: "/images/oval/hiw/quiz.png",
       imageAlt: "Health quiz on phone",
       cta: "Get a Diagnosis",
@@ -1030,7 +1109,7 @@ function HowItWorksSection() {
     {
       step: 3,
       title: "Get Your Doctor-Approved Plan",
-      description: "Our licensed providers review your quiz and recommend the right prescription for you.",
+      description: "Our licensed providers review and recommend the right prescription.",
       image: "/images/oval/hiw/plan.png",
       imageAlt: "Doctor reaching hand",
       cta: "Talk to Expert",
@@ -1043,21 +1122,58 @@ function HowItWorksSection() {
   ];
 
   return (
-    <div className="py-12 md:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-6 md:py-24 bg-white h-full flex flex-col">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col">
         {/* Section Header - Responsive */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-6 md:mb-12"
+          className="mb-4 md:mb-12"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">How It Works</h2>
         </motion.div>
 
-        {/* Three Column Cards Grid - Stacks on mobile, horizontal scroll on tablet option */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        {/* Mobile: Compact 3-row vertical stack - no images, text only */}
+        <div className="md:hidden flex flex-col gap-3 flex-1">
+          {steps.map((step, index) => (
+            <motion.div
+              key={step.step}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: index * 0.08 }}
+              className={`${step.bgColor} rounded-xl overflow-hidden`}
+            >
+              <div className="p-4">
+                {/* Step number badge */}
+                <div className={`w-6 h-6 rounded-full border-2 ${step.badgeBorder} flex items-center justify-center mb-2`}>
+                  <span className={`${step.badgeText} text-xs font-bold`}>{step.step}</span>
+                </div>
+                {/* Title */}
+                <h3 className={`text-base font-bold ${step.textColor} leading-tight mb-1`}>
+                  {step.title}
+                </h3>
+                {/* Description */}
+                <p className={`${step.descColor} text-xs leading-relaxed`}>
+                  {step.description}
+                </p>
+              </div>
+              {/* CTA button bar */}
+              <Link
+                href="#"
+                className="flex items-center justify-between px-4 py-2.5 bg-gray-900 hover:bg-gray-800 transition-colors touch-target"
+              >
+                <span className="text-white font-semibold text-sm">{step.cta}</span>
+                <ArrowRight className="w-4 h-4 text-white" />
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Desktop: Three Column Cards Grid */}
+        <div className="hidden md:grid md:grid-cols-3 gap-4 md:gap-6">
           {steps.map((step, index) => (
             <motion.div
               key={step.step}
@@ -1175,12 +1291,25 @@ function HealthcareTrustSection() {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 text-center sm:text-left"
                 >
+                  {/* Icon container with radial white blur on mobile for visual prominence
+                      The blur creates a soft glow effect behind icons on gray backgrounds */}
                   <div className="flex-shrink-0 w-10 h-10 md:w-14 md:h-14 relative">
+                    {/* Mobile: Radial white blur glow behind icon
+                        Creates a soft, diffused highlight that helps icons pop against gray bg
+                        Using larger inset (-20px) for more prominent glow on mobile screens */}
+                    <div 
+                      className="md:hidden absolute inset-[-20px] rounded-full"
+                      style={{
+                        background: "radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 35%, rgba(255,255,255,0) 65%)",
+                        filter: "blur(8px)",
+                      }}
+                      aria-hidden="true"
+                    />
                     <Image
                       src={badge.icon}
                       alt={badge.title}
                       fill
-                      className="object-contain"
+                      className="object-contain relative z-10"
                     />
                   </div>
                   <div>
@@ -1192,23 +1321,6 @@ function HealthcareTrustSection() {
                 </motion.div>
               ))}
             </div>
-
-            {/* CTA Button - Touch-friendly */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-6 md:mt-10"
-            >
-              <Link
-                href="#"
-                className="inline-flex items-center gap-2 px-5 md:px-7 py-3 md:py-3.5 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-colors shadow-sm text-sm md:text-base touch-target"
-              >
-                Get Started
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
           </div>
         </div>
       </div>
@@ -1222,13 +1334,112 @@ function HealthcareTrustSection() {
 ============================================================================ */
 
 /**
+ * Result Card Component for Real Results section
+ * Similar to SolutionCard with variable label positioning on mobile
+ * 
+ * Mobile: Label position varies (left, right, or center) based on grid position
+ * Desktop: Label at bottom with hover reveal
+ */
+interface ResultCardProps {
+  name: string;
+  result: string;
+  image: string;
+  index: number;
+  isFloating?: boolean;
+  mobileLabelPosition?: "top-left" | "top-right" | "top-center" | "bottom-left" | "bottom-right";
+}
+
+function ResultCard({ name, result, image, index, isFloating = false, mobileLabelPosition = "bottom-left" }: ResultCardProps) {
+  const cardRef = useRef(null);
+  const isInView = useInView(cardRef, { once: false, amount: 0.3 });
+  
+  /**
+   * Get positioning classes based on mobile label position.
+   * Handles both vertical (top/bottom) and horizontal (left/right/center) alignment.
+   */
+  const getMobileLabelClasses = () => {
+    const isBottom = mobileLabelPosition.startsWith("bottom");
+    const alignment = mobileLabelPosition.includes("right") 
+      ? "text-right" 
+      : mobileLabelPosition.includes("center") 
+        ? "text-center" 
+        : "text-left";
+    const vertical = isBottom ? "bottom-0" : "top-0";
+    return { alignment, vertical, isBottom };
+  };
+  
+  const labelClasses = getMobileLabelClasses();
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      animate={
+        isInView
+          ? { opacity: 1, y: 0, scale: 1 }
+          : { opacity: 0, y: 40, scale: 0.95 }
+      }
+      transition={{
+        duration: 0.5,
+        delay: index * 0.08,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className={isFloating ? "shadow-2xl" : ""}
+    >
+      <div
+        className={`group relative aspect-square md:aspect-[2/3] rounded-xl md:rounded-3xl overflow-hidden bg-gray-100 ${
+          isFloating ? "ring-4 ring-white shadow-xl" : ""
+        }`}
+      >
+        <Image
+          src={image}
+          alt={name}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        
+        {/* Mobile: Gradient overlay - from top or bottom based on label position */}
+        <div className={`md:hidden absolute inset-0 ${
+          labelClasses.isBottom 
+            ? "bg-gradient-to-t from-black/70 via-black/20 to-transparent" 
+            : "bg-gradient-to-b from-black/70 via-black/20 to-transparent"
+        }`} />
+        
+        {/* Desktop: Bottom gradient overlay on hover */}
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        
+        {/* Mobile: Title with variable position (top/bottom) and alignment (left/right/center) */}
+        <motion.div
+          initial={{ y: labelClasses.isBottom ? 10 : -10, opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : { y: labelClasses.isBottom ? 10 : -10, opacity: 0 }}
+          transition={{ delay: index * 0.08 + 0.2, duration: 0.4 }}
+          className={`md:hidden absolute ${labelClasses.vertical} left-0 right-0 p-3 ${labelClasses.alignment}`}
+        >
+          <p className="text-white font-semibold text-sm">{name}</p>
+          <p className="text-white/80 text-xs">{result}</p>
+        </motion.div>
+        
+        {/* Desktop: Title at bottom with hover reveal */}
+        <div className="hidden md:block absolute bottom-0 left-0 right-0 p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
+          <p className="text-white font-semibold text-lg">{name}</p>
+          <p className="text-white/80 text-base">{result}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/**
  * Real People Real Results Section (Responsive)
  * Gallery of customer images from /people/
  * 
- * Responsive Features:
- * - 2 columns on mobile, 3 on tablet, 5 on desktop
- * - Always shows name/result on mobile (no hover required)
- * - Responsive gaps and padding
+ * Mobile: 2x2 grid with floating center card (same as Solutions section)
+ * Desktop: 5-column grid with hover reveal
+ * 
+ * Label positions on mobile:
+ * - Sarah M. (top-left), Mike T. (top-right)
+ * - Jessica L. (bottom-left), David R. (bottom-right)
+ * - Emily K. (top-center) - floating card
  */
 function RealResultsSection() {
   const results = [
@@ -1274,31 +1485,38 @@ function RealResultsSection() {
           </h2>
         </motion.div>
 
-        {/* Results Gallery - Responsive grid with visible labels on mobile */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
+        {/* Desktop: Standard 5-column grid */}
+        <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-5 gap-6">
           {results.map((result, index) => (
-            <motion.div
-              key={result.name}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="group relative aspect-[2/3] rounded-xl md:rounded-3xl overflow-hidden bg-gray-100"
-            >
-              <Image
-                src={result.image}
-                alt={result.name}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              {/* Mobile: Always visible gradient and text */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 md:p-5 md:translate-y-4 md:group-hover:translate-y-0 md:opacity-0 md:group-hover:opacity-100 transition-all">
-                <p className="text-white font-semibold text-sm md:text-lg">{result.name}</p>
-                <p className="text-white/80 text-xs md:text-base">{result.result}</p>
-              </div>
-            </motion.div>
+            <ResultCard key={result.name} {...result} index={index} />
           ))}
+        </div>
+        
+        {/* Mobile: 2x2 grid with 5th card floating centered
+            Label positions create visual balance around center card:
+            - Sarah M. (top-left), Mike T. (top-right)
+            - Jessica L. (bottom-left), David R. (bottom-right)
+            - Emily K. (top-center) - floating card */}
+        <div className="md:hidden relative">
+          {/* 2x2 Grid for first 4 cards with corner label positions */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Row 1: Sarah M. (top-left), Mike T. (top-right) */}
+            <ResultCard {...results[0]} index={0} mobileLabelPosition="top-left" />
+            <ResultCard {...results[1]} index={1} mobileLabelPosition="top-right" />
+            {/* Row 2: Jessica L. (bottom-left), David R. (bottom-right) */}
+            <ResultCard {...results[2]} index={2} mobileLabelPosition="bottom-left" />
+            <ResultCard {...results[3]} index={3} mobileLabelPosition="bottom-right" />
+          </div>
+          
+          {/* 5th card (Emily K.) floating centered above the grid */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] z-10">
+            <ResultCard 
+              {...results[4]} 
+              index={4} 
+              isFloating={true}
+              mobileLabelPosition="top-center"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -1312,26 +1530,30 @@ function RealResultsSection() {
 
 /**
  * Secondary CTA Section (Responsive)
- * Full-width hero card with Vimeo video background on right side
+ * Full-width hero card with Vimeo video
  * 
  * Responsive Features:
- * - Mobile: Stacked layout with video hidden or above content
- * - Tablet+: Side-by-side with video on right
- * - Touch-friendly CTA button
+ * - Mobile: Stacked layout with text above, video below
+ * - Tablet+: Side-by-side with video on right as background
+ * - Touch-friendly CTA button (no position animation on mobile)
  */
 function SecondaryCTASection() {
+  const isMobile = useIsMobile();
+  
   return (
     <section className="py-8 md:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Card Container - Responsive min-height */}
+        {/* Hero Card Container
+            Mobile: Only opacity animation (no y movement to prevent CLS)
+            Desktop: Full opacity + y animation for polish */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-2xl md:rounded-[20px] overflow-hidden min-h-[400px] md:min-h-[520px] lg:min-h-[580px] bg-gradient-to-br from-orange-50 to-white md:bg-white"
+          className="relative rounded-2xl md:rounded-[20px] overflow-hidden bg-gradient-to-br from-orange-50 to-white md:bg-white md:min-h-[520px] lg:min-h-[580px]"
         >
-          {/* Video Background - Hidden on mobile, right side on tablet+ */}
+          {/* Desktop: Video Background - right side on tablet+ */}
           <div className="absolute inset-0 hidden md:flex justify-end">
             <div className="relative w-[60%] h-full">
               <iframe
@@ -1345,7 +1567,7 @@ function SecondaryCTASection() {
             </div>
           </div>
 
-          {/* Fade Gradient Overlay - Left to Right (desktop only) */}
+          {/* Desktop: Fade Gradient Overlay - Left to Right */}
           <div
             className="absolute inset-0 pointer-events-none hidden md:block"
             style={{
@@ -1354,15 +1576,15 @@ function SecondaryCTASection() {
             }}
           />
 
-          {/* Content - Responsive positioning and sizing */}
-          <div className="relative z-10 flex items-center min-h-[400px] md:min-h-[520px] lg:min-h-[580px] py-8 md:py-12 lg:py-16 px-4 sm:px-8 lg:px-16">
+          {/* Content - Text section */}
+          <div className="relative z-10 flex items-center md:min-h-[520px] lg:min-h-[580px] py-8 md:py-12 lg:py-16 px-4 sm:px-8 lg:px-16">
             <div className="max-w-lg">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 md:mb-6 leading-[1.1]">
                 healthcare for
-                <br />
-                hair, skin, balance,
-                <br />
-                and beyond.
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>hair, skin, balance,
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>and beyond.
               </h2>
               <p className="text-gray-500 mb-6 md:mb-8 text-sm md:text-lg max-w-md">
                 Discover Oval&apos;s modern approach to wellness, where frosted
@@ -1375,6 +1597,42 @@ function SecondaryCTASection() {
                 Give it a TRY
               </Link>
             </div>
+          </div>
+          
+          {/* Mobile: Video below text content with fade overlay
+              - Video autoplays in loop (background mode, muted, playsinline for mobile)
+              - Gradient overlay from left creates fade effect matching desktop
+              - Additional bottom gradient for smooth transition to card edge */}
+          <div className="md:hidden relative w-full aspect-video overflow-hidden rounded-t-2xl">
+            {/* Vimeo Background Video - Full coverage with overflow hidden by parent
+                Important mobile iframe attributes:
+                - allow="autoplay" is required for Safari/Chrome mobile autoplay
+                - loading="eager" ensures immediate load instead of lazy loading */}
+            <iframe
+              src="https://player.vimeo.com/video/1116152740?background=1&autoplay=1&muted=1&loop=1&autopause=0&playsinline=1&dnt=1&h=a762bc5a62"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[180%]"
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              loading="eager"
+              title="Background video"
+              aria-hidden="true"
+            />
+            {/* Mobile: Fade Gradient Overlay - Left to Right (matches desktop aesthetic)
+                Creates a smooth fade from white on the left where text ends
+                to transparent on the right where the video is most visible */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to right, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.6) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 75%)",
+              }}
+            />
+            {/* Top edge gradient for smooth blend with content area above */}
+            <div
+              className="absolute inset-x-0 top-0 h-16 pointer-events-none"
+              style={{
+                background: "linear-gradient(to bottom, rgba(255,247,237,0.9) 0%, rgba(255,255,255,0) 100%)",
+              }}
+            />
           </div>
         </motion.div>
       </div>
@@ -1535,16 +1793,20 @@ function FAQSection() {
  * - Responsive padding and spacing
  * - Touch-friendly form inputs and buttons
  * - Safe area padding for mobile bottom navigation
+ * - No position animation on mobile CTAs
  */
 function PageFooter() {
   const [email, setEmail] = useState("");
+  const isMobile = useIsMobile();
 
   return (
     <footer className="bg-gray-950 text-white pb-16 md:pb-0">
-      {/* Orange CTA Banner - Floating card */}
+      {/* Orange CTA Banner - Floating card
+          Mobile: Only opacity animation (no y movement to prevent CLS)
+          Desktop: Full opacity + y animation for polish */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 md:pt-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
@@ -1642,32 +1904,28 @@ function PageFooter() {
 ============================================================================ */
 
 /**
- * StackedSection Component - Rolodex Effect with Scroll Snap & Margin Animation
+ * StackedSection Component - Safari-Compatible Rolodex Effect
  * 
  * Creates a rolodex/card-flip scrollytelling effect where:
- * - Each section takes up the FULL viewport height using 100dvh (mobile-safe)
+ * - Each section takes up the FULL viewport height
  * - Sections are sticky and stack on top of each other
  * - New sections slide up and completely cover previous ones
- * - Like flipping through cards in a rolodex
- * - CSS scroll-snap provides a brief "sticky" moment at each section
  * 
- * Scroll-Linked Margin Animation:
- * - As sections scroll into view, they start with side margins (8-16px)
- * - The margin reduces exponentially as the section approaches the snap point
- * - Creates a satisfying "card sliding in and expanding" effect
- * - Uses cubic-bezier easing for exponential curve feel
+ * Safari Compatibility Notes:
+ * - Safari has bugs combining position:sticky with CSS transforms (via Framer Motion)
+ * - This version uses CSS-only transitions instead of Framer Motion for margin/radius
+ * - Uses translate3d(0,0,0) hack to force GPU layer for sticky elements
+ * - Removes snap-stop:always on mobile which Safari handles poorly
  * 
  * Scroll Snap Behavior:
  * - snap-start: Aligns section top to viewport top when snapping
- * - snap-stop: Forces scroll to stop at this section (creates page-like feel)
- * - Combined with parent's snap-scroll-y proximity, creates natural "click into place"
+ * - Desktop: snap-stop normal (less aggressive, Safari-friendly)
+ * - Mobile: No snap-stop to prevent cards getting "stuck"
  * 
  * Responsive Features:
- * - Uses CSS custom property --section-radius for responsive border radius
- * - Mobile: 8px margin, Desktop: 16px margin (scales with viewport)
- * - Uses 100dvh for mobile-safe viewport height (handles address bar)
- * - Responsive shadows (lighter on mobile, dramatic on desktop)
- * - Touch-optimized scrolling within sections
+ * - Mobile: Simpler styling, no margin animation (better Safari support)
+ * - Desktop: Full margin/radius animation via CSS transitions
+ * - Uses vh fallback for Safari's dvh bugs
  */
 interface StackedSectionProps {
   children: React.ReactNode;
@@ -1678,101 +1936,68 @@ interface StackedSectionProps {
 
 function StackedSection({ children, index, bgColor = "bg-white", id }: StackedSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [maxMargin, setMaxMargin] = useState(16);
+  const [isInView, setIsInView] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   
   /**
-   * Responsive margin sizing based on viewport width.
-   * - Mobile (<640px): 8px margin for tighter fit
-   * - Tablet (640-1024px): 12px margin
-   * - Desktop (>1024px): 16px margin for more dramatic effect
-   * 
-   * Updates on resize to maintain responsive behavior.
+   * Track viewport size for responsive margin behavior.
+   * Initialized to false (mobile-first) to prevent hydration mismatch.
+   * Updates on mount and resize to enable desktop animations.
    */
   useEffect(() => {
-    const updateMargin = () => {
-      if (typeof window === 'undefined') return;
-      if (window.innerWidth < 640) {
-        setMaxMargin(8);
-      } else if (window.innerWidth < 1024) {
-        setMaxMargin(12);
-      } else {
-        setMaxMargin(16);
-      }
-    };
-    
-    updateMargin();
-    window.addEventListener('resize', updateMargin);
-    return () => window.removeEventListener('resize', updateMargin);
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 768);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
   }, []);
   
   /**
-   * Track this section's scroll progress relative to the viewport.
-   * - offset: ["start end", "start start"] means:
-   *   - 0 = section's start is at viewport's end (section just appeared at bottom)
-   *   - 1 = section's start is at viewport's start (section is fully snapped/docked)
+   * Simple intersection observer to detect when section is near viewport.
+   * Used to trigger CSS-based margin/radius transitions (Safari-safe).
+   * Consider "in view" when section is at least 50% visible.
    */
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "start start"],
-  });
-  
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.intersectionRatio > 0.5);
+      },
+      { threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+    
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   /**
-   * Transform scroll progress to horizontal margin using exponential easing.
-   * 
-   * The input range [0, 0.7, 0.9, 1] creates an exponential-like curve where:
-   * - Most of the scroll (0 to 0.7): margin stays mostly full
-   * - Final 30% of scroll (0.7 to 1): margin drops rapidly to 0
-   * 
-   * This creates the "snap into place" feel where the card expands
-   * quickly right as it reaches the snap point.
-   * 
-   * Output values are scaled based on maxMargin (responsive).
+   * Calculate margin values:
+   * - Mobile: Always 0 (no margin animation for Safari compatibility)
+   * - Desktop: 16px when not in view, 0 when in view
    */
-  const horizontalMargin = useTransform(
-    scrollYProgress,
-    [0, 0.7, 0.9, 1],
-    [maxMargin, maxMargin * 0.875, maxMargin * 0.375, 0]
-  );
-  
-  /**
-   * Transform scroll progress to border radius.
-   * Starts at full radius (from CSS variable ~20-40px) and reduces slightly
-   * as the section docks into place, creating a "flush edges" effect.
-   * 
-   * Values: 20px → 20px → 16px as section scrolls to snap point
-   * The reduction is subtle (4px) for a polished but not jarring effect.
-   */
-  const borderRadius = useTransform(
-    scrollYProgress,
-    [0, 0.9, 1],
-    [20, 20, 16] // Pixel values that work well across breakpoints
-  );
-  
-  /**
-   * Create CSS border-radius template string from MotionValue.
-   * useMotionTemplate allows MotionValues to be interpolated into CSS strings.
-   * Only top corners get radius (bottom is flush with next section).
-   */
-  const borderRadiusTemplate = useMotionTemplate`${borderRadius}px ${borderRadius}px 0 0`;
+  const marginValue = isDesktop && !isInView ? 16 : 0;
 
   return (
     <div
       ref={sectionRef}
       id={id}
-      className="sticky top-0 h-[calc(100dvh-60px)] md:h-screen-safe snap-start snap-stop"
+      className="sticky top-0 h-[calc(100vh-60px)] md:h-screen-safe snap-start safari-sticky-fix"
       style={{
         // Higher index = higher z-index (new sections go OVER old ones)
         zIndex: index + 10,
       }}
     >
-      {/* Animated inner container that handles the margin and appearance */}
-      <motion.div
-        className={`${bgColor} h-full overflow-hidden relative`}
+      {/* Inner container with CSS-only transitions (Safari-safe, no Framer Motion transforms) */}
+      <div
+        className={`${bgColor} h-full overflow-hidden relative transition-all duration-500 ease-out`}
         style={{
-          marginLeft: horizontalMargin,
-          marginRight: horizontalMargin,
-          borderRadius: borderRadiusTemplate,
-          // Apply shadow for depth (matches .stacked-section from CSS but animated)
+          marginLeft: marginValue,
+          marginRight: marginValue,
+          borderTopLeftRadius: isInView ? 16 : 20,
+          borderTopRightRadius: isInView ? 16 : 20,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          // Apply shadow for depth
           boxShadow: "0 -4px 20px rgba(0, 0, 0, 0.08), 0 -2px 8px rgba(0, 0, 0, 0.05)",
         }}
       >
@@ -1786,7 +2011,7 @@ function StackedSection({ children, index, bgColor = "bg-white", id }: StackedSe
         <div className="h-full overflow-y-auto py-4 md:py-6">
           {children}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -1805,7 +2030,7 @@ function StackedSection({ children, index, bgColor = "bg-white", id }: StackedSe
  */
 const sections = [
   { name: "Prescription Care", id: "prescription-care", bgColor: "bg-white", cssColor: "#ffffff" },
-  { name: "Why Choose Oval", id: "why-choose-oval", bgColor: "bg-gray-50", cssColor: "#f9fafb" },
+  { name: "Why Choose Oval", id: "why-choose-oval", bgColor: "bg-white", cssColor: "#ffffff" },
   { name: "Membership", id: "membership", bgColor: "bg-gradient-to-r from-orange-50 via-orange-100 to-orange-50", cssColor: "#ffedd5" },
   { name: "Solutions", id: "solutions", bgColor: "bg-white", cssColor: "#ffffff" },
   { name: "Treatments", id: "treatments", bgColor: "bg-gray-50", cssColor: "#f9fafb" },
@@ -2087,7 +2312,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#111827] snap-scroll-y">
+    <main className="min-h-screen bg-[#111827] md:snap-scroll-y">
       <Navbar />
       
       {/* Section Indicator - Desktop: Fixed dots on right side */}
@@ -2111,7 +2336,7 @@ export default function Home() {
         </StackedSection>
 
         {/* Section 2: Why Choose Oval - Value proposition */}
-        <StackedSection index={1} bgColor="bg-gray-50" id="why-choose-oval">
+        <StackedSection index={1} bgColor="bg-white" id="why-choose-oval">
           <WhyChooseOvalSection />
         </StackedSection>
 

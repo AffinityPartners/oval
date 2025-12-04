@@ -137,11 +137,24 @@
    * - scroll-behavior: smooth enables smooth scrolling for anchor links
    * - scroll-snap-type: y proximity creates the "sticky section" effect
    * - Proximity mode snaps when near snap points but doesn't force hard stops
+   * 
+   * Safari Compatibility Notes:
+   * - Removed -webkit-overflow-scrolling: touch (deprecated, causes issues)
+   * - Mobile scroll-snap handled differently for Safari (see media query below)
    */
   html {
     scroll-behavior: smooth;
-    scroll-snap-type: y proximity;
-    -webkit-overflow-scrolling: touch;
+  }
+  
+  /**
+   * Desktop-only scroll snap
+   * Safari mobile has bugs with scroll-snap combined with sticky positioning,
+   * so we only enable snap behavior on desktop/tablet screens.
+   */
+  @media (min-width: 768px) {
+    html {
+      scroll-snap-type: y proximity;
+    }
   }
 
   body {
@@ -321,10 +334,10 @@
   /**
    * Touch-friendly Scroll Snap for Horizontal Carousels
    * Provides smooth, native-feeling carousel scrolling on touch devices.
+   * Note: Removed deprecated -webkit-overflow-scrolling: touch
    */
   .snap-scroll-x {
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
     overflow-x: auto;
   }
   
@@ -341,21 +354,36 @@
    * - 'proximity' = snaps when scroll position is near a snap point (less aggressive)
    * - 'mandatory' = always snaps to nearest point (can feel jarring)
    * 
-   * We use proximity for a smoother, more natural experience that still provides
-   * that satisfying "click into place" feeling without disrupting fast scrolling.
+   * Safari Compatibility:
+   * - Mobile Safari has bugs with scroll-snap + sticky positioning
+   * - Use md:snap-scroll-y to enable only on desktop/tablet
+   * - Removed deprecated -webkit-overflow-scrolling: touch
    */
   .snap-scroll-y {
     scroll-snap-type: y proximity;
-    -webkit-overflow-scrolling: touch;
+  }
+  
+  /**
+   * Responsive vertical snap - only enabled on md+ screens
+   * This is the recommended approach for Safari compatibility
+   */
+  .md\:snap-scroll-y {
+    scroll-snap-type: none;
+  }
+  
+  @media (min-width: 768px) {
+    .md\:snap-scroll-y {
+      scroll-snap-type: y proximity;
+    }
   }
   
   /**
    * Stricter vertical snap for when you want mandatory stops
    * Use this for hero + a few key sections only
+   * WARNING: Can cause issues on Safari mobile - use with caution
    */
   .snap-scroll-y-strict {
     scroll-snap-type: y mandatory;
-    -webkit-overflow-scrolling: touch;
   }
   
   /**
@@ -490,6 +518,32 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /**
+   * Safari Sticky Fix
+   * Safari has bugs combining position:sticky with CSS transforms.
+   * This forces a GPU layer which helps Safari render sticky correctly.
+   * Uses translate3d(0,0,0) hack which creates a new stacking context
+   * and enables hardware acceleration.
+   */
+  .safari-sticky-fix {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+  
+  /**
+   * Mobile: Disable aggressive scroll-snap-stop
+   * Safari mobile handles scroll-snap-stop:always poorly, causing cards to
+   * get "stuck" during scroll. Using normal allows smoother scrolling.
+   */
+  @media (max-width: 767px) {
+    .snap-stop {
+      scroll-snap-stop: normal !important;
     }
   }
 }
