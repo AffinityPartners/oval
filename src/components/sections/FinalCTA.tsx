@@ -118,10 +118,10 @@ export function FinalCTA() {
               padding="lg" 
               hover={true}
             >
-              {/* Popular Badge - inline at top */}
-              <div className="flex justify-center mb-4">
-                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold bg-oval-orange text-white rounded-full shadow-orange-glow whitespace-nowrap">
-                  <Star className="w-3.5 h-3.5 fill-current" />
+              {/* Popular Badge - top right corner */}
+              <div className="absolute top-4 right-4 z-10">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-semibold bg-oval-orange text-white rounded-full whitespace-nowrap">
+                  <Star className="w-3 h-3 fill-current" />
                   Recommended
                 </span>
               </div>

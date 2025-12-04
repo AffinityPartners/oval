@@ -132,11 +132,11 @@ export function PlanComparison() {
                 tilt={false}
                 glowBorder={false}
               >
-                {/* Premium Badge - inline at top */}
+                {/* Premium Badge - top right corner */}
                 {plan.premium && (
-                  <div className="flex justify-center mb-4">
-                    <GlassCardHighlight variant="orange" className="flex items-center gap-1.5 px-4 py-1.5 whitespace-nowrap shadow-orange-glow">
-                      <Star className="w-3.5 h-3.5 fill-current" />
+                  <div className="absolute top-4 right-4 z-10">
+                    <GlassCardHighlight variant="orange" className="flex items-center gap-1.5 px-3 py-1 whitespace-nowrap text-[11px]">
+                      <Star className="w-3 h-3 fill-current" />
                       Most Popular
                     </GlassCardHighlight>
                   </div>

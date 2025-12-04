@@ -226,22 +226,22 @@ export function MedicationCarousel() {
               <div key={category.id} className="h-full pb-4">
                 <div className="group h-full">
                   <GlassCard 
-                    className="h-full bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 min-h-[320px]" 
+                    className="h-full bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 min-h-[320px] relative" 
                     padding="lg"
                     variant="dark"
                     hover={false}
                   >
+                    {/* Tier Badge - top right corner */}
+                    {category.tier === "plus" && (
+                      <span className="absolute top-4 right-4 px-2.5 py-1 text-[10px] font-semibold bg-oval-orange text-white rounded-full">
+                        OVAL Plus Exclusive
+                      </span>
+                    )}
+
                     {/* Category Icon with gradient background */}
                     <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${category.color} mb-4`}>
                       <span className="text-white">{category.icon}</span>
                     </div>
-
-                    {/* Tier Badge */}
-                    {category.tier === "plus" && (
-                      <span className="inline-block px-2.5 py-1 text-[10px] font-semibold bg-oval-orange text-white rounded-full mb-3">
-                        OVAL Plus Exclusive
-                      </span>
-                    )}
 
                     {/* Category Name */}
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-oval-orange transition-colors">
