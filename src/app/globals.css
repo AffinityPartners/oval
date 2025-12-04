@@ -132,8 +132,16 @@
     @apply border-border;
   }
 
+  /**
+   * HTML scroll behavior for full-page scroll snap
+   * - scroll-behavior: smooth enables smooth scrolling for anchor links
+   * - scroll-snap-type: y proximity creates the "sticky section" effect
+   * - Proximity mode snaps when near snap points but doesn't force hard stops
+   */
   html {
     scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
@@ -322,6 +330,70 @@
   
   .snap-scroll-x > * {
     scroll-snap-align: start;
+  }
+  
+  /**
+   * Vertical Scroll Snap for Full-Page Sections
+   * Uses 'proximity' mode so sections snap when user scrolls close to them,
+   * but don't force hard stops. Creates a brief "sticky" moment at each section.
+   * 
+   * The snap behavior:
+   * - 'proximity' = snaps when scroll position is near a snap point (less aggressive)
+   * - 'mandatory' = always snaps to nearest point (can feel jarring)
+   * 
+   * We use proximity for a smoother, more natural experience that still provides
+   * that satisfying "click into place" feeling without disrupting fast scrolling.
+   */
+  .snap-scroll-y {
+    scroll-snap-type: y proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /**
+   * Stricter vertical snap for when you want mandatory stops
+   * Use this for hero + a few key sections only
+   */
+  .snap-scroll-y-strict {
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /**
+   * Snap child - aligns to start (top) of viewport
+   * Applied to each section that should snap
+   */
+  .snap-start {
+    scroll-snap-align: start;
+  }
+  
+  /**
+   * Snap child - aligns to center of viewport
+   * Useful for shorter sections or modals
+   */
+  .snap-center {
+    scroll-snap-align: center;
+  }
+  
+  /**
+   * Snap stop - forces the scroll to stop at this element
+   * before continuing to the next. Creates definite "pages".
+   */
+  .snap-stop {
+    scroll-snap-stop: always;
+  }
+  
+  /**
+   * Snap margin - adds breathing room above snapped sections
+   * Accounts for fixed navbar height
+   */
+  .snap-mt-nav {
+    scroll-margin-top: 64px;
+  }
+  
+  @media (max-width: 640px) {
+    .snap-mt-nav {
+      scroll-margin-top: 56px;
+    }
   }
   
   /**

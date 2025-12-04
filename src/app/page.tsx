@@ -106,7 +106,7 @@ function HeroSection() {
   ];
 
   return (
-    <section className="sticky top-0 h-screen-safe overflow-hidden bg-white z-0">
+    <section className="sticky top-0 h-screen-safe overflow-hidden bg-white z-0 snap-start snap-stop">
       {/* Full-Width Background Video - Responsive scaling */}
       <div className="absolute inset-0 w-full h-full">
         {/* Vimeo Background Video - Full Width Cover
@@ -1568,13 +1568,19 @@ function PageFooter() {
 ============================================================================ */
 
 /**
- * StackedSection Component - Rolodex Effect (Responsive)
+ * StackedSection Component - Rolodex Effect with Scroll Snap (Responsive)
  * 
  * Creates a rolodex/card-flip scrollytelling effect where:
  * - Each section takes up the FULL viewport height using 100dvh (mobile-safe)
  * - Sections are sticky and stack on top of each other
  * - New sections slide up and completely cover previous ones
  * - Like flipping through cards in a rolodex
+ * - CSS scroll-snap provides a brief "sticky" moment at each section
+ * 
+ * Scroll Snap Behavior:
+ * - snap-start: Aligns section top to viewport top when snapping
+ * - snap-stop: Forces scroll to stop at this section (creates page-like feel)
+ * - Combined with parent's snap-scroll-y proximity, creates natural "click into place"
  * 
  * Responsive Features:
  * - Uses CSS custom property --section-radius for responsive border radius
@@ -1594,7 +1600,7 @@ function StackedSection({ children, index, bgColor = "bg-white", id }: StackedSe
   return (
     <div
       id={id}
-      className={`sticky top-0 ${bgColor} overflow-hidden h-screen-safe stacked-section`}
+      className={`sticky top-0 ${bgColor} overflow-hidden h-screen-safe stacked-section snap-start snap-stop`}
       style={{
         // Higher index = higher z-index (new sections go OVER old ones)
         zIndex: index + 10,
@@ -1752,6 +1758,11 @@ function SectionIndicator({ activeSection }: { activeSection: number }) {
  * - Alternating section colors create visual rhythm
  * - Rounded corners and shadows enhance card illusion
  * 
+ * Scroll Snap Behavior:
+ * - Uses CSS scroll-snap-type: y proximity for a subtle "sticky" feel
+ * - Sections snap into place when user slows/stops scrolling near them
+ * - Creates satisfying page-like transitions without being jarring
+ * 
  * Performance:
  * - All animations use GPU-accelerated transforms
  * - will-change hints optimize browser rendering
@@ -1793,7 +1804,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#111827]">
+    <main className="min-h-screen bg-[#111827] snap-scroll-y">
       <Navbar />
       
       {/* Section Indicator - Fixed on right side */}
@@ -1856,8 +1867,9 @@ export default function Home() {
           <FAQSection />
         </StackedSection>
 
-        {/* Footer - Not in stacking system, just positioned at end */}
-        <div className="relative z-[100] bg-[#111827]">
+        {/* Footer - Not in stacking system, just positioned at end
+            Still gets snap-start for smooth transition from last section */}
+        <div className="relative z-[100] bg-[#111827] snap-start">
           <PageFooter />
         </div>
       </div>
