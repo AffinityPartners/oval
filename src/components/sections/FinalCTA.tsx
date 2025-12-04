@@ -58,8 +58,8 @@ export function FinalCTA() {
           {/* OVAL One Card */}
           <AnimatedSection delay={0.1} direction="left">
             <GlassCard className="h-full bg-white/90" padding="lg" hover={true}>
-              <div className="flex flex-col h-full">
-                {/* Logo */}
+              <div className="flex flex-col h-full items-start">
+                {/* Logo - left aligned */}
                 <Image
                   src="/images/logos/oval-one.svg"
                   alt="OVAL One"
@@ -96,7 +96,7 @@ export function FinalCTA() {
                 </div>
 
                 {/* CTA Button with Magnetic Effect */}
-                <MagneticButton strength={0.15} shimmer={false} className="w-full">
+                <MagneticButton strength={0.15} shimmer={false} className="w-full self-stretch">
                   <Button
                     asChild
                     className="w-full py-6 text-base font-semibold rounded-xl bg-oval-charcoal text-white hover:bg-oval-charcoal/90 transition-all duration-300"
@@ -126,8 +126,8 @@ export function FinalCTA() {
                 </span>
               </div>
 
-              <div className="flex flex-col h-full">
-                {/* Logo */}
+              <div className="flex flex-col h-full items-start">
+                {/* Logo - left aligned */}
                 <Image
                   src="/images/logos/oval-plus.svg"
                   alt="OVAL Plus"
@@ -164,7 +164,7 @@ export function FinalCTA() {
                 </div>
 
                 {/* CTA Button with Magnetic + Shimmer Effect */}
-                <MagneticButton strength={0.15} shimmer={true} className="w-full">
+                <MagneticButton strength={0.15} shimmer={true} className="w-full self-stretch">
                   <Button
                     asChild
                     className="w-full py-6 text-base font-semibold rounded-xl btn-orange-gradient transition-all duration-300"
