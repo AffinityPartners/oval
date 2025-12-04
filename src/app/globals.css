@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Lato:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -99,13 +99,39 @@
 
   /**
    * Heading Typography
-   * All headings use Lato font family for brand consistency.
+   * Body headings use Lato font family for brand consistency.
    * Bold weight (700) provides clear visual hierarchy.
    */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     letter-spacing: -0.01em;
     font-weight: 700;
+  }
+
+  /**
+   * Section Title Typography - Inter Tight
+   * Premium display font for section headers with tight tracking
+   * and bold weight for maximum impact. Used on landing page titles.
+   */
+  .section-title {
+    font-family: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #3a3a3a;
+    line-height: 1.06;
+    font-size: clamp(28px, 4.8vw, 56px);
+  }
+
+  /**
+   * Smaller section title variant for secondary headings
+   */
+  .section-title-sm {
+    font-family: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #3a3a3a;
+    line-height: 1.1;
+    font-size: clamp(24px, 3.5vw, 40px);
   }
 }
 

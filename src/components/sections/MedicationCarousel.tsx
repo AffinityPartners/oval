@@ -155,7 +155,7 @@ export function MedicationCarousel() {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <AnimatedSection className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl text-white mb-4">
+          <h2 className="section-title !text-white mb-4">
             Treatment Categories
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto font-sans">

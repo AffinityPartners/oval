@@ -53,9 +53,9 @@ export function Hero() {
             </div>
           </AnimatedSection>
 
-          {/* Main Headline - Uses display font via CSS with text reveal animation */}
+          {/* Main Headline - Uses Inter Tight display font with text reveal animation */}
           <div className="mb-6">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl text-oval-charcoal leading-tight text-balance">
+            <h1 className="section-title text-balance">
               <TextReveal delay={0.2} stagger={0.1}>
                 Wholesale Pricing on
               </TextReveal>{" "}

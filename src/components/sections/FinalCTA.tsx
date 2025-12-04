@@ -44,7 +44,7 @@ export function FinalCTA() {
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <AnimatedSection className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-oval-charcoal mb-4">
+          <h2 className="section-title mb-4">
             Ready to Take Control?
           </h2>
           <p className="text-lg text-oval-gray max-w-2xl mx-auto">
