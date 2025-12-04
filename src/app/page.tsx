@@ -642,9 +642,9 @@ const MembershipJourneySection = memo(function MembershipJourneySection() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-8 leading-tight">
-              Your health journey starts with
+              Your health journey starts
               <br className="hidden sm:block" />
-              <span className="sm:hidden"> </span>membership
+              <span className="sm:hidden"> </span>with membership
             </h2>
             <p className="text-gray-500 mb-6 md:mb-10 max-w-xl text-sm md:text-lg">
               Before you can access our prescription treatments, you&apos;ll
