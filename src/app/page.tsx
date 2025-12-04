@@ -8,6 +8,7 @@ import {
   AnimatePresence,
   useScroll,
   useTransform,
+  useMotionTemplate,
   useInView,
 } from "framer-motion";
 import { ChevronDown, ArrowRight } from "lucide-react";
@@ -1568,7 +1569,7 @@ function PageFooter() {
 ============================================================================ */
 
 /**
- * StackedSection Component - Rolodex Effect with Scroll Snap (Responsive)
+ * StackedSection Component - Rolodex Effect with Scroll Snap & Margin Animation
  * 
  * Creates a rolodex/card-flip scrollytelling effect where:
  * - Each section takes up the FULL viewport height using 100dvh (mobile-safe)
@@ -1577,6 +1578,12 @@ function PageFooter() {
  * - Like flipping through cards in a rolodex
  * - CSS scroll-snap provides a brief "sticky" moment at each section
  * 
+ * Scroll-Linked Margin Animation:
+ * - As sections scroll into view, they start with side margins (8-16px)
+ * - The margin reduces exponentially as the section approaches the snap point
+ * - Creates a satisfying "card sliding in and expanding" effect
+ * - Uses cubic-bezier easing for exponential curve feel
+ * 
  * Scroll Snap Behavior:
  * - snap-start: Aligns section top to viewport top when snapping
  * - snap-stop: Forces scroll to stop at this section (creates page-like feel)
@@ -1584,7 +1591,7 @@ function PageFooter() {
  * 
  * Responsive Features:
  * - Uses CSS custom property --section-radius for responsive border radius
- * - Mobile: 20px radius, Tablet: 32px, Desktop: 40px
+ * - Mobile: 8px margin, Desktop: 16px margin (scales with viewport)
  * - Uses 100dvh for mobile-safe viewport height (handles address bar)
  * - Responsive shadows (lighter on mobile, dramatic on desktop)
  * - Touch-optimized scrolling within sections
@@ -1597,25 +1604,116 @@ interface StackedSectionProps {
 }
 
 function StackedSection({ children, index, bgColor = "bg-white", id }: StackedSectionProps) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [maxMargin, setMaxMargin] = useState(16);
+  
+  /**
+   * Responsive margin sizing based on viewport width.
+   * - Mobile (<640px): 8px margin for tighter fit
+   * - Tablet (640-1024px): 12px margin
+   * - Desktop (>1024px): 16px margin for more dramatic effect
+   * 
+   * Updates on resize to maintain responsive behavior.
+   */
+  useEffect(() => {
+    const updateMargin = () => {
+      if (typeof window === 'undefined') return;
+      if (window.innerWidth < 640) {
+        setMaxMargin(8);
+      } else if (window.innerWidth < 1024) {
+        setMaxMargin(12);
+      } else {
+        setMaxMargin(16);
+      }
+    };
+    
+    updateMargin();
+    window.addEventListener('resize', updateMargin);
+    return () => window.removeEventListener('resize', updateMargin);
+  }, []);
+  
+  /**
+   * Track this section's scroll progress relative to the viewport.
+   * - offset: ["start end", "start start"] means:
+   *   - 0 = section's start is at viewport's end (section just appeared at bottom)
+   *   - 1 = section's start is at viewport's start (section is fully snapped/docked)
+   */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  });
+  
+  /**
+   * Transform scroll progress to horizontal margin using exponential easing.
+   * 
+   * The input range [0, 0.7, 0.9, 1] creates an exponential-like curve where:
+   * - Most of the scroll (0 to 0.7): margin stays mostly full
+   * - Final 30% of scroll (0.7 to 1): margin drops rapidly to 0
+   * 
+   * This creates the "snap into place" feel where the card expands
+   * quickly right as it reaches the snap point.
+   * 
+   * Output values are scaled based on maxMargin (responsive).
+   */
+  const horizontalMargin = useTransform(
+    scrollYProgress,
+    [0, 0.7, 0.9, 1],
+    [maxMargin, maxMargin * 0.875, maxMargin * 0.375, 0]
+  );
+  
+  /**
+   * Transform scroll progress to border radius.
+   * Starts at full radius (from CSS variable ~20-40px) and reduces slightly
+   * as the section docks into place, creating a "flush edges" effect.
+   * 
+   * Values: 20px → 20px → 16px as section scrolls to snap point
+   * The reduction is subtle (4px) for a polished but not jarring effect.
+   */
+  const borderRadius = useTransform(
+    scrollYProgress,
+    [0, 0.9, 1],
+    [20, 20, 16] // Pixel values that work well across breakpoints
+  );
+  
+  /**
+   * Create CSS border-radius template string from MotionValue.
+   * useMotionTemplate allows MotionValues to be interpolated into CSS strings.
+   * Only top corners get radius (bottom is flush with next section).
+   */
+  const borderRadiusTemplate = useMotionTemplate`${borderRadius}px ${borderRadius}px 0 0`;
+
   return (
     <div
+      ref={sectionRef}
       id={id}
-      className={`sticky top-0 ${bgColor} overflow-hidden h-screen-safe stacked-section snap-start snap-stop`}
+      className="sticky top-0 h-screen-safe snap-start snap-stop"
       style={{
         // Higher index = higher z-index (new sections go OVER old ones)
         zIndex: index + 10,
       }}
     >
-      {/* Top edge highlight for card definition - subtle on mobile, more visible on desktop */}
-      <div 
-        className="absolute top-0 left-0 right-0 h-[1px] md:h-[2px] bg-gradient-to-r from-transparent via-white/60 md:via-white/80 to-transparent pointer-events-none"
-        style={{ zIndex: 1 }}
-      />
-      {/* Content container - scrollable if content overflows
-          Responsive padding: smaller on mobile for more content space */}
-      <div className="h-full overflow-y-auto py-4 md:py-6">
-        {children}
-      </div>
+      {/* Animated inner container that handles the margin and appearance */}
+      <motion.div
+        className={`${bgColor} h-full overflow-hidden relative`}
+        style={{
+          marginLeft: horizontalMargin,
+          marginRight: horizontalMargin,
+          borderRadius: borderRadiusTemplate,
+          // Apply shadow for depth (matches .stacked-section from CSS but animated)
+          boxShadow: "0 -4px 20px rgba(0, 0, 0, 0.08), 0 -2px 8px rgba(0, 0, 0, 0.05)",
+        }}
+      >
+        {/* Top edge highlight for card definition - subtle on mobile, more visible on desktop */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-[1px] md:h-[2px] bg-gradient-to-r from-transparent via-white/60 md:via-white/80 to-transparent pointer-events-none"
+          style={{ zIndex: 1 }}
+        />
+        {/* Content container - scrollable if content overflows
+            Responsive padding: smaller on mobile for more content space */}
+        <div className="h-full overflow-y-auto py-4 md:py-6">
+          {children}
+        </div>
+      </motion.div>
     </div>
   );
 }
