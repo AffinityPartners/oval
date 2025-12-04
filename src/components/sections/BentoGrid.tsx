@@ -110,6 +110,9 @@ export function BentoGrid() {
                     <span className="px-3 py-1 text-xs bg-oval-orange/10 text-oval-orange rounded-full">Smart Recommendations</span>
                     <span className="px-3 py-1 text-xs bg-oval-orange/10 text-oval-orange rounded-full">Progress Tracking</span>
                     <span className="px-3 py-1 text-xs bg-oval-orange/10 text-oval-orange rounded-full">Health Insights</span>
+                    <span className="px-3 py-1 text-xs bg-oval-orange/10 text-oval-orange rounded-full">Treatment Matching</span>
+                    <span className="px-3 py-1 text-xs bg-oval-orange/10 text-oval-orange rounded-full">Dosage Optimization</span>
+                    <span className="px-3 py-1 text-xs bg-oval-orange/10 text-oval-orange rounded-full">Side Effect Alerts</span>
                   </div>
                 </div>
               </GlassCard>
@@ -121,17 +124,23 @@ export function BentoGrid() {
               delay={0.1}
             >
               <GlassCard className="h-full" padding="md">
-                <div className="h-full flex items-center gap-4">
-                  <GlassCardIcon className="bg-emerald-100 text-emerald-600 w-14 h-14 flex-shrink-0">
-                    <Stethoscope className="w-7 h-7" />
-                  </GlassCardIcon>
-                  <div>
-                    <h3 className="text-xl font-bold text-oval-charcoal mb-1">
+                <div className="h-full flex flex-col">
+                  <div className="flex items-center gap-4 mb-3">
+                    <GlassCardIcon className="bg-emerald-100 text-emerald-600 w-12 h-12 flex-shrink-0">
+                      <Stethoscope className="w-6 h-6" />
+                    </GlassCardIcon>
+                    <h3 className="text-xl font-bold text-oval-charcoal">
                       {bentoItems[1].title}
                     </h3>
-                    <p className="text-sm text-oval-gray">
-                      {bentoItems[1].description}
-                    </p>
+                  </div>
+                  <p className="text-sm text-oval-gray mb-3">
+                    {bentoItems[1].description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    <span className="px-2.5 py-1 text-[11px] bg-emerald-100 text-emerald-700 rounded-full">Licensed MDs</span>
+                    <span className="px-2.5 py-1 text-[11px] bg-emerald-100 text-emerald-700 rounded-full">Specialists</span>
+                    <span className="px-2.5 py-1 text-[11px] bg-emerald-100 text-emerald-700 rounded-full">Telemedicine</span>
+                    <span className="px-2.5 py-1 text-[11px] bg-emerald-100 text-emerald-700 rounded-full">Fast Response</span>
                   </div>
                 </div>
               </GlassCard>
@@ -203,17 +212,24 @@ export function BentoGrid() {
               delay={0.35}
             >
               <GlassCard className="h-full" padding="md">
-                <div className="h-full flex items-center gap-4">
-                  <GlassCardIcon className="bg-rose-100 text-rose-500 w-14 h-14 flex-shrink-0">
-                    <HeartPulse className="w-7 h-7" />
-                  </GlassCardIcon>
-                  <div>
-                    <h3 className="text-xl font-bold text-oval-charcoal mb-1">
+                <div className="h-full flex flex-col">
+                  <div className="flex items-center gap-4 mb-3">
+                    <GlassCardIcon className="bg-rose-100 text-rose-500 w-12 h-12 flex-shrink-0">
+                      <HeartPulse className="w-6 h-6" />
+                    </GlassCardIcon>
+                    <h3 className="text-xl font-bold text-oval-charcoal">
                       {bentoItems[6].title}
                     </h3>
-                    <p className="text-sm text-oval-gray">
-                      {bentoItems[6].description}
-                    </p>
+                  </div>
+                  <p className="text-sm text-oval-gray mb-3">
+                    {bentoItems[6].description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    <span className="px-2.5 py-1 text-[11px] bg-rose-100 text-rose-600 rounded-full">Weight Loss</span>
+                    <span className="px-2.5 py-1 text-[11px] bg-rose-100 text-rose-600 rounded-full">Mental Health</span>
+                    <span className="px-2.5 py-1 text-[11px] bg-rose-100 text-rose-600 rounded-full">Sexual Health</span>
+                    <span className="px-2.5 py-1 text-[11px] bg-rose-100 text-rose-600 rounded-full">Skin Care</span>
+                    <span className="px-2.5 py-1 text-[11px] bg-rose-100 text-rose-600 rounded-full">Hair Loss</span>
                   </div>
                 </div>
               </GlassCard>
