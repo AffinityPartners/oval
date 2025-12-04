@@ -709,10 +709,41 @@ function PersonalizedTreatmentsSection() {
   const sectionRef = useRef(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  // Initialize to 0 to avoid hydration mismatch - carousel starts at x=0 regardless of cardWidth
+  // The correct width is calculated on client mount, preventing SSR/CSR value differences
+  const [cardWidth, setCardWidth] = useState(0);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
+
+  /**
+   * Calculates the total card width (card + gap) based on viewport size.
+   * This must match the responsive CSS classes on TreatmentCard and the carousel container:
+   * - Mobile (<640px): 200px card + 16px gap (gap-4) = 216px
+   * - Tablet (640-767px): 240px card + 20px gap (gap-5) = 260px
+   * - Desktop md (768-1023px): 280px card + 20px gap (gap-5) = 300px
+   * - Desktop lg (≥1024px): 280px card + 24px gap (gap-6) = 304px
+   * 
+   * Note: The md breakpoint uses gap-5 (20px), while lg uses gap-6 (24px).
+   * This distinction is critical for accurate carousel animation positioning.
+   */
+  useEffect(() => {
+    const calculateCardWidth = () => {
+      if (typeof window === 'undefined') return 304;
+      if (window.innerWidth < 640) return 216;  // 200 + 16 (gap-4)
+      if (window.innerWidth < 768) return 260;  // 240 + 20 (gap-5)
+      if (window.innerWidth < 1024) return 300; // 280 + 20 (gap-5 at md breakpoint)
+      return 304;                                // 280 + 24 (gap-6 at lg breakpoint)
+    };
+    setCardWidth(calculateCardWidth());
+    const handleResize = () => {
+      setCardWidth(calculateCardWidth());
+      setCurrentIndex(0);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const treatments = [
     {
@@ -753,22 +784,23 @@ function PersonalizedTreatmentsSection() {
     },
   ];
 
-  // Responsive card width calculation for animation
-  // Mobile: 200px + 16px gap, Tablet: 240px + 20px gap, Desktop: 280px + 24px gap
-  const getCardWidth = () => {
-    if (typeof window === 'undefined') return 304; // 280 + 24
-    if (window.innerWidth < 640) return 216; // 200 + 16
-    if (window.innerWidth < 768) return 260; // 240 + 20
-    return 304; // 280 + 24
-  };
-
+  /**
+   * Navigate to the previous card in the carousel.
+   * Prevents scrolling before the first card (index 0).
+   */
   const scrollPrev = () => {
     setCurrentIndex((prev) => Math.max(0, prev - 1));
   };
 
+  /**
+   * Navigate to the next card in the carousel.
+   * Calculates visible cards based on cardWidth to prevent scrolling past the last card:
+   * - At md breakpoint (768-1023px): cardWidth = 300, ~2-3 cards visible → use 2
+   * - At lg+ breakpoint (≥1024px): cardWidth = 304, ~4 cards visible → use 4
+   * The threshold of 304 distinguishes between md (gap-5) and lg (gap-6) breakpoints.
+   */
   const scrollNext = () => {
-    // Calculate max index based on visible cards
-    const visibleCards = typeof window !== 'undefined' && window.innerWidth < 768 ? 2 : 4;
+    const visibleCards = cardWidth >= 304 ? 4 : 2;
     setCurrentIndex((prev) => Math.min(treatments.length - visibleCards, prev + 1));
   };
 
@@ -857,7 +889,7 @@ function PersonalizedTreatmentsSection() {
         <div className="hidden md:block overflow-hidden">
           <motion.div
             className="flex gap-5 lg:gap-6"
-            animate={{ x: -currentIndex * getCardWidth() }}
+            animate={{ x: -currentIndex * cardWidth }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             {treatments.map((treatment, index) => (
