@@ -303,12 +303,12 @@ function PrescriptionCareSection() {
             transition={{ duration: 0.6 }}
             className="relative order-1 lg:order-2"
           >
-            <div className="relative aspect-[4/3] md:aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden">
+            <div className="relative aspect-[4/3.3] md:aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden">
               <Image
                 src="/images/oval/prescription-care.png"
                 alt="Woman with healthy skin and hair"
                 fill
-                className="object-cover"
+                className="object-cover object-[50%_95%] md:object-center"
               />
             </div>
           </motion.div>
@@ -694,10 +694,10 @@ function DoctorTrustedSolutionsSection() {
  * Individual card for the Personalized Treatments scrollytelling section
  * 
  * Responsive Features:
- * - Grid mode: Cards fill container width (for mobile 2-col grid showing all 6)
- * - Carousel mode: Fixed widths for horizontal scrolling (tablet+)
+ * - Mobile grid mode: Compact cards for 2x3 grid layout (no scrolling!)
+ * - Desktop carousel mode: Fixed widths for button-controlled scrolling
  * - Touch-optimized with no hover-dependent interactions on mobile
- * - Smaller padding on mobile for better space usage
+ * - Premium card design with gradient backgrounds
  */
 interface TreatmentCardProps {
   name: string;
@@ -705,78 +705,61 @@ interface TreatmentCardProps {
   description: string;
   image: string;
   index: number;
-  /** When true, card uses w-full for grid layout. When false, uses fixed widths for carousel. */
-  isGridMode?: boolean;
+  /** When true, card uses mobile grid styling. When false, uses desktop carousel styling. */
+  isMobileGrid?: boolean;
 }
 
-function TreatmentCard({ name, category, description, image, index, isGridMode = false }: TreatmentCardProps) {
+function TreatmentCard({ name, category, description, image, index, isMobileGrid = false }: TreatmentCardProps) {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: false, amount: 0.3 });
 
   /**
-   * Grid mode (mobile) uses a horizontal layout with image on left (35% smaller) and text on right.
-   * Carousel mode (tablet+) uses vertical stacked layout with image above text.
+   * Mobile grid mode: Compact card optimized for 2x3 grid layout.
+   * No scrolling required - all 6 cards fit within the stacked section viewport.
+   * Uses square aspect ratio for efficient space usage.
    */
-  if (isGridMode) {
+  if (isMobileGrid) {
     return (
       <motion.article
         ref={cardRef}
-        initial={{ opacity: 0, x: -20 }}
+        initial={{ opacity: 0, scale: 0.9, y: 10 }}
         animate={
           isInView
-            ? { opacity: 1, x: 0 }
-            : { opacity: 0.3, x: -10 }
+            ? { opacity: 1, scale: 1, y: 0 }
+            : { opacity: 0.5, scale: 0.95, y: 5 }
         }
         transition={{
-          duration: 0.4,
-          delay: index * 0.06,
+          duration: 0.35,
+          delay: index * 0.05,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="w-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group flex flex-row items-center"
+        className="bg-white rounded-xl overflow-hidden shadow-md cursor-pointer group active:scale-[0.98] transition-transform"
         role="group"
         aria-label={name}
       >
-        {/* Product Image - 35% smaller (65% of original size), positioned on left */}
-        <div className="relative w-[72px] h-[72px] flex-shrink-0 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden rounded-lg m-2">
+        {/* Product Image - Square aspect for compact grid */}
+        <div className="relative aspect-square bg-gradient-to-br from-orange-50 via-white to-gray-50 overflow-hidden">
           <Image
             src={image}
             alt={name}
             fill
-            className="object-contain p-1.5"
+            className="object-contain p-2"
           />
         </div>
-        {/* Card Content - positioned on right side of image */}
-        <div className="flex-1 py-2 pr-3">
-          <motion.span
-            initial={{ opacity: 0, x: -10 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-            transition={{ delay: index * 0.06 + 0.15 }}
-            className="inline-block px-2 py-0.5 text-[9px] font-semibold text-orange-600 bg-orange-50 rounded-full mb-1.5"
-          >
+        {/* Card Content - Minimal but readable */}
+        <div className="p-2 bg-white">
+          <span className="inline-block px-1.5 py-0.5 text-[8px] font-bold text-orange-600 bg-orange-100 rounded-full uppercase tracking-wide">
             {category}
-          </motion.span>
-          <motion.h3
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: index * 0.06 + 0.2 }}
-            className="text-xs leading-tight font-bold text-gray-900"
-          >
+          </span>
+          <h3 className="text-[11px] mt-1 font-bold text-gray-900 leading-tight line-clamp-1">
             {name}
-          </motion.h3>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: index * 0.06 + 0.25 }}
-            className="text-[10px] mt-0.5 line-clamp-2 text-gray-500 leading-snug"
-          >
-            {description}
-          </motion.p>
+          </h3>
         </div>
       </motion.article>
     );
   }
 
-  // Carousel mode (tablet+): vertical stacked layout
+  // Desktop carousel mode: vertical stacked layout with larger cards
   return (
     <motion.article
       ref={cardRef}
@@ -846,20 +829,16 @@ function TreatmentCard({ name, category, description, image, index, isGridMode =
 
 /**
  * Personalized Treatments Section (Responsive)
- * Scrollytelling carousel with scroll-triggered animations
+ * Clean grid layout with scroll-triggered animations
  * 
  * Responsive Features:
- * - Mobile: 2-column grid showing all 6 products at once (no scrolling needed)
- * - Tablet+: Button-controlled horizontal carousel with animation
- * - Touch-friendly navigation buttons (44px minimum tap target)
- * - Responsive card sizing: compact grid cards on mobile, larger carousel cards on tablet+
+ * - Mobile: Simple 3x2 grid with title, subtitle, and compact cards (no scrolling!)
+ * - Tablet+: Button-controlled horizontal carousel with Framer Motion animation
+ * - Touch-friendly cards optimized for tap interactions
  */
 function PersonalizedTreatmentsSection() {
   const sectionRef = useRef(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  // Initialize to 0 to avoid hydration mismatch - carousel starts at x=0 regardless of cardWidth
-  // The correct width is calculated on client mount, preventing SSR/CSR value differences
   const [cardWidth, setCardWidth] = useState(0);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -868,22 +847,13 @@ function PersonalizedTreatmentsSection() {
 
   /**
    * Calculates the total card width (card + gap) based on viewport size.
-   * This must match the responsive CSS classes on TreatmentCard and the carousel container:
-   * - Mobile (<640px): 200px card + 16px gap (gap-4) = 216px
-   * - Tablet (640-767px): 240px card + 20px gap (gap-5) = 260px
-   * - Desktop md (768-1023px): 280px card + 20px gap (gap-5) = 300px
-   * - Desktop lg (≥1024px): 280px card + 24px gap (gap-6) = 304px
-   * 
-   * Note: The md breakpoint uses gap-5 (20px), while lg uses gap-6 (24px).
-   * This distinction is critical for accurate carousel animation positioning.
+   * Desktop only - mobile uses static grid.
    */
   useEffect(() => {
     const calculateCardWidth = () => {
       if (typeof window === 'undefined') return 304;
-      if (window.innerWidth < 640) return 216;  // 200 + 16 (gap-4)
-      if (window.innerWidth < 768) return 260;  // 240 + 20 (gap-5)
-      if (window.innerWidth < 1024) return 300; // 280 + 20 (gap-5 at md breakpoint)
-      return 304;                                // 280 + 24 (gap-6 at lg breakpoint)
+      if (window.innerWidth < 1024) return 300;
+      return 304;
     };
     setCardWidth(calculateCardWidth());
     const handleResize = () => {
@@ -933,37 +903,60 @@ function PersonalizedTreatmentsSection() {
     },
   ];
 
-  /**
-   * Navigate to the previous card in the carousel.
-   * Prevents scrolling before the first card (index 0).
-   */
   const scrollPrev = () => {
     setCurrentIndex((prev) => Math.max(0, prev - 1));
   };
 
-  /**
-   * Navigate to the next card in the carousel.
-   * Calculates visible cards based on cardWidth to prevent scrolling past the last card:
-   * - At md breakpoint (768-1023px): cardWidth = 300, ~2-3 cards visible → use 2
-   * - At lg+ breakpoint (≥1024px): cardWidth = 304, ~4 cards visible → use 4
-   * The threshold of 304 distinguishes between md (gap-5) and lg (gap-6) breakpoints.
-   */
   const scrollNext = () => {
     const visibleCards = cardWidth >= 304 ? 4 : 2;
     setCurrentIndex((prev) => Math.min(treatments.length - visibleCards, prev + 1));
   };
 
-  // Parallax effects for header
+  // Parallax effects for header (desktop only)
   const headerY = useTransform(scrollYProgress, [0, 0.3], [0, -20]);
   const headerScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.98]);
 
   return (
-    <section ref={sectionRef} className="py-12 md:py-24 bg-gray-50 overflow-hidden">
+    <section ref={sectionRef} className="py-6 md:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header with parallax and controls - Responsive spacing */}
+        
+        {/* Mobile: Simple header + 3x2 grid */}
+        <div className="md:hidden">
+          {/* Title */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-4"
+          >
+            <h2 className="text-xl font-bold text-gray-900 leading-tight">
+              Personalized Treatments,
+              <br />
+              Backed by Experts
+            </h2>
+            <p className="text-gray-500 text-xs mt-2">
+              From skin health to wellness, explore solutions tailored to your needs.
+            </p>
+          </motion.div>
+          
+          {/* 3x2 Grid - 3 columns, 2 rows, fixed height cards */}
+          <div className="grid grid-cols-3 gap-2">
+            {treatments.map((treatment, index) => (
+              <TreatmentCard
+                key={`mobile-${treatment.name}-${index}`}
+                {...treatment}
+                index={index}
+                isMobileGrid={true}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: Header with parallax and carousel */}
         <motion.div
           style={{ y: headerY, scale: headerScale }}
-          className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-6 md:mb-12 gap-4 md:gap-6"
+          className="hidden md:flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-6"
         >
           <div>
             <motion.h2
@@ -971,29 +964,29 @@ function PersonalizedTreatmentsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 md:mb-4 leading-tight"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight"
             >
               Personalized Treatments,
-              <br className="hidden sm:block" />
-              <span className="sm:hidden"> </span>Backed by Experts
+              <br />
+              Backed by Experts
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-gray-500 max-w-xl text-sm md:text-lg"
+              className="text-gray-500 max-w-xl text-lg"
             >
               From skin health to wellness, explore solutions tailored to your needs.
             </motion.p>
           </div>
-          {/* Navigation Controls - Touch-friendly 44px targets, hidden on mobile (use swipe) */}
+          {/* Navigation Controls */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="hidden md:flex items-center gap-2"
+            className="flex items-center gap-2"
           >
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -1018,24 +1011,7 @@ function PersonalizedTreatmentsSection() {
           </motion.div>
         </motion.div>
 
-        {/* Mobile: 1-column list showing all 6 products at once
-            Using vertical list layout with image on left and text on right
-            35% smaller images for compact display */}
-        <div 
-          ref={scrollContainerRef}
-          className="md:hidden flex flex-col gap-2"
-        >
-          {treatments.map((treatment, index) => (
-            <TreatmentCard
-              key={`${treatment.name}-${index}`}
-              {...treatment}
-              index={index}
-              isGridMode={true}
-            />
-          ))}
-        </div>
-
-        {/* Tablet+: Animated carousel with button controls */}
+        {/* Desktop: Animated carousel */}
         <div className="hidden md:block overflow-hidden">
           <motion.div
             className="flex gap-5 lg:gap-6"
@@ -1044,7 +1020,7 @@ function PersonalizedTreatmentsSection() {
           >
             {treatments.map((treatment, index) => (
               <TreatmentCard
-                key={`${treatment.name}-${index}`}
+                key={`desktop-${treatment.name}-${index}`}
                 {...treatment}
                 index={index}
               />
@@ -1256,12 +1232,12 @@ function HealthcareTrustSection() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="relative aspect-[4/3] md:aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden">
+            <div className="relative aspect-[4/3.3] md:aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden">
               <Image
                 src="/images/oval/trust-portrait.png"
                 alt="Trusted healthcare professional"
                 fill
-                className="object-cover"
+                className="object-cover object-[50%_95%] md:object-center"
               />
             </div>
           </motion.div>
@@ -1280,8 +1256,22 @@ function HealthcareTrustSection() {
               </h2>
             </motion.div>
 
-            {/* Trust Badges - 2x2 Grid with responsive gaps and sizing */}
-            <div className="grid grid-cols-2 gap-4 md:gap-8">
+            {/* Trust Badges - 2x2 Grid with responsive gaps and sizing
+                Wrapped in relative container for radial gradient background effect */}
+            <div className="relative">
+              {/* White radial gradient expanding from center behind the 4 icons
+                  Creates a soft glowing effect that draws attention to trust badges
+                  Mobile: More compact gradient with higher intensity
+                  Desktop: Larger, more diffuse gradient for subtle emphasis */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 25%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.3) 75%, rgba(255,255,255,0) 100%)",
+                  transform: "scale(1.5)",
+                }}
+                aria-hidden="true"
+              />
+              <div className="grid grid-cols-2 gap-4 md:gap-8 relative z-10">
               {trustBadges.map((badge, index) => (
                 <motion.div
                   key={badge.title}
@@ -1320,6 +1310,7 @@ function HealthcareTrustSection() {
                   </div>
                 </motion.div>
               ))}
+              </div>
             </div>
           </div>
         </div>
@@ -1530,29 +1521,97 @@ function RealResultsSection() {
 
 /**
  * Secondary CTA Section (Responsive)
- * Full-width hero card with Vimeo video
+ * Immersive full-width hero with Vimeo video background
  * 
  * Responsive Features:
- * - Mobile: Stacked layout with text above, video below
+ * - Mobile: Immersive cinematic layout with video as full background, text overlay
  * - Tablet+: Side-by-side with video on right as background
- * - Touch-friendly CTA button (no position animation on mobile)
+ * - Premium CTA button with glow effect
+ * 
+ * Mobile Design Philosophy:
+ * - Video fills entire container for cinematic immersion
+ * - Strong gradient overlay from bottom-left ensures text readability
+ * - Vignette effect adds depth and focus
+ * - Text positioned in lower area for thumb-friendly CTA access
  */
 function SecondaryCTASection() {
   const isMobile = useIsMobile();
   
   return (
-    <section className="py-8 md:py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-4 md:py-16 bg-white h-full flex items-center">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Card Container
-            Mobile: Only opacity animation (no y movement to prevent CLS)
-            Desktop: Full opacity + y animation for polish */}
+            Mobile: Cinematic aspect ratio with video background
+            Desktop: Full height with video on right side */}
         <motion.div
           initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-2xl md:rounded-[20px] overflow-hidden bg-gradient-to-br from-orange-50 to-white md:bg-white md:min-h-[520px] lg:min-h-[580px]"
+          className="relative rounded-2xl md:rounded-[20px] overflow-hidden bg-gray-900 md:bg-white aspect-[4/5] md:aspect-auto md:min-h-[520px] lg:min-h-[580px]"
         >
+          {/* Mobile: Full-bleed Video Background
+              Video covers entire card for immersive cinematic experience.
+              Uses object-cover behavior via CSS positioning to fill container. */}
+          <div className="md:hidden absolute inset-0">
+            <iframe
+              src="https://player.vimeo.com/video/1116152740?background=1&autoplay=1&muted=1&loop=1&autopause=0&playsinline=1&dnt=1&h=a762bc5a62"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ 
+                width: "max(100%, 177.78vh)",
+                height: "max(100%, 56.25vw)"
+              }}
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              loading="eager"
+              title="Background video"
+              aria-hidden="true"
+            />
+            
+            {/* Mobile: Multi-layered gradient overlays for text readability
+                Layer 1: Strong bottom-left corner gradient (where text lives)
+                Layer 2: Subtle overall vignette for depth
+                Layer 3: Top fade to blend with section above */}
+            
+            {/* Primary gradient - Bottom left corner protection for text */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `
+                  linear-gradient(
+                    to top right,
+                    rgba(0,0,0,0.85) 0%,
+                    rgba(0,0,0,0.7) 20%,
+                    rgba(0,0,0,0.4) 40%,
+                    rgba(0,0,0,0.1) 60%,
+                    rgba(0,0,0,0) 80%
+                  )
+                `,
+              }}
+            />
+            
+            {/* Vignette effect - Subtle edge darkening for focus */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `
+                  radial-gradient(
+                    ellipse 80% 80% at 50% 50%,
+                    transparent 30%,
+                    rgba(0,0,0,0.3) 100%
+                  )
+                `,
+              }}
+            />
+            
+            {/* Top edge gradient for smooth transition from section above */}
+            <div
+              className="absolute inset-x-0 top-0 h-20 pointer-events-none"
+              style={{
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 100%)",
+              }}
+            />
+          </div>
+          
           {/* Desktop: Video Background - right side on tablet+ */}
           <div className="absolute inset-0 hidden md:flex justify-end">
             <div className="relative w-[60%] h-full">
@@ -1576,63 +1635,62 @@ function SecondaryCTASection() {
             }}
           />
 
-          {/* Content - Text section */}
-          <div className="relative z-10 flex items-center md:min-h-[520px] lg:min-h-[580px] py-8 md:py-12 lg:py-16 px-4 sm:px-8 lg:px-16">
+          {/* Content - Text section
+              Mobile: Positioned at bottom with white text over dark gradient
+              Desktop: Left-aligned with dark text over white background */}
+          <div className="relative z-10 flex items-end md:items-center h-full md:min-h-[520px] lg:min-h-[580px] p-5 md:py-12 lg:py-16 md:px-8 lg:px-16">
             <div className="max-w-lg">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 md:mb-6 leading-[1.1]">
+              {/* Headline - White on mobile for contrast, dark on desktop */}
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white md:text-gray-900 mb-3 md:mb-6 leading-[1.08]"
+                style={{ 
+                  textShadow: isMobile ? '0 2px 20px rgba(0,0,0,0.5)' : 'none'
+                }}
+              >
                 healthcare for
-                <br className="hidden sm:block" />
-                <span className="sm:hidden"> </span>hair, skin, balance,
-                <br className="hidden sm:block" />
-                <span className="sm:hidden"> </span>and beyond.
-              </h2>
-              <p className="text-gray-500 mb-6 md:mb-8 text-sm md:text-lg max-w-md">
+                <br />
+                hair, skin, balance,
+                <br />
+                and beyond.
+              </motion.h2>
+              
+              {/* Subtext - Lighter on mobile, gray on desktop */}
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-white/80 md:text-gray-500 mb-5 md:mb-8 text-sm md:text-lg max-w-md leading-relaxed"
+              >
                 Discover Oval&apos;s modern approach to wellness, where frosted
                 clarity meets quiet confidence.
-              </p>
-              <Link
-                href="#"
-                className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-colors shadow-lg text-sm md:text-base touch-target"
+              </motion.p>
+              
+              {/* CTA Button - Premium styling with glow on mobile */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
               >
-                Give it a TRY
-              </Link>
+                <Link
+                  href="#"
+                  className="inline-flex items-center gap-2 px-6 md:px-8 py-3.5 md:py-4 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition-all duration-300 text-sm md:text-base touch-target"
+                  style={{
+                    boxShadow: isMobile 
+                      ? '0 4px 20px rgba(249, 115, 22, 0.5), 0 8px 40px rgba(0,0,0,0.3)'
+                      : '0 4px 14px rgba(249, 115, 22, 0.4)'
+                  }}
+                >
+                  Give it a TRY
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </motion.div>
             </div>
-          </div>
-          
-          {/* Mobile: Video below text content with fade overlay
-              - Video autoplays in loop (background mode, muted, playsinline for mobile)
-              - Gradient overlay from left creates fade effect matching desktop
-              - Additional bottom gradient for smooth transition to card edge */}
-          <div className="md:hidden relative w-full aspect-video overflow-hidden rounded-t-2xl">
-            {/* Vimeo Background Video - Full coverage with overflow hidden by parent
-                Important mobile iframe attributes:
-                - allow="autoplay" is required for Safari/Chrome mobile autoplay
-                - loading="eager" ensures immediate load instead of lazy loading */}
-            <iframe
-              src="https://player.vimeo.com/video/1116152740?background=1&autoplay=1&muted=1&loop=1&autopause=0&playsinline=1&dnt=1&h=a762bc5a62"
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[180%]"
-              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-              loading="eager"
-              title="Background video"
-              aria-hidden="true"
-            />
-            {/* Mobile: Fade Gradient Overlay - Left to Right (matches desktop aesthetic)
-                Creates a smooth fade from white on the left where text ends
-                to transparent on the right where the video is most visible */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(to right, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.6) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 75%)",
-              }}
-            />
-            {/* Top edge gradient for smooth blend with content area above */}
-            <div
-              className="absolute inset-x-0 top-0 h-16 pointer-events-none"
-              style={{
-                background: "linear-gradient(to bottom, rgba(255,247,237,0.9) 0%, rgba(255,255,255,0) 100%)",
-              }}
-            />
           </div>
         </motion.div>
       </div>
