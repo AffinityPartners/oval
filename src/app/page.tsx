@@ -451,14 +451,18 @@ function MembershipJourneySection() {
 /**
  * Solution Card Component with advanced scroll animations
  * Individual card for Doctor-trusted Solutions with stagger effects
+ * 
+ * Mobile: Label in top-left corner with gradient from top
+ * Desktop: Label at bottom with gradient from bottom
  */
 interface SolutionCardProps {
   name: string;
   image: string;
   index: number;
+  isFloating?: boolean; // For the center floating card on mobile
 }
 
-function SolutionCard({ name, image, index }: SolutionCardProps) {
+function SolutionCard({ name, image, index, isFloating = false }: SolutionCardProps) {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: false, amount: 0.3 });
 
@@ -478,10 +482,13 @@ function SolutionCard({ name, image, index }: SolutionCardProps) {
       }}
       whileHover={{ y: -10, scale: 1.03 }}
       style={{ transformStyle: "preserve-3d" }}
+      className={isFloating ? "shadow-2xl" : ""}
     >
       <Link
         href="#"
-        className="group block relative aspect-[3/4] rounded-xl md:rounded-2xl overflow-hidden bg-gray-100"
+        className={`group block relative aspect-[3/4] rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 ${
+          isFloating ? "ring-4 ring-white shadow-xl" : ""
+        }`}
       >
         {/* Image with parallax hover effect */}
         <motion.div
@@ -496,23 +503,41 @@ function SolutionCard({ name, image, index }: SolutionCardProps) {
             className="object-cover"
           />
         </motion.div>
-        {/* Gradient overlay with animation */}
+        
+        {/* Mobile: Top-left gradient overlay */}
+        <div className="md:hidden absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
+        
+        {/* Desktop: Bottom gradient overlay */}
         <motion.div
           initial={{ opacity: 0.7 }}
           whileHover={{ opacity: 0.9 }}
-          className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
+          className="hidden md:block absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
         />
-        {/* Title with slide-up animation - Responsive text size */}
+        
+        {/* Mobile: Title in top-left corner */}
+        <motion.div
+          initial={{ y: -10, opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : { y: -10, opacity: 0 }}
+          transition={{ delay: index * 0.1 + 0.3, duration: 0.4 }}
+          className="md:hidden absolute top-0 left-0 right-0 p-3"
+        >
+          <h3 className="text-white font-semibold text-sm group-hover:text-orange-300 transition-colors">
+            {name}
+          </h3>
+        </motion.div>
+        
+        {/* Desktop: Title at bottom */}
         <motion.div
           initial={{ y: 10, opacity: 0 }}
           animate={isInView ? { y: 0, opacity: 1 } : { y: 10, opacity: 0 }}
           transition={{ delay: index * 0.1 + 0.3, duration: 0.4 }}
-          className="absolute bottom-0 left-0 right-0 p-3 md:p-5"
+          className="hidden md:block absolute bottom-0 left-0 right-0 p-5"
         >
-          <h3 className="text-white font-semibold text-sm md:text-xl group-hover:text-orange-300 transition-colors">
+          <h3 className="text-white font-semibold text-xl group-hover:text-orange-300 transition-colors">
             {name}
           </h3>
         </motion.div>
+        
         {/* Hover shine effect - desktop only */}
         <div className="hidden md:block absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform -translate-x-full group-hover:translate-x-full" />
       </Link>
@@ -591,11 +616,30 @@ function DoctorTrustedSolutionsSection() {
           </motion.div>
         </motion.div>
 
-        {/* Solutions Grid - Responsive columns and gaps */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+        {/* Desktop: Standard 5-column grid */}
+        <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-5 gap-4">
           {solutions.map((solution, index) => (
             <SolutionCard key={solution.name} {...solution} index={index} />
           ))}
+        </div>
+        
+        {/* Mobile: 2x2 grid with 5th card floating centered above */}
+        <div className="md:hidden relative">
+          {/* 2x2 Grid for first 4 cards */}
+          <div className="grid grid-cols-2 gap-3">
+            {solutions.slice(0, 4).map((solution, index) => (
+              <SolutionCard key={solution.name} {...solution} index={index} />
+            ))}
+          </div>
+          
+          {/* 5th card (Hormone) floating centered above the grid */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] z-10">
+            <SolutionCard 
+              {...solutions[4]} 
+              index={4} 
+              isFloating={true}
+            />
+          </div>
         </div>
       </div>
     </section>
