@@ -546,4 +546,92 @@
       scroll-snap-stop: normal !important;
     }
   }
+  
+  /* ==========================================================================
+     PERFORMANCE OPTIMIZATION UTILITIES
+     CSS containment and GPU acceleration for better mobile performance
+  ========================================================================== */
+  
+  /**
+   * CSS Containment for Stacked Sections
+   * Tells the browser that sections are isolated, reducing repaint scope.
+   * This dramatically improves scroll performance by limiting paint boundaries.
+   * 
+   * contain: layout style paint - isolates layout, style, and paint calculations
+   * content-visibility: auto - skips rendering of off-screen content (huge perf win)
+   */
+  .section-contain {
+    contain: layout style paint;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 100vh; /* Estimated size for off-screen sections */
+  }
+  
+  /**
+   * GPU Acceleration Hints
+   * Forces browser to create a GPU layer for smoother animations.
+   * Use sparingly - too many layers can hurt performance.
+   * Apply to animated cards, carousels, and scroll-driven elements.
+   */
+  .gpu-accelerate {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  /**
+   * Will-change hint for animated elements
+   * Tells browser to optimize for transform/opacity changes.
+   * Use on elements that will animate, but remove after animation completes.
+   * 
+   * Warning: Overuse causes memory issues. Only apply to:
+   * - Cards that animate on scroll
+   * - Elements with hover effects
+   * - Carousel items
+   */
+  .will-animate {
+    will-change: transform, opacity;
+  }
+  
+  /**
+   * Content-visibility for below-fold sections
+   * Allows browser to skip rendering until section is near viewport.
+   * Massive performance improvement for long pages with many sections.
+   * 
+   * contain-intrinsic-size provides estimated dimensions so layout
+   * doesn't shift when content renders.
+   */
+  .lazy-section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 100vh;
+  }
+  
+  /**
+   * Optimized motion for cards and animated elements
+   * Uses GPU-accelerated properties only (transform, opacity)
+   * Avoids triggering layout/paint (no width, height, margin, padding animations)
+   */
+  .card-motion {
+    transition-property: transform, opacity, box-shadow;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .card-motion {
+      transition-duration: 0ms;
+      will-change: auto;
+    }
+  }
+  
+  /**
+   * Mobile-optimized animation speeds
+   * Shorter durations on mobile for snappier feel and reduced CPU load.
+   */
+  @media (max-width: 767px) {
+    .card-motion {
+      transition-duration: 200ms;
+    }
+  }
 }

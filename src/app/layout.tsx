@@ -1,22 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 
 /**
- * Primary sans-serif font for the application.
- * Geist provides excellent readability and a modern aesthetic.
+ * Primary font for the OVAL brand.
+ * Lato is clean, modern, and highly readable - matching the brand guidelines.
+ * Using display: swap for better performance (shows fallback font immediately).
  */
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const lato = Lato({
+  variable: "--font-lato",
   subsets: ["latin"],
-});
-
-/**
- * Monospace font for code blocks and technical content.
- */
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  display: "swap",
 });
 
 /**
@@ -46,6 +41,11 @@ export const viewport: Viewport = {
  * Root layout component that wraps all pages.
  * Provides consistent font configuration and base styling across the application.
  * 
+ * Performance Optimizations:
+ * - Preconnect to Vimeo CDN for faster video loading
+ * - DNS prefetch for Google Fonts
+ * - Font display swap to prevent FOIT (Flash of Invisible Text)
+ * 
  * @param children - The page content to render within the layout
  */
 export default function RootLayout({
@@ -55,8 +55,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect to Vimeo CDN for faster video loading
+            Establishes early connection to reduce latency when videos load */}
+        <link rel="preconnect" href="https://player.vimeo.com" />
+        <link rel="preconnect" href="https://i.vimeocdn.com" />
+        <link rel="preconnect" href="https://f.vimeocdn.com" />
+        
+        {/* DNS prefetch for secondary resources
+            Lower priority than preconnect, helps with third-party scripts */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${lato.variable} font-sans antialiased`}
       >
         {children}
       </body>
