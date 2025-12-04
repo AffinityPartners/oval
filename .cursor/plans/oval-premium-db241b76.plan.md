@@ -1,4 +1,51 @@
-<!-- db241b76-19a1-47eb-a2f3-02e0d6083636 6c28cec0-74a6-4721-b551-5c4da9872890 -->
+---
+name: OVAL Premium Landing Page
+overview: ""
+todos:
+  - id: fed7d531-28b2-4318-9f60-1b902a4e0fe7
+    content: Configure OVAL brand colors in globals.css and tailwind.config.ts
+    status: pending
+  - id: 8dc3b9b4-5b98-465e-9e76-70c572b840df
+    content: Install three.js, @react-three/fiber, @react-three/drei, gsap packages
+    status: pending
+  - id: 19f1c1ea-e71a-495b-a285-458e228d286e
+    content: Copy logos and select marketing images to public/images/
+    status: pending
+  - id: cb47c16e-c230-470b-8b55-d149c5ef3dd5
+    content: Build compact Hero section with logo, tagline, and dual CTAs
+    status: pending
+  - id: ea8f9410-f7b8-4f62-819d-614663c2f645
+    content: Build glassmorphic PlanComparison cards for OVAL One and Plus
+    status: pending
+  - id: 17ae96a8-09fb-4755-a96c-1b56e8dbd05c
+    content: Build BentoGrid benefits section with mixed media cards
+    status: pending
+  - id: 69c82fc8-b548-4210-a4f2-412199d42d2b
+    content: Build MedicationCarousel for category showcase
+    status: pending
+  - id: ad1c54e2-f938-46b4-8d14-23f3eb4d1c7c
+    content: Build HowItWorks 4-step process section
+    status: pending
+  - id: 8e7a1a01-a2a7-4f03-95a2-de19bc147016
+    content: Build TrustBadges and stats section
+    status: pending
+  - id: d4eeb3f1-c892-462d-9d4c-86738aec9fd3
+    content: Build FinalCTA section with dual plan buttons
+    status: pending
+  - id: 4d36de5d-d110-43c5-907e-bdd43b588c7c
+    content: Build Footer with links and copyright
+    status: pending
+  - id: a3e548a0-55af-4388-baa0-47f3e25caf5e
+    content: Add scroll-triggered animations with Framer Motion and GSAP
+    status: pending
+  - id: 9c3bcd57-889c-4aaa-b342-544ea841fe7c
+    content: Add subtle FloatingPill 3D element as decorative accent
+    status: pending
+  - id: efbb56fc-1051-4b10-b822-6c6747fd20c1
+    content: Ensure full mobile responsiveness across all sections
+    status: pending
+---
+
 # OVAL Premium Landing Page
 
 ## Design Direction
@@ -129,20 +176,3 @@ Copy key marketing images to `public/images/`:
 - Bento grid collapses to single column
 - Carousel touch-friendly
 - All touch targets 44px minimum
-
-### To-dos
-
-- [ ] Configure OVAL brand colors in globals.css and tailwind.config.ts
-- [ ] Install three.js, @react-three/fiber, @react-three/drei, gsap packages
-- [ ] Copy logos and select marketing images to public/images/
-- [ ] Build compact Hero section with logo, tagline, and dual CTAs
-- [ ] Build glassmorphic PlanComparison cards for OVAL One and Plus
-- [ ] Build BentoGrid benefits section with mixed media cards
-- [ ] Build MedicationCarousel for category showcase
-- [ ] Build HowItWorks 4-step process section
-- [ ] Build TrustBadges and stats section
-- [ ] Build FinalCTA section with dual plan buttons
-- [ ] Build Footer with links and copyright
-- [ ] Add scroll-triggered animations with Framer Motion and GSAP
-- [ ] Add subtle FloatingPill 3D element as decorative accent
-- [ ] Ensure full mobile responsiveness across all sections

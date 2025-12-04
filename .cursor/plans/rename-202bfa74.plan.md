@@ -1,4 +1,18 @@
-<!-- 202bfa74-212f-4572-8f7d-85967299e00b 241fe064-7d3b-4adb-a68d-447a36283067 -->
+---
+name: Rename Marketing Images Based on Content
+overview: ""
+todos:
+  - id: d9c3feb4-4c3a-4022-840f-9e1e531c8f9d
+    content: Read and analyze all images to identify their content
+    status: pending
+  - id: 1e9dcda5-f49b-482c-a81b-b27947ef4006
+    content: Generate unique, descriptive kebab-case names for each image
+    status: pending
+  - id: 7ab91a47-89cf-4093-a405-1161c346a2d4
+    content: Rename all files to their new descriptive names
+    status: pending
+---
+
 # Rename Marketing Images Based on Content
 
 ## Approach
@@ -23,9 +37,3 @@
 ## Expected Outcome
 
 All images will have meaningful names that describe their content, making them easier to identify and use in marketing materials without opening each file.
-
-### To-dos
-
-- [ ] Read and analyze all images to identify their content
-- [ ] Generate unique, descriptive kebab-case names for each image
-- [ ] Rename all files to their new descriptive names

@@ -29,6 +29,28 @@
     --oval-peach: 24 100% 97%;
     --oval-gray: 0 0% 33%;
     
+    /**
+     * Mobile-safe Viewport Height
+     * Uses 100dvh (dynamic viewport height) which accounts for mobile browser
+     * address bar changes. Falls back to 100vh for older browsers.
+     * This prevents content from being cut off on mobile when the address bar
+     * shows/hides during scrolling.
+     */
+    --vh-full: 100dvh;
+    
+    /**
+     * Responsive Section Border Radius
+     * Smaller on mobile (20px) for better proportions, larger on desktop (40px)
+     * for the premium card stack effect.
+     */
+    --section-radius: 20px;
+    
+    /**
+     * Responsive Section Padding
+     * Reduced on mobile for better content density, expanded on desktop.
+     */
+    --section-padding-y: 3rem; /* 48px mobile */
+    
     /* Semantic UI Colors - mapped to OVAL brand */
     --background: 0 0% 100%;
     --foreground: 0 0% 16%;
@@ -80,6 +102,28 @@
     --border: 0 0% 14%;
     --input: 0 0% 14%;
     --ring: 24 79% 52%;
+  }
+  
+  /**
+   * Responsive Custom Properties - Tablet and up
+   * Updates CSS variables at md breakpoint (768px) for better proportions
+   */
+  @media (min-width: 768px) {
+    :root {
+      --section-radius: 32px;
+      --section-padding-y: 5rem; /* 80px */
+    }
+  }
+  
+  /**
+   * Responsive Custom Properties - Desktop
+   * Full premium styling at lg breakpoint (1024px)
+   */
+  @media (min-width: 1024px) {
+    :root {
+      --section-radius: 40px;
+      --section-padding-y: 6rem; /* 96px */
+    }
   }
 }
 
@@ -220,6 +264,124 @@
   .animation-delay-300 { animation-delay: 300ms; }
   .animation-delay-400 { animation-delay: 400ms; }
   .animation-delay-500 { animation-delay: 500ms; }
+  
+  /**
+   * Mobile-safe Full Height Utility
+   * Uses 100dvh which correctly handles mobile browser chrome (address bar).
+   * Falls back to 100vh for browsers that don't support dvh.
+   */
+  .h-screen-safe {
+    height: 100vh; /* Fallback */
+    height: 100dvh; /* Modern browsers */
+    height: var(--vh-full, 100dvh);
+  }
+  
+  /**
+   * Minimum safe height - ensures content is at least viewport height
+   * but can grow taller if needed. Useful for sections with variable content.
+   */
+  .min-h-screen-safe {
+    min-height: 100vh; /* Fallback */
+    min-height: 100dvh; /* Modern browsers */
+  }
+  
+  /**
+   * Stacked Section Card Styling
+   * Creates the premium card stack effect with responsive border radius
+   * and shadow that gives depth to the scroll reveal animation.
+   */
+  .stacked-section {
+    border-top-left-radius: var(--section-radius);
+    border-top-right-radius: var(--section-radius);
+    box-shadow: 
+      0 -4px 20px rgba(0, 0, 0, 0.08),
+      0 -2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  /**
+   * Enhanced shadow for desktop - more dramatic depth effect
+   */
+  @media (min-width: 768px) {
+    .stacked-section {
+      box-shadow: 
+        0 -10px 50px rgba(0, 0, 0, 0.15),
+        0 -4px 20px rgba(0, 0, 0, 0.1),
+        0 -1px 5px rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  /**
+   * Touch-friendly Scroll Snap for Horizontal Carousels
+   * Provides smooth, native-feeling carousel scrolling on touch devices.
+   */
+  .snap-scroll-x {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+  }
+  
+  .snap-scroll-x > * {
+    scroll-snap-align: start;
+  }
+  
+  /**
+   * Touch Target Sizing
+   * Ensures all interactive elements meet accessibility guidelines
+   * (minimum 44x44px tap target for iOS, 48x48dp for Android).
+   */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .touch-target-lg {
+    min-width: 48px;
+    min-height: 48px;
+  }
+  
+  /**
+   * Safe Area Insets
+   * Handles notches, home indicators, and system UI on modern phones.
+   * Uses env() which is supported by iOS 11+ and most modern Android devices.
+   */
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  .safe-area-inset-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  
+  .safe-area-inset-left {
+    padding-left: env(safe-area-inset-left, 0px);
+  }
+  
+  .safe-area-inset-right {
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+  
+  /**
+   * Margin-based safe area utilities for when padding won't work
+   */
+  .safe-area-margin-bottom {
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  /**
+   * Fixed bottom elements that need to clear the home indicator
+   */
+  .pb-safe {
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+  }
+  
+  /**
+   * Responsive Section Padding
+   * Uses CSS custom properties for consistent vertical rhythm.
+   */
+  .section-padding-y {
+    padding-top: var(--section-padding-y);
+    padding-bottom: var(--section-padding-y);
+  }
 
   /**
    * Subtle grain/noise texture overlay for visual depth.

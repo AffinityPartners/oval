@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -26,6 +26,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "OVAL",
   description: "OVAL Healthcare Membership Platform",
+};
+
+/**
+ * Viewport configuration for proper mobile support.
+ * viewport-fit=cover enables safe area insets for notched devices (iPhone X+)
+ * allowing content to extend into the notch/home indicator areas while
+ * respecting the env(safe-area-inset-*) CSS values.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
 };
 
 /**

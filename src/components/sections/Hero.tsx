@@ -39,8 +39,8 @@ export function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
           {/* Left column: Text content */}
           <div className="text-center lg:text-left">
-            {/* OVAL Logo */}
-            <AnimatedSection delay={0} direction="down">
+          {/* OVAL Logo */}
+          <AnimatedSection delay={0} direction="down">
               <div className="flex justify-center lg:justify-start mb-8">
               <Image
                 src="/images/logos/oval-main.png"
@@ -71,16 +71,16 @@ export function Hero() {
             </h1>
           </div>
 
-            {/* Value Proposition */}
-            <AnimatedSection delay={0.2} direction="up">
+          {/* Value Proposition */}
+          <AnimatedSection delay={0.2} direction="up">
               <p className="text-lg md:text-xl text-oval-gray max-w-2xl mx-auto lg:mx-0 mb-4 font-sans">
               Access FDA-regulated medications for weight management, sexual health, 
               mental wellness, and more — delivered discreetly to your door.
             </p>
           </AnimatedSection>
 
-            {/* Key Stats with Animated Counters */}
-            <AnimatedSection delay={0.3} direction="up">
+          {/* Key Stats with Animated Counters */}
+          <AnimatedSection delay={0.3} direction="up">
               <div className="flex flex-wrap justify-center lg:justify-start gap-6 md:gap-10 mb-10">
               <div className="text-center">
                 <div className="text-2xl md:text-3xl font-bold text-oval-orange font-sans">
@@ -103,8 +103,8 @@ export function Hero() {
             </div>
           </AnimatedSection>
 
-            {/* Dual CTAs with Magnetic Effect */}
-            <AnimatedSection delay={0.4} direction="up">
+          {/* Dual CTAs with Magnetic Effect */}
+          <AnimatedSection delay={0.4} direction="up">
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <MagneticButton strength={0.2}>
                 <Button
@@ -134,19 +134,19 @@ export function Hero() {
             </div>
           </AnimatedSection>
 
-            {/* Trust indicator */}
-            <AnimatedSection delay={0.5} direction="up">
-              <motion.div 
+          {/* Trust indicator */}
+          <AnimatedSection delay={0.5} direction="up">
+            <motion.div 
                 className="mt-10 flex items-center justify-center lg:justify-start gap-2 text-sm text-oval-gray"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-              >
-                <svg className="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>Licensed providers • FDA-regulated pharmacies • HIPAA compliant</span>
-              </motion.div>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+            >
+              <svg className="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>Licensed providers • FDA-regulated pharmacies • HIPAA compliant</span>
+            </motion.div>
             </AnimatedSection>
           </div>
 
