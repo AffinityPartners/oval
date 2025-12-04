@@ -1686,7 +1686,7 @@ function StackedSection({ children, index, bgColor = "bg-white", id }: StackedSe
     <div
       ref={sectionRef}
       id={id}
-      className="sticky top-0 h-screen-safe snap-start snap-stop"
+      className="sticky top-0 h-[calc(100dvh-60px)] md:h-screen-safe snap-start snap-stop"
       style={{
         // Higher index = higher z-index (new sections go OVER old ones)
         zIndex: index + 10,
@@ -1731,17 +1731,149 @@ function StackedSection({ children, index, bgColor = "bg-white", id }: StackedSe
  * Section data for the indicator - includes name and ID for navigation
  */
 const sections = [
-  { name: "Prescription Care", id: "prescription-care" },
-  { name: "Why Choose Oval", id: "why-choose-oval" },
-  { name: "Membership", id: "membership" },
-  { name: "Solutions", id: "solutions" },
-  { name: "Treatments", id: "treatments" },
-  { name: "How It Works", id: "how-it-works" },
-  { name: "Trust", id: "trust" },
-  { name: "Results", id: "results" },
-  { name: "CTA", id: "cta" },
-  { name: "FAQ", id: "faq" },
+  { name: "Prescription Care", id: "prescription-care", bgColor: "bg-white", cssColor: "#ffffff" },
+  { name: "Why Choose Oval", id: "why-choose-oval", bgColor: "bg-gray-50", cssColor: "#f9fafb" },
+  { name: "Membership", id: "membership", bgColor: "bg-gradient-to-r from-orange-50 via-orange-100 to-orange-50", cssColor: "#ffedd5" },
+  { name: "Solutions", id: "solutions", bgColor: "bg-white", cssColor: "#ffffff" },
+  { name: "Treatments", id: "treatments", bgColor: "bg-gray-50", cssColor: "#f9fafb" },
+  { name: "How It Works", id: "how-it-works", bgColor: "bg-white", cssColor: "#ffffff" },
+  { name: "Trust", id: "trust", bgColor: "bg-gray-50", cssColor: "#f9fafb" },
+  { name: "Results", id: "results", bgColor: "bg-white", cssColor: "#ffffff" },
+  { name: "CTA", id: "cta", bgColor: "bg-white", cssColor: "#ffffff" },
+  { name: "FAQ", id: "faq", bgColor: "bg-[#232323]", cssColor: "#232323" },
 ];
+
+/* ============================================================================
+   MOBILE CARD STACK PREVIEW COMPONENT
+   Visual deck-of-cards effect showing previous/upcoming sections on mobile
+============================================================================ */
+
+/**
+ * CardStackPreview Component - Mobile Only
+ * 
+ * Creates a visual "deck of cards" effect on mobile showing:
+ * - Previous sections peeking at the top (tucked under navbar)
+ * - Upcoming sections peeking at the bottom
+ * 
+ * Key behaviors:
+ * - Only visible after hero section is scrolled past
+ * - Top stack has lower z-index than navbar (cards tuck UNDER it)
+ * - Shows max 3 cards in each direction
+ * - Each card peek is 8px tall with 4px cascade offset
+ * - Smooth transitions when active section changes
+ */
+interface CardStackPreviewProps {
+  position: "top" | "bottom";
+  activeSection: number;
+  isPastHero: boolean;
+}
+
+function CardStackPreview({ position, activeSection, isPastHero }: CardStackPreviewProps) {
+  /**
+   * Calculate which card indices to show in this stack.
+   * - Top stack: shows sections BEFORE active (max 3)
+   * - Bottom stack: shows sections AFTER active (max 3)
+   */
+  const getVisibleCards = () => {
+    if (position === "top") {
+      // Previous sections (show up to 3, closest to active first)
+      const start = Math.max(0, activeSection - 3);
+      const cards = [];
+      for (let i = activeSection - 1; i >= start; i--) {
+        cards.push(i);
+      }
+      return cards; // e.g., [2, 1, 0] if active is 3
+    } else {
+      // Upcoming sections (show up to 3, closest to active first)
+      const end = Math.min(sections.length - 1, activeSection + 3);
+      const cards = [];
+      for (let i = activeSection + 1; i <= end; i++) {
+        cards.push(i);
+      }
+      return cards; // e.g., [4, 5, 6] if active is 3
+    }
+  };
+
+  const visibleCards = getVisibleCards();
+  
+  // Don't render if no cards to show or not past hero
+  if (visibleCards.length === 0) return null;
+
+  /**
+   * Card peek dimensions and offsets:
+   * - Each card shows 8px of its edge
+   * - Cards cascade with 4px offset creating depth
+   * - Scale reduces slightly for cards further back (0.98, 0.96, 0.94)
+   */
+  const cardHeight = 10; // px - height of each peek
+  const cardOffset = 6;  // px - cascade offset between cards
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isPastHero ? 1 : 0 }}
+      transition={{ duration: 0.3 }}
+      className={`md:hidden fixed left-0 right-0 pointer-events-none ${
+        position === "top" 
+          ? "top-14 z-[90]"  // Below navbar (z-100), tucks under it
+          : "bottom-0 z-[150]" // Above sections
+      }`}
+      aria-hidden="true"
+    >
+      <div className="relative mx-2">
+        {visibleCards.map((sectionIndex, stackIndex) => {
+          // Stack index 0 = closest to active section
+          const depth = stackIndex;
+          const scale = 1 - (depth * 0.02); // 1.0, 0.98, 0.96
+          
+          // Calculate position offset based on stack position
+          const offset = position === "top"
+            ? depth * cardOffset  // Cards cascade downward from navbar
+            : depth * cardOffset; // Cards cascade upward from bottom
+          
+          return (
+            <motion.div
+              key={sectionIndex}
+              initial={{ opacity: 0, y: position === "top" ? -20 : 20 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                scale,
+              }}
+              transition={{ 
+                duration: 0.3, 
+                delay: depth * 0.05,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+              className="absolute left-0 right-0 rounded-xl overflow-hidden"
+              style={{
+                height: cardHeight,
+                backgroundColor: sections[sectionIndex].cssColor,
+                [position === "top" ? "top" : "bottom"]: offset,
+                zIndex: 10 - depth, // Closer cards have higher z-index
+                boxShadow: position === "top"
+                  ? `0 2px 8px rgba(0, 0, 0, ${0.08 - depth * 0.02})`
+                  : `0 -2px 8px rgba(0, 0, 0, ${0.08 - depth * 0.02})`,
+                // Match section border radius style
+                borderTopLeftRadius: position === "bottom" ? "12px" : "0",
+                borderTopRightRadius: position === "bottom" ? "12px" : "0",
+                borderBottomLeftRadius: position === "top" ? "12px" : "0",
+                borderBottomRightRadius: position === "top" ? "12px" : "0",
+              }}
+            >
+              {/* Subtle edge highlight for definition */}
+              <div 
+                className={`absolute left-0 right-0 h-[1px] ${
+                  position === "top" ? "bottom-0" : "top-0"
+                } bg-gradient-to-r from-transparent via-black/5 to-transparent`}
+              />
+            </motion.div>
+          );
+        })}
+      </div>
+    </motion.div>
+  );
+}
 
 /**
  * SectionIndicator Component (Responsive)
@@ -1814,32 +1946,6 @@ function SectionIndicator({ activeSection }: { activeSection: number }) {
           </div>
         ))}
       </nav>
-      
-      {/* Mobile: Horizontal progress bar at bottom - shows current section */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-[200] bg-black/20 backdrop-blur-sm pb-safe">
-        <div className="flex items-center justify-center gap-1.5 py-3 px-4">
-          {sections.map((section, index) => (
-            <motion.button
-              key={section.id}
-              onClick={() => scrollToSection(index)}
-              className="touch-target flex items-center justify-center"
-              aria-label={`Go to ${section.name}`}
-            >
-              <motion.div
-                className={`rounded-full transition-all duration-300 ${
-                  activeSection === index
-                    ? "w-6 h-2 bg-orange-500"
-                    : "w-2 h-2 bg-white/50"
-                }`}
-                animate={{
-                  width: activeSection === index ? 24 : 8,
-                }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              />
-            </motion.button>
-          ))}
-        </div>
-      </div>
     </>
   );
 }
@@ -1867,12 +1973,14 @@ function SectionIndicator({ activeSection }: { activeSection: number }) {
  */
 export default function Home() {
   const [activeSection, setActiveSection] = useState(0);
+  const [isPastHero, setIsPastHero] = useState(false);
   const sectionsRef = useRef<HTMLDivElement>(null);
 
   /**
    * Scroll tracking effect
    * Calculates which section is currently in view based on scroll position
    * Each section is 100vh tall, so we divide scroll position by viewport height
+   * Also tracks when user has scrolled past the hero section for card stack visibility
    */
   useEffect(() => {
     const handleScroll = () => {
@@ -1893,6 +2001,10 @@ export default function Home() {
       const clampedIndex = Math.max(0, Math.min(9, sectionIndex));
       
       setActiveSection(clampedIndex);
+      
+      // Track when hero has been scrolled past (80% threshold for smooth transition)
+      // This controls visibility of the mobile card stack previews
+      setIsPastHero(scrollY > viewportHeight * 0.8);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -1905,8 +2017,13 @@ export default function Home() {
     <main className="min-h-screen bg-[#111827] snap-scroll-y">
       <Navbar />
       
-      {/* Section Indicator - Fixed on right side */}
+      {/* Section Indicator - Desktop: Fixed dots on right side */}
       <SectionIndicator activeSection={activeSection} />
+      
+      {/* Mobile Card Stack Previews - Replaces dot indicator on mobile
+          Shows visual deck of cards effect with previous/upcoming sections */}
+      <CardStackPreview position="top" activeSection={activeSection} isPastHero={isPastHero} />
+      <CardStackPreview position="bottom" activeSection={activeSection} isPastHero={isPastHero} />
       
       {/* Hero - Not stacked, serves as the visual base layer */}
       <HeroSection />
