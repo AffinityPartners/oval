@@ -9,6 +9,7 @@ import { TrustBadges } from "@/components/sections/TrustBadges";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Footer } from "@/components/sections/Footer";
 import { DecorativePills } from "@/components/ui/decorative-pills";
+import { WaveDivider, CurvedDivider } from "@/components/ui/wave-divider";
 
 /**
  * OVAL Premium Landing Page
@@ -20,6 +21,7 @@ import { DecorativePills } from "@/components/ui/decorative-pills";
  * - Professional and subtle (not flashy or over-animated)
  * - Follows OvalCare's clean, minimal aesthetic
  * - Premium touches: glassmorphic cards, scroll animations, bento grid layouts
+ * - Organic wave dividers for smooth section transitions
  * - NO full-screen heroes per user requirement
  * 
  * Sections:
@@ -35,13 +37,14 @@ import { DecorativePills } from "@/components/ui/decorative-pills";
  * Technical Notes:
  * - Uses Framer Motion for scroll-triggered animations (built into AnimatedSection)
  * - CSS-based decorative pills for visual interest without Three.js overhead
+ * - Wave dividers create organic transitions between sections
  * - All animations are subtle and professional
  * - Fully responsive design across all breakpoints
  */
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white overflow-x-hidden">
       {/* Hero Section with decorative element */}
       <div className="relative">
         <Hero />
@@ -54,17 +57,45 @@ export default function Home() {
       {/* Plan Comparison - Core conversion section */}
       <PlanComparison />
 
+      {/* Wave transition to Bento Grid (peach-tinted background) */}
+      <WaveDivider 
+        variant="gentle" 
+        fillColor="hsl(24 100% 97% / 0.3)" 
+        height={60}
+      />
+
       {/* Benefits Bento Grid - Why choose OVAL */}
       <BentoGrid />
 
+      {/* Curved transition to dark Carousel section */}
+      <CurvedDivider 
+        fillColor="#282828" 
+        height={50}
+      />
+
       {/* Medication Categories Carousel */}
       <MedicationCarousel />
+
+      {/* Wave transition back to light (How It Works) */}
+      <WaveDivider 
+        variant="medium" 
+        fillColor="white" 
+        flip={true}
+        height={60}
+      />
 
       {/* How It Works - Onboarding process */}
       <HowItWorks />
 
       {/* Trust Badges & Stats */}
       <TrustBadges />
+
+      {/* Gentle wave transition to Final CTA */}
+      <WaveDivider 
+        variant="gentle" 
+        fillColor="hsl(24 100% 97%)" 
+        height={50}
+      />
 
       {/* Final Call-to-Action */}
       <FinalCTA />

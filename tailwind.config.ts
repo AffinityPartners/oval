@@ -80,7 +80,7 @@ const config: Config = {
         xl: "calc(var(--radius) + 4px)",
         "2xl": "calc(var(--radius) + 8px)",
       },
-      /* Font family - Lato from OVAL brand guidelines */
+      /* Font family - Lato for all text (OVAL brand standard) */
       fontFamily: {
         sans: ["Lato", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
       },

@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback } from "react";
-import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
 import { 
   Heart, 
@@ -30,8 +30,11 @@ import { Button } from "@/components/ui/button";
  * - Women's Health
  * - Dermatology
  * 
- * Uses Embla Carousel for smooth touch-friendly scrolling with
- * navigation arrows for desktop users.
+ * Enhanced Features:
+ * - Autoplay with pause on hover/interaction
+ * - Gradient fade masks on edges for polished look
+ * - Smooth momentum scrolling with Embla Carousel
+ * - Navigation arrows for desktop users
  */
 
 interface MedicationCategory {
@@ -111,11 +114,27 @@ const categories: MedicationCategory[] = [
 ];
 
 export function MedicationCarousel() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    containScroll: "trimSnaps",
-    dragFree: true,
-  });
+  const [isHovered, setIsHovered] = useState(false);
+
+  /**
+   * Autoplay plugin configuration.
+   * Pauses on hover/interaction for better UX.
+   */
+  const autoplayOptions = {
+    delay: 4000,
+    stopOnInteraction: false,
+    stopOnMouseEnter: true,
+  };
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      align: "start",
+      containScroll: "trimSnaps",
+      dragFree: true,
+      loop: true,
+    },
+    [Autoplay(autoplayOptions)]
+  );
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -125,46 +144,82 @@ export function MedicationCarousel() {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
+  /**
+   * Handle hover state for visual feedback.
+   */
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+
   return (
     <section className="py-20 bg-oval-charcoal overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <AnimatedSection className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl text-white mb-4">
             Treatment Categories
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto font-sans">
             Access specialized care across multiple health categories, 
             all from one convenient platform.
           </p>
         </AnimatedSection>
 
-        {/* Carousel Container */}
-        <div className="relative">
-          {/* Navigation Arrows */}
-          <div className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10">
+        {/* Carousel Container with fade edges */}
+        <div 
+          className="relative"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {/* Left fade gradient mask */}
+          <div 
+            className="absolute left-0 top-0 bottom-0 w-16 md:w-24 z-10 pointer-events-none"
+            style={{
+              background: "linear-gradient(to right, #282828 0%, transparent 100%)",
+            }}
+          />
+
+          {/* Right fade gradient mask */}
+          <div 
+            className="absolute right-0 top-0 bottom-0 w-16 md:w-24 z-10 pointer-events-none"
+            style={{
+              background: "linear-gradient(to left, #282828 0%, transparent 100%)",
+            }}
+          />
+
+          {/* Navigation Arrows - appear on hover */}
+          <motion.div 
+            className="hidden md:flex absolute -left-2 top-1/2 -translate-y-1/2 z-20"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: isHovered ? 1 : 0.5, x: 0 }}
+            transition={{ duration: 0.2 }}
+          >
             <Button
               variant="ghost"
               size="icon"
               onClick={scrollPrev}
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white"
+              className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm border border-white/10"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-6 h-6" />
             </Button>
-          </div>
-          <div className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10">
+          </motion.div>
+          <motion.div 
+            className="hidden md:flex absolute -right-2 top-1/2 -translate-y-1/2 z-20"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: isHovered ? 1 : 0.5, x: 0 }}
+            transition={{ duration: 0.2 }}
+          >
             <Button
               variant="ghost"
               size="icon"
               onClick={scrollNext}
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white"
+              className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm border border-white/10"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-6 h-6" />
             </Button>
-          </div>
+          </motion.div>
 
-          {/* Embla Carousel */}
-          <div className="overflow-hidden" ref={emblaRef}>
+          {/* Embla Carousel with padding for fade effect */}
+          <div className="overflow-hidden px-4 md:px-8" ref={emblaRef}>
             <div className="flex gap-4">
               {categories.map((category, index) => (
                 <motion.div

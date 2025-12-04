@@ -24,8 +24,13 @@ import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/
  * 
  * Layout:
  * - Large featured card (AI personalization) with image
- * - Medium cards for key features
+ * - Medium cards for key features (licensed providers, holistic wellness)
  * - Small icon cards for additional benefits
+ * 
+ * Images used:
+ * - AI Personalization: mobile-app.png (existing)
+ * - Licensed Providers: healthcare-team-scrubs-diverse.png (diverse medical team)
+ * - Holistic Wellness: three-women-laughing-hoodies.png (relatable lifestyle)
  */
 
 interface BentoItem {
@@ -53,7 +58,7 @@ const bentoItems: BentoItem[] = [
     title: "Board-Certified Providers",
     description: "Every consultation is with a licensed, specialized physician who understands your unique health needs.",
     icon: <Stethoscope className="w-6 h-6" />,
-    image: "/images/marketing/doctors.png",
+    image: "/images/marketing/healthcare-team-scrubs-diverse.png",
     size: "medium",
   },
   {
@@ -89,7 +94,7 @@ const bentoItems: BentoItem[] = [
     title: "Holistic Wellness",
     description: "From weight management to mental health, we address your complete wellbeing with comprehensive care.",
     icon: <HeartPulse className="w-6 h-6" />,
-    image: "/images/marketing/lifestyle-group.png",
+    image: "/images/marketing/three-women-laughing-hoodies.png",
     size: "medium",
   },
 ];

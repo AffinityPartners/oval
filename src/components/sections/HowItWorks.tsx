@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { 
   UserPlus, 
@@ -14,13 +15,13 @@ import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/
  * HowItWorks Section - 4-step visual flow showing the OVAL onboarding process.
  * 
  * Steps derived from the fulfillment documentation:
- * 1. Create your account
- * 2. Complete medical assessment  
- * 3. Provider review (within 8 hours)
- * 4. Medication delivered discreetly
+ * 1. Create your account - woman-laptop-orange-blazer.png
+ * 2. Complete medical assessment - woman-pink-sweater-writing-kitchen.png  
+ * 3. Provider review (within 8 hours) - female-doctor-curly-hair-glasses.png
+ * 4. Medication delivered discreetly - woman-vitamin-capsule-smile.png
  * 
- * Features numbered badges, connecting lines, and staggered animations
- * for an engaging, easy-to-understand process visualization.
+ * Features numbered badges, connecting lines, circular lifestyle images,
+ * and staggered animations for an engaging process visualization.
  */
 
 interface Step {
@@ -28,27 +29,35 @@ interface Step {
   title: string;
   description: string;
   icon: React.ReactNode;
+  image: string;
   highlight?: string;
 }
 
+/**
+ * Steps configuration with associated lifestyle images.
+ * Each step has a relevant image showing the action or outcome.
+ */
 const steps: Step[] = [
   {
     number: 1,
     title: "Create Your Account",
     description: "Sign up in minutes with basic information. Your data is encrypted and HIPAA-protected from day one.",
     icon: <UserPlus className="w-6 h-6" />,
+    image: "/images/marketing/woman-laptop-orange-blazer.png",
   },
   {
     number: 2,
     title: "Complete Assessment",
     description: "Answer questions about your health history and treatment goals. Takes about 10-15 minutes.",
     icon: <ClipboardList className="w-6 h-6" />,
+    image: "/images/marketing/woman-pink-sweater-writing-kitchen.png",
   },
   {
     number: 3,
     title: "Provider Review",
     description: "A board-certified physician reviews your case and approves your personalized treatment plan.",
     icon: <Stethoscope className="w-6 h-6" />,
+    image: "/images/marketing/female-doctor-curly-hair-glasses.png",
     highlight: "Within 8 hours",
   },
   {
@@ -56,6 +65,7 @@ const steps: Step[] = [
     title: "Delivered to You",
     description: "Your medication ships free in discreet packaging. No pharmacy visits, no awkward conversations.",
     icon: <Package className="w-6 h-6" />,
+    image: "/images/marketing/woman-vitamin-capsule-smile.png",
     highlight: "Free shipping",
   },
 ];
@@ -88,16 +98,27 @@ export function HowItWorks() {
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {/* Step Number Badge */}
+                  {/* Step Image with Badge */}
                   <div className="relative mb-6">
-                    <div className="w-24 h-24 rounded-full bg-oval-peach flex items-center justify-center relative z-10">
-                      <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center">
-                        <span className="text-oval-orange">{step.icon}</span>
+                    {/* Circular image container with border */}
+                    <div className="w-24 h-24 rounded-full bg-oval-peach p-1 relative z-10">
+                      <div className="w-full h-full rounded-full overflow-hidden shadow-lg relative">
+                        <Image
+                          src={step.image}
+                          alt={step.title}
+                          fill
+                          className="object-cover"
+                          sizes="96px"
+                        />
                       </div>
                     </div>
-                    {/* Number Badge */}
+                    {/* Number Badge overlaid on image */}
                     <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-oval-orange text-white font-bold text-sm flex items-center justify-center shadow-orange-glow z-20">
                       {step.number}
+                    </div>
+                    {/* Icon badge at bottom */}
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center z-20">
+                      <span className="text-oval-orange scale-75">{step.icon}</span>
                     </div>
                   </div>
 

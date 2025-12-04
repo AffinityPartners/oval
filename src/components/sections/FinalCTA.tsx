@@ -7,6 +7,7 @@ import { ArrowRight, Star, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/glass-card";
 import { AnimatedSection } from "@/components/ui/animated-section";
+import { MagneticButton } from "@/components/ui/magnetic-button";
 
 /**
  * FinalCTA Section - Closing call-to-action with dual plan cards.
@@ -15,16 +16,32 @@ import { AnimatedSection } from "@/components/ui/animated-section";
  * and OVAL Plus with clear value propositions and prominent CTAs.
  * 
  * Features:
- * - Soft peach gradient background
- * - Side-by-side plan cards
- * - Orange gradient buttons
+ * - Soft peach gradient background with grain texture
+ * - Side-by-side plan cards with magnetic button effects
+ * - Orange gradient buttons with shimmer
  * - Key differentiators highlighted
+ * - Aspirational lifestyle image (fitness-couple-flexing.png) showing health outcomes
  */
 
 export function FinalCTA() {
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-oval-peach">
-      <div className="container mx-auto px-4">
+    <section className="py-20 bg-gradient-to-b from-white to-oval-peach grain-overlay relative overflow-hidden">
+      {/* Aspirational lifestyle image - shows fitness couple representing health outcomes */}
+      <div className="absolute right-0 top-0 bottom-0 w-1/3 hidden xl:block pointer-events-none">
+        <div className="relative h-full">
+          <Image
+            src="/images/marketing/fitness-couple-flexing.png"
+            alt="Couple celebrating fitness achievements - your health transformation"
+            fill
+            className="object-cover object-left opacity-20"
+            sizes="33vw"
+          />
+          {/* Gradient fade to blend with background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-oval-peach via-oval-peach/80 to-transparent" />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <AnimatedSection className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-oval-charcoal mb-4">
@@ -78,16 +95,18 @@ export function FinalCTA() {
                   </span>
                 </div>
 
-                {/* CTA Button */}
-                <Button
-                  asChild
-                  className="w-full py-6 text-base font-semibold rounded-xl bg-oval-charcoal text-white hover:bg-oval-charcoal/90 transition-all duration-300"
-                >
-                  <Link href="#oval-one">
-                    Get Started with OVAL One
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
+                {/* CTA Button with Magnetic Effect */}
+                <MagneticButton strength={0.15} shimmer={false} className="w-full">
+                  <Button
+                    asChild
+                    className="w-full py-6 text-base font-semibold rounded-xl bg-oval-charcoal text-white hover:bg-oval-charcoal/90 transition-all duration-300"
+                  >
+                    <Link href="#oval-one">
+                      Get Started with OVAL One
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                </MagneticButton>
               </div>
             </GlassCard>
           </AnimatedSection>
@@ -144,16 +163,18 @@ export function FinalCTA() {
                   </span>
                 </div>
 
-                {/* CTA Button */}
-                <Button
-                  asChild
-                  className="w-full py-6 text-base font-semibold rounded-xl btn-orange-gradient transition-all duration-300"
-                >
-                  <Link href="#oval-plus">
-                    Get Started with OVAL Plus
-                    <Sparkles className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
+                {/* CTA Button with Magnetic + Shimmer Effect */}
+                <MagneticButton strength={0.15} shimmer={true} className="w-full">
+                  <Button
+                    asChild
+                    className="w-full py-6 text-base font-semibold rounded-xl btn-orange-gradient transition-all duration-300"
+                  >
+                    <Link href="#oval-plus">
+                      Get Started with OVAL Plus
+                      <Sparkles className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                </MagneticButton>
               </div>
             </GlassCard>
           </AnimatedSection>

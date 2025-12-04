@@ -11,6 +11,7 @@ import {
   BadgePercent
 } from "lucide-react";
 import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/animated-section";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
 
 /**
  * TrustBadges Section - Credibility indicators and key statistics.
@@ -21,7 +22,7 @@ import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/
  * - HIPAA compliance
  * - Discreet shipping
  * 
- * Also shows key statistics:
+ * Also shows key statistics with animated counters:
  * - 50+ states coverage
  * - 24/7 support
  * - Up to 80% savings
@@ -33,8 +34,14 @@ interface TrustBadge {
   description: string;
 }
 
+/**
+ * Stats configuration with numeric values for animation.
+ * Uses number type where applicable for counter animation,
+ * string for non-numeric values like "24/7".
+ */
 interface Stat {
-  value: string;
+  value: number | string;
+  suffix?: string;
   label: string;
   icon: React.ReactNode;
 }
@@ -64,7 +71,8 @@ const badges: TrustBadge[] = [
 
 const stats: Stat[] = [
   {
-    value: "50+",
+    value: 50,
+    suffix: "+",
     label: "States Covered",
     icon: <MapPin className="w-5 h-5" />,
   },
@@ -74,7 +82,8 @@ const stats: Stat[] = [
     icon: <Clock className="w-5 h-5" />,
   },
   {
-    value: "80%",
+    value: 80,
+    suffix: "%",
     label: "Savings on Meds",
     icon: <BadgePercent className="w-5 h-5" />,
   },
@@ -112,7 +121,7 @@ export function TrustBadges() {
         {/* Divider */}
         <div className="section-divider max-w-2xl mx-auto mb-16" />
 
-        {/* Stats */}
+        {/* Stats with Animated Counters */}
         <AnimatedSection>
           <StaggerContainer className="flex flex-wrap justify-center gap-12 md:gap-20">
             {stats.map((stat, index) => (
@@ -124,8 +133,17 @@ export function TrustBadges() {
                 >
                   <div className="flex items-center justify-center gap-2 mb-2">
                     <span className="text-oval-orange">{stat.icon}</span>
-                    <span className="text-4xl md:text-5xl font-bold text-oval-charcoal">
-                      {stat.value}
+                    <span className="text-4xl md:text-5xl font-bold text-oval-charcoal font-sans">
+                      {typeof stat.value === "number" ? (
+                        <AnimatedCounter 
+                          from={0} 
+                          to={stat.value} 
+                          suffix={stat.suffix || ""} 
+                          duration={2}
+                        />
+                      ) : (
+                        stat.value
+                      )}
                     </span>
                   </div>
                   <p className="text-sm text-oval-gray font-medium">{stat.label}</p>
