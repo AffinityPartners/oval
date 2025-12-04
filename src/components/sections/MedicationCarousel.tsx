@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import { motion } from "framer-motion";
 import { 
   Heart, 
@@ -17,7 +16,6 @@ import {
 } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { AnimatedSection } from "@/components/ui/animated-section";
-import { Button } from "@/components/ui/button";
 
 /**
  * MedicationCarousel Section - Horizontal scrolling showcase of medication categories.
@@ -30,11 +28,11 @@ import { Button } from "@/components/ui/button";
  * - Women's Health
  * - Dermatology
  * 
- * Enhanced Features:
- * - Autoplay with pause on hover/interaction
- * - Gradient fade masks on edges for polished look
- * - Smooth momentum scrolling with Embla Carousel
- * - Navigation arrows for desktop users
+ * Uses react-multi-carousel for smooth, infinite scrolling with:
+ * - Responsive breakpoints for different screen sizes
+ * - Autoplay with pause on hover
+ * - Custom navigation arrows
+ * - Smooth CSS transitions
  */
 
 interface MedicationCategory {
@@ -113,43 +111,83 @@ const categories: MedicationCategory[] = [
   },
 ];
 
+/**
+ * Responsive breakpoint configuration for the carousel.
+ * Shows different number of items based on screen width.
+ */
+const responsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 4000, min: 1536 },
+    items: 4,
+    slidesToSlide: 1,
+  },
+  desktop: {
+    breakpoint: { max: 1536, min: 1024 },
+    items: 3,
+    slidesToSlide: 1,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 640 },
+    items: 2,
+    slidesToSlide: 1,
+  },
+  mobile: {
+    breakpoint: { max: 640, min: 0 },
+    items: 1,
+    slidesToSlide: 1,
+  },
+};
+
+/**
+ * Custom arrow components for carousel navigation.
+ * Styled to match the dark theme with glassmorphic effect.
+ */
+interface ArrowProps {
+  onClick?: () => void;
+}
+
+const CustomLeftArrow = ({ onClick }: ArrowProps) => (
+  <button
+    onClick={onClick}
+    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm border border-white/10 flex items-center justify-center transition-all duration-200 hover:scale-110"
+    aria-label="Previous slide"
+  >
+    <ChevronLeft className="w-6 h-6" />
+  </button>
+);
+
+const CustomRightArrow = ({ onClick }: ArrowProps) => (
+  <button
+    onClick={onClick}
+    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm border border-white/10 flex items-center justify-center transition-all duration-200 hover:scale-110"
+    aria-label="Next slide"
+  >
+    <ChevronRight className="w-6 h-6" />
+  </button>
+);
+
+/**
+ * Custom dot component for carousel pagination.
+ * Orange active state matches OVAL brand.
+ */
+interface DotProps {
+  onClick?: () => void;
+  active?: boolean;
+}
+
+const CustomDot = ({ onClick, active }: DotProps) => (
+  <button
+    onClick={onClick}
+    className={`w-2.5 h-2.5 rounded-full mx-1 transition-all duration-300 ${
+      active 
+        ? "bg-oval-orange w-6" 
+        : "bg-white/30 hover:bg-white/50"
+    }`}
+    aria-label="Go to slide"
+  />
+);
+
 export function MedicationCarousel() {
-  const [isHovered, setIsHovered] = useState(false);
-
-  /**
-   * Autoplay plugin configuration.
-   * Pauses on hover/interaction for better UX.
-   */
-  const autoplayOptions = {
-    delay: 4000,
-    stopOnInteraction: false,
-    stopOnMouseEnter: true,
-  };
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      align: "start",
-      containScroll: "trimSnaps",
-      dragFree: true,
-      loop: true,
-    },
-    [Autoplay(autoplayOptions)]
-  );
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  /**
-   * Handle hover state for visual feedback.
-   */
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
-
   return (
     <section className="py-20 bg-oval-charcoal overflow-hidden">
       <div className="container mx-auto px-4">
@@ -164,134 +202,80 @@ export function MedicationCarousel() {
           </p>
         </AnimatedSection>
 
-        {/* Carousel Container with fade edges */}
-        <div 
-          className="relative"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {/* Left fade gradient mask */}
-          <div 
-            className="absolute left-0 top-0 bottom-0 w-16 md:w-24 z-10 pointer-events-none"
-            style={{
-              background: "linear-gradient(to right, #282828 0%, transparent 100%)",
-            }}
-          />
-
-          {/* Right fade gradient mask */}
-          <div 
-            className="absolute right-0 top-0 bottom-0 w-16 md:w-24 z-10 pointer-events-none"
-            style={{
-              background: "linear-gradient(to left, #282828 0%, transparent 100%)",
-            }}
-          />
-
-          {/* Navigation Arrows - appear on hover */}
-          <motion.div 
-            className="hidden md:flex absolute -left-2 top-1/2 -translate-y-1/2 z-20"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: isHovered ? 1 : 0.5, x: 0 }}
-            transition={{ duration: 0.2 }}
+        {/* Carousel Container */}
+        <div className="relative px-4 md:px-12">
+          <Carousel
+            responsive={responsive}
+            infinite={true}
+            autoPlay={true}
+            autoPlaySpeed={4000}
+            keyBoardControl={true}
+            customTransition="transform 500ms ease-in-out"
+            transitionDuration={500}
+            containerClass="carousel-container"
+            removeArrowOnDeviceType={["mobile"]}
+            customLeftArrow={<CustomLeftArrow />}
+            customRightArrow={<CustomRightArrow />}
+            showDots={true}
+            dotListClass="!relative !mt-8"
+            customDot={<CustomDot />}
+            itemClass="px-2"
+            pauseOnHover={true}
           >
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={scrollPrev}
-              className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm border border-white/10"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </Button>
-          </motion.div>
-          <motion.div 
-            className="hidden md:flex absolute -right-2 top-1/2 -translate-y-1/2 z-20"
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: isHovered ? 1 : 0.5, x: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={scrollNext}
-              className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm border border-white/10"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </Button>
-          </motion.div>
+            {categories.map((category) => (
+              <div key={category.id} className="h-full pb-4">
+                <div className="group h-full">
+                  <GlassCard 
+                    className="h-full bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 min-h-[320px]" 
+                    padding="lg"
+                    variant="dark"
+                    hover={false}
+                  >
+                    {/* Category Icon with gradient background */}
+                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${category.color} mb-4`}>
+                      <span className="text-white">{category.icon}</span>
+                    </div>
 
-          {/* Embla Carousel with padding for fade effect */}
-          <div className="overflow-hidden px-4 md:px-8" ref={emblaRef}>
-            <div className="flex gap-4">
-              {categories.map((category, index) => (
-                <motion.div
-                  key={category.id}
-                  className="flex-none w-[280px] md:w-[320px]"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="group h-full">
-                    <GlassCard 
-                      className="h-full bg-white/5 border-white/10 hover:bg-white/10 transition-colors duration-300" 
-                      padding="lg"
-                      variant="dark"
-                    >
-                      {/* Category Icon with gradient background */}
-                      <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${category.color} mb-4`}>
-                        <span className="text-white">{category.icon}</span>
-                      </div>
+                    {/* Tier Badge */}
+                    {category.tier === "plus" && (
+                      <span className="inline-block px-2.5 py-1 text-[10px] font-semibold bg-oval-orange text-white rounded-full mb-3">
+                        OVAL Plus Exclusive
+                      </span>
+                    )}
 
-                      {/* Tier Badge */}
-                      {category.tier === "plus" && (
-                        <span className="inline-block px-2 py-0.5 text-[10px] font-semibold bg-oval-orange text-white rounded-full mb-3">
-                          OVAL Plus Exclusive
+                    {/* Category Name */}
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-oval-orange transition-colors">
+                      {category.name}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-sm text-gray-400 mb-4 leading-relaxed">
+                      {category.description}
+                    </p>
+
+                    {/* Medications List */}
+                    <div className="flex flex-wrap gap-1.5 mt-auto">
+                      {category.medications.slice(0, 4).map((med) => (
+                        <span
+                          key={med}
+                          className="px-2 py-1 text-xs bg-white/10 text-gray-300 rounded"
+                        >
+                          {med}
+                        </span>
+                      ))}
+                      {category.medications.length > 4 && (
+                        <span className="px-2 py-1 text-xs bg-oval-orange/20 text-oval-orange rounded">
+                          +more
                         </span>
                       )}
-
-                      {/* Category Name */}
-                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-oval-orange transition-colors">
-                        {category.name}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-sm text-gray-400 mb-4 leading-relaxed">
-                        {category.description}
-                      </p>
-
-                      {/* Medications List */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {category.medications.slice(0, 4).map((med) => (
-                          <span
-                            key={med}
-                            className="px-2 py-1 text-xs bg-white/10 text-gray-300 rounded"
-                          >
-                            {med}
-                          </span>
-                        ))}
-                        {category.medications.length > 4 && (
-                          <span className="px-2 py-1 text-xs bg-oval-orange/20 text-oval-orange rounded">
-                            +more
-                          </span>
-                        )}
-                      </div>
-                    </GlassCard>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile scroll indicator */}
-          <div className="flex justify-center mt-6 md:hidden">
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <ChevronLeft className="w-4 h-4" />
-              <span>Swipe to explore</span>
-              <ChevronRight className="w-4 h-4" />
-            </div>
-          </div>
+                    </div>
+                  </GlassCard>
+                </div>
+              </div>
+            ))}
+          </Carousel>
         </div>
       </div>
     </section>
   );
 }
-
