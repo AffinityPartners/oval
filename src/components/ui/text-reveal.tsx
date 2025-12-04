@@ -30,7 +30,6 @@ interface TextRevealProps {
   delay?: number;
   stagger?: number;
   className?: string;
-  as?: "h1" | "h2" | "h3" | "p" | "span";
 }
 
 export function TextReveal({
@@ -39,7 +38,6 @@ export function TextReveal({
   delay = 0,
   stagger = 0.08,
   className = "",
-  as: Component = "span",
 }: TextRevealProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });

@@ -1472,12 +1472,14 @@ const HealthcareTrustSection = memo(function HealthcareTrustSection() {
 
           {/* Right Column - Content */}
           <div>
+            {/* Title with relative z-index to ensure it sits above the white radial 
+                gradient effect below, which expands beyond its container with scale(1.5) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="mb-6 md:mb-12"
+              className="mb-6 md:mb-12 relative z-10"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
                 Healthcare you can trust
@@ -1485,12 +1487,12 @@ const HealthcareTrustSection = memo(function HealthcareTrustSection() {
             </motion.div>
 
             {/* Trust Badges - 2x2 Grid with responsive gaps and sizing
-                Wrapped in relative container for radial gradient background effect */}
-            <div className="relative">
+                Wrapped in relative container for radial gradient background effect
+                overflow-hidden clips the scaled gradient to prevent it bleeding into title above */}
+            <div className="relative overflow-hidden">
               {/* White radial gradient expanding from center behind the 4 icons
                   Creates a soft glowing effect that draws attention to trust badges
-                  Mobile: More compact gradient with higher intensity
-                  Desktop: Larger, more diffuse gradient for subtle emphasis */}
+                  overflow-hidden on parent clips the scale(1.5) to prevent bleeding into title */}
               <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{

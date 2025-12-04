@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, MouseEvent, ReactNode } from "react";
-import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
+import { motion, useSpring } from "framer-motion";
 
 /**
  * MagneticButton - Button wrapper with magnetic hover effect.

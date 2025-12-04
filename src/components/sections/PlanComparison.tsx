@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Check, Star, Sparkles, Pill, Brain, Heart, Leaf, Users } from "lucide-react";
+import { Check, Star } from "lucide-react";
 import { GlassCard, GlassCardHighlight } from "@/components/ui/glass-card";
 import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/ui/animated-section";
 import { Button } from "@/components/ui/button";

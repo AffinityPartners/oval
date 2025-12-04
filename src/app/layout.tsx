@@ -62,10 +62,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://i.vimeocdn.com" />
         <link rel="preconnect" href="https://f.vimeocdn.com" />
         
-        {/* DNS prefetch for secondary resources
-            Lower priority than preconnect, helps with third-party scripts */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
       </head>
       <body
         className={`${lato.variable} font-sans antialiased`}
