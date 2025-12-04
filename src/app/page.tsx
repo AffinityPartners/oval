@@ -406,22 +406,21 @@ function MembershipJourneySection() {
             />
           </motion.div>
 
-          {/* Right Content - Membership benefits */}
+          {/* Right Content - Membership benefits (left-aligned to match other sections) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center lg:text-left"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-8 leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 md:mb-8 leading-tight">
               Your health
               <br />
               journey starts with
               <br />
               membership
             </h2>
-            <p className="text-gray-500 mb-6 md:mb-10 max-w-md mx-auto lg:mx-0 text-sm md:text-lg">
+            <p className="text-gray-500 mb-6 md:mb-10 max-w-xl text-sm md:text-lg">
               Before you can access our prescription treatments, you&apos;ll
               become an Oval Member. Choose a plan, complete your health quiz,
               and get your personalized prescription, all from home.
