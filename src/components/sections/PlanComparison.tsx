@@ -122,7 +122,7 @@ export function PlanComparison() {
             >
               <GlassCard
                 id={plan.id}
-                className={`h-full relative ${
+                className={`h-full relative overflow-visible ${
                   plan.premium
                     ? "border-oval-orange/40 bg-gradient-to-br from-oval-peach/90 to-white/90"
                     : "bg-white/80"
@@ -132,18 +132,18 @@ export function PlanComparison() {
                 tilt={true}
                 glowBorder={plan.premium}
               >
-                {/* Premium Badge */}
+                {/* Premium Badge - positioned above card */}
                 {plan.premium && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <GlassCardHighlight variant="orange" className="flex items-center gap-1.5 px-4 py-1.5">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    <GlassCardHighlight variant="orange" className="flex items-center gap-1.5 px-4 py-1.5 whitespace-nowrap">
                       <Star className="w-3.5 h-3.5 fill-current" />
                       Most Popular
                     </GlassCardHighlight>
                   </div>
                 )}
 
-                {/* Plan Logo */}
-                <div className="mb-6 pt-2">
+                {/* Plan Logo - extra top padding when premium to avoid badge overlap */}
+                <div className={`mb-6 ${plan.premium ? "pt-4" : "pt-2"}`}>
                   <Image
                     src={plan.logo}
                     alt={plan.name}

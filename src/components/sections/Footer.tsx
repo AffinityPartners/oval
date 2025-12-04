@@ -36,7 +36,7 @@ export function Footer() {
             className="flex flex-col items-center md:items-start"
           >
             <Image
-              src="/images/logos/oval-main.svg"
+              src="/images/logos/oval-main.png"
               alt="OVAL"
               width={100}
               height={30}

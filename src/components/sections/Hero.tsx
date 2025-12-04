@@ -43,7 +43,7 @@ export function Hero() {
             <AnimatedSection delay={0} direction="down">
               <div className="flex justify-center lg:justify-start mb-8">
               <Image
-                src="/images/logos/oval-main.svg"
+                src="/images/logos/oval-main.png"
                 alt="OVAL - Modern Healthcare Platform"
                 width={160}
                 height={48}

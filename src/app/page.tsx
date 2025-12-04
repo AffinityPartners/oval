@@ -8,7 +8,6 @@ import { HowItWorks } from "@/components/sections/HowItWorks";
 import { TrustBadges } from "@/components/sections/TrustBadges";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Footer } from "@/components/sections/Footer";
-import { DecorativePills } from "@/components/ui/decorative-pills";
 import { WaveDivider, CurvedDivider } from "@/components/ui/wave-divider";
 
 /**
@@ -45,14 +44,8 @@ import { WaveDivider, CurvedDivider } from "@/components/ui/wave-divider";
 export default function Home() {
   return (
     <main className="min-h-screen bg-white overflow-x-hidden">
-      {/* Hero Section with decorative element */}
-      <div className="relative">
-        <Hero />
-        {/* CSS Floating Pills - subtle decorative accent */}
-        <div className="hidden lg:block absolute top-20 right-10 w-48 h-48 opacity-70">
-          <DecorativePills />
-        </div>
-      </div>
+      {/* Hero Section */}
+      <Hero />
 
       {/* Plan Comparison - Core conversion section */}
       <PlanComparison />

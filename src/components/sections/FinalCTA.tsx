@@ -118,15 +118,16 @@ export function FinalCTA() {
               padding="lg" 
               hover={true}
             >
-              {/* Popular Badge */}
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold bg-oval-orange text-white rounded-full shadow-orange-glow">
+              {/* Popular Badge - positioned above card */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold bg-oval-orange text-white rounded-full shadow-orange-glow whitespace-nowrap">
                   <Star className="w-3.5 h-3.5 fill-current" />
                   Recommended
                 </span>
               </div>
 
-              <div className="flex flex-col h-full pt-2">
+              {/* Extra top padding to avoid badge overlap */}
+              <div className="flex flex-col h-full pt-4">
                 {/* Logo */}
                 <Image
                   src="/images/logos/oval-plus.svg"
