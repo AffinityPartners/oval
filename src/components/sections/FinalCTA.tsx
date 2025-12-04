@@ -114,20 +114,19 @@ export function FinalCTA() {
           {/* OVAL Plus Card */}
           <AnimatedSection delay={0.2} direction="right">
             <GlassCard 
-              className="h-full bg-gradient-to-br from-oval-peach to-white border-oval-orange/30 relative overflow-visible" 
+              className="h-full bg-gradient-to-br from-oval-peach to-white border-oval-orange/30 relative" 
               padding="lg" 
               hover={true}
             >
-              {/* Popular Badge - positioned above card */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+              {/* Popular Badge - inline at top */}
+              <div className="flex justify-center mb-4">
                 <span className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold bg-oval-orange text-white rounded-full shadow-orange-glow whitespace-nowrap">
                   <Star className="w-3.5 h-3.5 fill-current" />
                   Recommended
                 </span>
               </div>
 
-              {/* Extra top padding to avoid badge overlap */}
-              <div className="flex flex-col h-full pt-4">
+              <div className="flex flex-col h-full">
                 {/* Logo */}
                 <Image
                   src="/images/logos/oval-plus.svg"
