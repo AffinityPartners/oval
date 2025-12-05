@@ -17,10 +17,15 @@ const lato = Lato({
 /**
  * Site-wide metadata for SEO and social sharing.
  * This applies to all pages unless overridden at the page level.
+ * Icons configuration ensures the OVAL logo appears as the favicon across all browsers.
  */
 export const metadata: Metadata = {
   title: "OVAL",
   description: "OVAL Healthcare Membership Platform",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 /**
