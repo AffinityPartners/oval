@@ -141,9 +141,29 @@
    * Safari Compatibility Notes:
    * - Removed -webkit-overflow-scrolling: touch (deprecated, causes issues)
    * - Mobile scroll-snap handled differently for Safari (see media query below)
+   * 
+   * Firefox Compatibility Notes:
+   * - Firefox has issues with scroll-behavior: smooth + scroll-snap-type combined
+   * - This causes difficult/sticky upward scrolling
+   * - We use @supports to detect Firefox and disable smooth scroll there
+   * - Firefox still gets snap behavior, just without smooth scroll animation
    */
   html {
     scroll-behavior: smooth;
+  }
+  
+  /**
+   * Firefox-specific fix: Disable smooth scroll when scroll-snap is active
+   * Firefox struggles with the combination of scroll-behavior: smooth and scroll-snap-type,
+   * causing upward scrolling to feel "stuck" or resistive.
+   * 
+   * The @supports selector targets Firefox by checking for -moz-appearance,
+   * a Mozilla-specific CSS property.
+   */
+  @supports (-moz-appearance: none) {
+    html {
+      scroll-behavior: auto;
+    }
   }
   
   /**
@@ -374,6 +394,27 @@
   @media (min-width: 768px) {
     .md\:snap-scroll-y {
       scroll-snap-type: y proximity;
+    }
+  }
+  
+  /**
+   * Firefox-specific scroll-snap fix
+   * Firefox has difficulty with scroll-snap-type: y proximity when combined with
+   * complex layouts and smooth scrolling. This makes snapping even less aggressive
+   * on Firefox to prevent the "stuck while scrolling up" issue.
+   * 
+   * We reduce snap aggressiveness by using 'none' on individual containers
+   * while keeping the html-level snap behavior.
+   */
+  @supports (-moz-appearance: none) {
+    @media (min-width: 768px) {
+      .md\:snap-scroll-y {
+        /* 
+         * On Firefox, we rely on the html element's scroll-snap instead
+         * to avoid double-snap conflicts that cause sticky upward scrolling 
+         */
+        scroll-snap-type: none;
+      }
     }
   }
   
