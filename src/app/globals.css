@@ -153,20 +153,6 @@
   }
   
   /**
-   * Firefox-specific fix: Disable smooth scroll when scroll-snap is active
-   * Firefox struggles with the combination of scroll-behavior: smooth and scroll-snap-type,
-   * causing upward scrolling to feel "stuck" or resistive.
-   * 
-   * The @supports selector targets Firefox by checking for -moz-appearance,
-   * a Mozilla-specific CSS property.
-   */
-  @supports (-moz-appearance: none) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-  
-  /**
    * Desktop-only scroll snap
    * Safari mobile has bugs with scroll-snap combined with sticky positioning,
    * so we only enable snap behavior on desktop/tablet screens.
@@ -174,6 +160,28 @@
   @media (min-width: 768px) {
     html {
       scroll-snap-type: y proximity;
+    }
+  }
+  
+  /**
+   * Firefox-specific fix: COMPLETELY disable scroll-snap
+   * 
+   * Firefox has severe issues combining:
+   * - scroll-snap-type: y proximity
+   * - position: sticky elements
+   * - scroll-behavior: smooth
+   * 
+   * This combination causes upward scrolling to feel "stuck" or impossible.
+   * The only reliable fix is to completely disable scroll-snap on Firefox.
+   * Firefox users get normal smooth scrolling without snap behavior.
+   * 
+   * The @supports selector targets Firefox by checking for -moz-appearance,
+   * a Mozilla-specific CSS property.
+   */
+  @supports (-moz-appearance: none) {
+    html {
+      scroll-behavior: smooth !important;
+      scroll-snap-type: none !important;
     }
   }
 
@@ -399,22 +407,24 @@
   
   /**
    * Firefox-specific scroll-snap fix
-   * Firefox has difficulty with scroll-snap-type: y proximity when combined with
-   * complex layouts and smooth scrolling. This makes snapping even less aggressive
-   * on Firefox to prevent the "stuck while scrolling up" issue.
-   * 
-   * We reduce snap aggressiveness by using 'none' on individual containers
-   * while keeping the html-level snap behavior.
+   * Firefox has severe bugs with scroll-snap + sticky positioning.
+   * Completely disable ALL snap behavior on Firefox to fix upward scrolling.
    */
   @supports (-moz-appearance: none) {
-    @media (min-width: 768px) {
-      .md\:snap-scroll-y {
-        /* 
-         * On Firefox, we rely on the html element's scroll-snap instead
-         * to avoid double-snap conflicts that cause sticky upward scrolling 
-         */
-        scroll-snap-type: none;
-      }
+    .md\:snap-scroll-y {
+      scroll-snap-type: none !important;
+    }
+    
+    .snap-scroll-y {
+      scroll-snap-type: none !important;
+    }
+    
+    .snap-start {
+      scroll-snap-align: none !important;
+    }
+    
+    .snap-stop {
+      scroll-snap-stop: normal !important;
     }
   }
   
